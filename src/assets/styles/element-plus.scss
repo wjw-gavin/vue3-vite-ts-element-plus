@@ -1,0 +1,222 @@
+/**
+ * 覆盖 element-plus 的某些样式
+ */
+// to fixed https://github.com/ElemeFE/element/issues/2461
+.el-container {
+  height: 100%;
+  position: relative;
+}
+
+.el-scrollbar {
+  height: 100%;
+
+  .el-scrollbar__wrap {
+    overflow-x: auto;
+  }
+}
+
+.el-form--inline {
+  .el-form-item {
+    width: 260px;
+  }
+
+  .el-select,
+  .el-input {
+    width: 100%;
+  }
+}
+
+.el-table {
+  .sort-caret.ascending {
+    top: 0;
+  }
+
+  .sort-caret.descending {
+    bottom: 0;
+  }
+
+  .caret-wrapper {
+    height: 22px;
+  }
+
+  th {
+    background-color: #f3f5f9;
+  }
+
+  .is-sortable .cell {
+    height: 23px;
+  }
+
+  .cell {
+    img {
+      cursor: pointer;
+      display: inline-block;
+      height: 35px;
+      max-width: 100%;
+      vertical-align: middle;
+    }
+  }
+}
+
+.el-menu--popup {
+  padding: 0;
+}
+
+.el-form--label-top .el-form-item__label {
+  padding: 0;
+  height: 35px;
+  line-height: 35px;
+}
+
+.menu-container,
+.el-menu--vertical {
+  .el-menu {
+    background-color: #2e3759;
+    color: rgba(255, 255, 255, 0.7);
+
+    .el-menu-item,
+    .el-sub-menu__title {
+      height: 50px;
+      line-height: 50px;
+    }
+
+    .el-sub-menu__title {
+      color: rgba(255, 255, 255, 0.7);
+
+      &:hover {
+        background-color: #242d4d;
+      }
+
+      i {
+        color: rgba(255, 255, 255, 0.7);
+        transition: color 0.3s;
+      }
+    }
+
+    .el-submenu.nf-submenu.is-active {
+      & > .el-sub-menu__title {
+        color: #fff;
+
+        i {
+          color: #fff;
+        }
+      }
+    }
+
+    .el-menu-item {
+      background-color: #2e3759;
+      color: rgba(255, 255, 255, 0.7);
+
+      i {
+        color: rgba(255, 255, 255, 0.7);
+        transition: color 0.3s;
+      }
+
+      &.is-active {
+        color: rgba(255, 255, 255, 0.7);
+        background-color: #07f;
+      }
+
+      &:not(.is-active):hover {
+        outline: 0;
+        background-color: #242d4d;
+      }
+    }
+  }
+}
+
+.el-menu--collapse {
+  width: 62px;
+}
+
+.el-loading-mask {
+  z-index: 1000;
+}
+
+.el-transfer-panel__item {
+  display: block;
+}
+
+.el-table-column--selection .cell {
+  height: 23px;
+}
+
+.el-table--mini {
+  td,
+  th {
+    padding: 3px 0;
+  }
+}
+
+.nf-table {
+  .el-table__row {
+    td:last-child {
+      .cell {
+        padding: 0 25px;
+      }
+    }
+  }
+}
+@mixin button-colors($normal, $hover, $active, $focus: $hover) {
+  color: $normal;
+
+  &:hover {
+    color: $hover;
+  }
+
+  &:focus {
+    color: $focus;
+  }
+
+  &:active {
+    color: $active;
+  }
+}
+
+button.el-button {
+  border-radius: $border-radius;
+}
+
+.el-button--text {
+  background: 0 0;
+  padding-left: 0;
+  padding-right: 0;
+
+  &:hover,
+  &:focus {
+    border-color: transparent;
+    background-color: transparent;
+  }
+
+  &:active {
+    background-color: transparent;
+  }
+
+  &.default {
+    @include button-colors($normal: $primary, $hover: #38568b, $active: #052863);
+  }
+
+  &.primary {
+    @include button-colors($normal: $primary, $hover: #38568b, $active: #052863);
+  }
+
+  &.success {
+    @include button-colors($normal: #67c23a, $hover: #85ce61, $active: #5daf34);
+  }
+
+  &.info {
+    @include button-colors($normal: #909399, $hover: #a6a9ad, $active: #82848a);
+  }
+
+  &.warning {
+    @include button-colors($normal: #e6a23c, $hover: #ebb563, $active: #cf9236);
+  }
+
+  &.danger {
+    @include button-colors($normal: #f56c6c, $hover: #f78989, $active: #dd6161);
+  }
+}
+
+.el-transfer-panel {
+  width: 240px;
+}

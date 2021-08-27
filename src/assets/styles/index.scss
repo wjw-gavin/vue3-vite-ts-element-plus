@@ -1,0 +1,58 @@
+/*! @import */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* reset css */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-width: 900px;
+  color: $text-color;
+  font-size: $font-size-sm;
+  background-color: #f2f5fb;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: rgba(216, 221, 228, 0.5);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(144, 147, 153, 0.3);
+  background-clip: padding-box;
+  border-radius: 5px;
+  min-height: 40px;
+  cursor: pointer;
+
+  &:hover {
+    transition: background-color 0.3s;
+    background-color: rgba(144, 147, 153, 0.8);
+  }
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+.time-range-page {
+  .search-item {
+    width: 380px !important;
+  }
+}
