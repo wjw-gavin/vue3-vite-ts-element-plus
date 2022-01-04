@@ -52,7 +52,8 @@ module.exports = {
         'wip', // 开发中
         'types', // 类型定义文件更改
         'delete', // 删除文件、依赖包
-        'add' // 增加依赖包
+        'add', // 增加依赖包
+        'update' // 更新依赖
       ]
     ]
   }
