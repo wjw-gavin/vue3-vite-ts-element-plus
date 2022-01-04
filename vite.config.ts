@@ -30,8 +30,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     css: {
       preprocessorOptions: {
         scss: {
-          // scss变量文件，全局可用
-          additionalData: `@import "src/assets/styles/var.scss";`
+          additionalData: `@use "src/assets/styles/var.scss" as *;`
         }
       },
       postcss: {
