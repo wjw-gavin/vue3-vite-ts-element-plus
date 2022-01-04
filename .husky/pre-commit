@@ -2,6 +2,6 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # Format and submit code according to lintstagedrc.js configuration
-npm run lint:lint-staged
+yarn lint:lint-staged
 
-npm run lint:pretty
+yarn lint:pretty
