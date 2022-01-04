@@ -45,7 +45,7 @@ export default defineComponent({
     // 进度条颜色
     customColor: {
       type: String,
-      default: '#409eff'
+      default: '#062c6e'
     }
   }
 })

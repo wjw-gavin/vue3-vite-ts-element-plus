@@ -1,6 +1,6 @@
 export interface USER {
   userId: string
+  roles: number[]
   userName: string
-  companyId: number
-  companyName?: string
+  phone: string | number
 }

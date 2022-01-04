@@ -1,5 +1,20 @@
 import { cloneDeep, assign } from 'lodash-es'
-import router from '@/router/index'
+import { LocationQueryRaw } from 'vue-router'
+import router from '@/router'
+
+
+/**
+ * @Description: 元单位转化为以分为单位  1 => 100
+ */
+export function moneyYuanToCent(value: string | number = 0) {
+  return Number((Number(value) * 100).toFixed(2))
+}
+/**
+ * @Description: 以分单位转化为以元为单位  100 => 1
+ */
+export function moneyCentToYuan(value:  string | number = 0) {
+  return Number((Number(value) / 100).toFixed(2))
+}
 
 /**
  * @Description: 根据地址下载文件
@@ -25,6 +40,17 @@ export function updateUrlParams(params: Record<string, unknown>) {
   const query = cloneDeep(route.query)
   router.replace({
     query: assign(query, params)
+  })
+}
+/**
+ * @Description: 新建、编辑等跳转
+ * @param : { path } 路由
+ * @param : { query } 参数对象  如{id: 1}
+ */
+export function goPage(path = '/', query?: LocationQueryRaw) {
+  router.push({
+    path: path,
+    query: query
   })
 }
 

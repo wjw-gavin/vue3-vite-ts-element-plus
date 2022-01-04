@@ -1,18 +1,17 @@
-// 网址域名
-const CI = 'www.xxx.tech'
-const QA = 'www.xxx.cn'
-const PROD = 'www.xxx.net'
+const CI = 'tyb-mc.nucarf.tech'
+const QA = 'tyb-mc.nucarf.cn'
+const PROD = 'tyb-mc.nucarf.net'
 
 interface IAPIURL {
   ci: string
   qa: string
   prod: string
 }
-// 接口地址
+
 const APIURL: IAPIURL = {
-  ci: 'https://www.xxx.tech',
-  qa: 'https://www.xxx.cn',
-  prod: 'https://www.xxx.net'
+  ci: 'https://tyb.nucarf.tech',
+  qa: 'https://tyb.nucarf.cn',
+  prod: 'https://tyb.nucarf.net'
 }
 
 let baseURL = ''

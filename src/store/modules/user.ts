@@ -1,28 +1,25 @@
-import { get } from '@/http/request'
+import { getUser } from '@/api/user'
 import { USER } from '../typings'
-const user = localStorage.user ? JSON.parse(localStorage.user) : {}
 const state = {
   // 用户信息
-  userInfo: user
+  userInfo: {}
 }
 
 const mutations = {
   // 更新用户信息
   updateUserInfo(state, payload) {
     state.userInfo = Object.assign({}, state.userInfo, payload)
-    localStorage.user = JSON.stringify(state.userInfo)
   }
 }
 
 const actions = {
-  getUserInfo: async ({ commit, state }) => {
-    const system = 1
-    const url = `company/user/getUser/${system}/${state.userInfo.userId}/${state.userInfo.companyId}`
-    const data: any = await get(url)
+  getUserInfo: async ({ commit }) => {
+    const data: any = await getUser()
     const result = <USER>{
       userId: data.userId,
-      userName: data.userName,
-      companyId: data.companyId
+      userName: data.name,
+      roles: data.roles,
+      phone: data.phone
     }
     commit('updateUserInfo', result)
   }

@@ -61,8 +61,6 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
 
-    store.dispatch('user/getUserInfo')
-
     const avatar = avatarImg
 
     // 点击菜单缩起展开

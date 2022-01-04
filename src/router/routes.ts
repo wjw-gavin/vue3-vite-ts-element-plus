@@ -28,15 +28,6 @@ const routes: any[] = [
           title: '首页',
           activePath: '/home'
         }
-      },
-      {
-        path: '/mock',
-        name: 'mock',
-        component: () => import('@/views/test/index.vue'),
-        meta: {
-          title: 'mock测试',
-          activePath: '/mock'
-        }
       }
     ]
   },

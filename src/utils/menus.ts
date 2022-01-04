@@ -4,23 +4,8 @@ const menus = {
     icon: 'icon-xshouye',
     path: '/home'
   },
-  mock: {
-    name: 'mock测试',
-    icon: 'icon-xshouye',
-    path: '/mock'
-  },
-  order_manage: {
-    name: '订单管理',
-    icon: 'icon-dingdanguanli',
-    children: {
-      order_list: {
-        name: '订单列表',
-        path: '/order'
-      }
-    }
-  },
   account_manage: {
-    name: '账户管理',
+    name: '发票管理',
     icon: 'icon-zhanghuguanli',
     children: {
       account_list: {
@@ -33,27 +18,17 @@ const menus = {
       }
     }
   },
-  station_manage: {
-    name: '油站管理',
-    icon: 'icon-youzhanguanli',
+  invoice_manage: {
+    name: '发票管理',
+    icon: 'icon-dingdanguanli',
     children: {
-      station_qrcode: {
-        name: '油站下单码',
-        path: '/oilstation/qrcode'
-      }
-    }
-  },
-  tx_manage: {
-    name: '提现管理',
-    icon: 'icon-tixianguanli',
-    children: {
-      tx_rule: {
-        name: '提现规则',
-        path: '/withdraw/rule'
+      invoice_order_list: {
+        name: '开具发票',
+        path: '/invoice'
       },
-      tx_order: {
-        name: '提现单',
-        path: '/withdraw/merchant'
+      invoice_request_list: {
+        name: '开票记录',
+        path: '/invoice/request'
       }
     }
   },

@@ -1,13 +1,13 @@
-<!-- // eslint-disable vue/no-mutating-props -->
 <template>
   <el-select
+    v-if="!!searchKey"
     :model-value="value"
     v-bind="$attrs"
     :value-key="valueKey ? valueKey : ''"
-    :filterable="!!searchKey || filterable"
+    filterable
+    remote
     :clearable="clearable"
     :multiple="multiple"
-    :remote="!!searchKey"
     collapse-tags
     reserve-keyword
     :loading="loading"
@@ -23,6 +23,26 @@
       :value="valueKey ? option : option[props.key]"
     />
   </el-select>
+  <el-select
+    v-else
+    :model-value="value"
+    v-bind="$attrs"
+    :value-key="valueKey ? valueKey : ''"
+    :clearable="clearable"
+    :multiple="multiple"
+    collapse-tags
+    filterable
+    :placeholder="placeholder"
+    :popper-append-to-body="popperAppendToBody"
+    @change="changeEvent"
+  >
+    <el-option
+      v-for="option in options"
+      :key="option[props.key]"
+      :label="option[props.value]"
+      :value="valueKey ? option : option[props.key]"
+    />
+  </el-select>
 </template>
 
 <script lang="ts">
@@ -31,9 +51,13 @@
  * @Author: wjw
  * @Date: 2021-08-19 17:16:56
  */
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive, PropType, toRefs } from 'vue'
 import { ElSelect, ElOption } from 'element-plus'
 import { get } from '@/http/request'
+interface Options {
+  key: number | string
+  value: string
+}
 export default defineComponent({
   name: 'NfSelect',
   components: {
@@ -78,7 +102,7 @@ export default defineComponent({
     },
     // 下拉数据
     options: {
-      type: Array,
+      type: Array as PropType<Options[]>,
       default: () => []
     },
     // 绑定值
@@ -109,28 +133,30 @@ export default defineComponent({
   },
   emits: ['update:value'],
   setup(props, { emit }) {
-    const loading = ref(false)
-    let optionList: any[] = reactive([])
+    const select = reactive({
+      loading: false,
+      optionList: []
+    })
     // 远程搜索
     const remoteMethod = (query: string) => {
       if (query.trim() !== '') {
-        loading.value = true
-        let url = `company/search/autocomplete/${props.searchKey}`
+        select.loading = true
+        let url = `management/center/search/autocomplete/${props.searchKey}`
         get(url, { keyword: query }).then((res: any) => {
-          loading.value = false
-          optionList = res
+          select.loading = false
+          select.optionList = res
         })
       } else {
-        optionList = []
+        select.optionList = []
       }
     }
     // 选中值改变
     const changeEvent = (val: string | unknown) => {
       emit('update:value', val)
     }
+
     return {
-      loading,
-      optionList,
+      ...toRefs(select),
       changeEvent,
       remoteMethod
     }

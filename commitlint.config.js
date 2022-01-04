@@ -53,6 +53,7 @@ module.exports = {
         'types', // 类型定义文件更改
         'delete', // 删除文件、依赖包
         'add', // 增加依赖包
+        'build', // 修改配置文件
         'update' // 更新依赖
       ]
     ]

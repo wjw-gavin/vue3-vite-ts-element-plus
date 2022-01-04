@@ -42,15 +42,15 @@
 
         <el-form-item v-else :prop="item.paramName" :label="item.name + '：'">
           <!-- 输入框 -->
+          <!-- @input="formatNumber(item)" -->
           <el-input
             v-if="item.type === 'text' || item.type === 'number'"
             v-model="formData[item.paramName]"
             class="search-item"
             :name="item.paramName"
-            type="text"
+            :type="item.type"
             :placeholder="item.hint"
             clearable
-            @input="formatNumber(item)"
           />
           <!-- 下拉选择框 -->
           <nf-select
@@ -82,8 +82,8 @@
             :name="item.paramName"
             type="date"
             :placeholder="'请选择' + item.hint"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
+            format="YYYY-MM-DD"
+            value-format="x"
           />
 
           <!-- 日期选择范围 -->
@@ -95,8 +95,8 @@
             :type="item.type === 'time_range' ? 'datetimerange' : 'daterange'"
             :start-placeholder="item.hint || ''"
             :end-placeholder="item.hint || ''"
-            format="yyyy-MM-dd HH:mm:ss"
-            value-format="timestamp"
+            format="YYYY-MM-DD HH:mm:ss"
+            value-format="x"
             :clearable="item.defaultValue ? false : true"
           />
         </el-form-item>
@@ -119,7 +119,7 @@ import { defineComponent, computed, ref, reactive } from 'vue'
 import { ElForm, ElFormItem, ElSelect, ElOption, ElInput, ElDatePicker } from 'element-plus'
 import { useStore } from 'vuex'
 import { cloneDeep, omit, forIn } from 'lodash-es'
-import { isEmpty } from '@/utils/validation'
+import { isEmptyData } from '@/utils/validation'
 import { get } from '@/http/request'
 export default defineComponent({
   name: 'NfTopSearch',
@@ -165,13 +165,14 @@ export default defineComponent({
         }
       })
       return data
+
     })
 
     // 限制input[number]只能输入正整数
-    const formatNumber = (item) => {
-      if (item.type !== 'number') return
-      formData[item.paramName] = (formData[item.paramName] as string).replace(/[^\d]/g, '')
-    }
+    // const formatNumber = (item) => {
+    //   if (item.type !== 'number') return
+    //   formData[item.paramName] = (formData[item.paramName] as string).replace(/[^\d]/g, '')
+    // }
     // 级联复合搜索
     const cascaderHandleChange = (value: any, children: any, index: number) => {
       if (index + 1 === children.length) return // 排除随后一项
@@ -183,7 +184,7 @@ export default defineComponent({
         }
         return
       }
-      const url = `/company/search_item/option/${children[index + 1].id}`
+      const url = `/management/centery/search_item/option/${children[index + 1].id}`
       const key = children[index].id
       const param = {}
       param[key] = value
@@ -196,7 +197,7 @@ export default defineComponent({
       if (props.searchClick) {
         let result = cloneDeep(formData)
         forIn(result, (val, key) => {
-          if (isEmpty(val)) {
+          if (isEmptyData(val)) {
             result = omit(result, key)
           }
         })
@@ -223,7 +224,7 @@ export default defineComponent({
       })
       const result = {}
       forIn(formData, (val, key) => {
-        if (!isEmpty(val)) {
+        if (!isEmptyData(val)) {
           result[key] = val
         }
       })
@@ -234,7 +235,7 @@ export default defineComponent({
       loading,
       formData,
       searchData,
-      formatNumber,
+      // formatNumber,
       resetSearch,
       handleSearch,
       cascaderHandleChange

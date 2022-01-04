@@ -14,9 +14,10 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       })
     ],
     server: {
+      port: 4000,
       proxy: {
-        '/api': {
-          target: 'https://www.xxx.com',
+        '/management': {
+          target: 'https://tyb.nucarf.tech',
           changeOrigin: true //是否跨域
         }
       }
@@ -29,6 +30,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     css: {
       preprocessorOptions: {
         scss: {
+          // scss变量文件，全局可用
           additionalData: `@import "src/assets/styles/var.scss";`
         }
       },

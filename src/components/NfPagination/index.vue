@@ -44,7 +44,7 @@ export default defineComponent({
     const defaultOptions = reactive<OPTIONS>({
       isPagination: true,
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 20,
       pageSizes: [10, 20, 30, 40, 50, 100],
       layout: 'total, sizes, prev, pager, next, jumper'
     })

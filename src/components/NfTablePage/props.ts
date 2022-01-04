@@ -12,6 +12,11 @@ const props = {
     type: String,
     default: 'id'
   },
+  // 搜索label宽度
+  searchLabelWidth: {
+    type: String,
+    default: '90px'
+  },
   // 添加按钮路由路径
   addBtnLink: {
     type: String,

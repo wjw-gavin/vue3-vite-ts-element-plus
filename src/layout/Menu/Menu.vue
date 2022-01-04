@@ -35,16 +35,17 @@ export default defineComponent({
         const customMenus = [
           {
             id: 'home',
-            name: '首页'
-          },
-          {
-            id: 'mock',
-            name: 'mock测试'
+            name: '首页',
+            children: <any>[]
           }
         ]
-        // res.unshift()
-        // const result = customMenus.concat(res as any[])
-        menuList.value = [...customMenus, ...res]
+        const result = customMenus.concat(res as any[])
+        result.push({
+          children: [{ name: '修改密码', id: 'password' }],
+          id: 'setting',
+          name: '设置'
+        })
+        menuList.value = result
       })
     }
     getMenuList()

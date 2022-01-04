@@ -1,6 +1,7 @@
 /**
  * 覆盖 element-plus 的某些样式
  */
+
 // to fixed https://github.com/ElemeFE/element/issues/2461
 .el-container {
   height: 100%;
@@ -14,7 +15,9 @@
     overflow-x: auto;
   }
 }
-
+.el-message-box__content{
+  word-break: break-all;
+}
 .el-form--inline {
   .el-form-item {
     width: 260px;
@@ -27,6 +30,8 @@
 }
 
 .el-table {
+  --el-table-header-background-color: #f3f5f9;
+
   .sort-caret.ascending {
     top: 0;
   }
@@ -37,10 +42,6 @@
 
   .caret-wrapper {
     height: 22px;
-  }
-
-  th {
-    background-color: #f3f5f9;
   }
 
   .is-sortable .cell {
@@ -139,6 +140,10 @@
 
 .el-table-column--selection .cell {
   height: 23px;
+
+  .el-checkbox {
+    height: 23px;
+  }
 }
 
 .el-table--mini {
@@ -152,7 +157,9 @@
   .el-table__row {
     td:last-child {
       .cell {
-        padding: 0 25px;
+        padding: 0 10px;
+        display: flex;
+        justify-content: center;
       }
     }
   }
@@ -172,11 +179,6 @@
     color: $active;
   }
 }
-
-button.el-button {
-  border-radius: $border-radius;
-}
-
 .el-button--text {
   background: 0 0;
   padding-left: 0;
@@ -193,11 +195,11 @@ button.el-button {
   }
 
   &.default {
-    @include button-colors($normal: $primary, $hover: #38568b, $active: #052863);
+    @include button-colors($normal: $primary, $hover: #38568b, $active: #242d4d);
   }
 
   &.primary {
-    @include button-colors($normal: $primary, $hover: #38568b, $active: #052863);
+    @include button-colors($normal: $primary, $hover: #38568b, $active: #242d4d);
   }
 
   &.success {

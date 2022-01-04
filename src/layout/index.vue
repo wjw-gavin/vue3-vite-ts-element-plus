@@ -12,7 +12,7 @@
 
     <!-- 主体内容 -->
     <el-main id="nucarf-main" :class="[isCollapse ? 'isCollapse' : '']">
-      <el-scrollbar>
+      <el-scrollbar v-if="userInfo.userId">
         <!-- 主体部分 -->
         <router-view />
       </el-scrollbar>
@@ -40,6 +40,8 @@ export default defineComponent({
     const route = useRoute()
     const store = useStore()
     const activeMenu = ref('')
+
+    store.dispatch('user/getUserInfo')
     watch(
       () => route,
       (val) => {
@@ -54,6 +56,7 @@ export default defineComponent({
 
     return {
       activeMenu,
+      userInfo: computed(() => store.state['user'].userInfo),
       isCollapse: computed(() => store.state.layout.isCollapse)
     }
   }

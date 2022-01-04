@@ -5,6 +5,7 @@
       :store-model-name="storeModelName"
       :search-click="handleSearchClick"
       :is-loading="isLoading"
+      :search-label-width="searchLabelWidth"
     />
     <!-- 表格 -->
     <div v-loading="isLoading" class="nf-table" element-loading-text="玩儿命加载中...">
@@ -138,7 +139,11 @@
         </el-table-column>
 
         <!-- 操作按钮 -->
-        <el-table-column v-if="showTableOperation" fixed :width="tableOperation.width">
+        <el-table-column
+          v-if="showTableOperation"
+          :fixed="tableOperation.fixed ? tableOperation.fixed : false"
+          :width="tableOperation.width"
+        >
           <template #header>
             <span>操作</span>
           </template>
@@ -151,6 +156,7 @@
                     <el-button
                       :class="[btn(scope).type ? btn(scope).type : '']"
                       type="text"
+                      size="mini"
                       @click.stop="btn(scope).click(scope)"
                     >
                       {{ btn(scope).name }}
@@ -162,6 +168,7 @@
                     v-if="btn.isShow"
                     :class="[btn.type ? btn.type : '']"
                     type="text"
+                    size="mini"
                     @click.stop="btn.click(scope)"
                   >
                     {{ btn.name }}
@@ -181,7 +188,12 @@
                 "
                 trigger="click"
               >
-                <el-button class="default" type="text" @click.stop="">
+                <el-button
+                  class="default"
+                  type="text"
+                  size="mini"
+                  @click.stop=""
+                >
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <template #dropdown>
@@ -214,7 +226,7 @@
       </el-table>
       <!-- 分页组件 -->
       <nf-pagination
-        v-if="total > 0"
+        hide-on-single-page
         :current-page="params.pageNo"
         :page-size="params.pageSize"
         :total="total"
@@ -227,7 +239,7 @@
 
 <script lang="ts">
 /**
- * @Description: 表格组件（包含搜索、添加、导出、导入、分页等组件）
+ * @Description: 表格组件（包含搜索、编辑表头、添加导出等操作按钮、分页组件）
  * @Author: wjw
  * @Date: 2020-01-06 13:32:56
  */
@@ -250,10 +262,10 @@ import {
 } from 'element-plus'
 import { updateUrlParams } from '@/utils/utils'
 import { post } from '@/http/request'
-import { BatchOptions, Button } from './typings'
 import privilege from '@/utils/pageType/privilege'
 import props from './props'
 import getComputeds from './computed'
+import { BatchOptions, Button } from './typings'
 export default defineComponent({
   name: 'NfTablePage',
   components: {
@@ -273,12 +285,8 @@ export default defineComponent({
     const router = useRouter()
     const store = useStore()
     const computeds = reactive(getComputeds(props.storeModelName))
-    const batchVal = reactive<BatchOptions>({
-      id: null,
-      label: '',
-      url: '',
-      role: ''
-    })
+    // 默认第一条批量操作
+    const batchVal = ref<BatchOptions>(props.batchOptions[0])
     const elTableRef = ref<any>(null)
     const nfDownloadRef = ref<any>(null)
     const isDot = ref(false)
@@ -287,18 +295,28 @@ export default defineComponent({
       border: true,
       size: 'mini',
       selection: false,
-      selectable: () => false
+      selectable: () => true,
+      searchLabelWidth: '90px'
     })
     // 初始化
     Object.assign(defaultOptions, attrs)
+
     store.commit('data/updateCount', 2)
     // 读取url页码等参数
     const urlPrams = route.query
     if (!isEmpty(urlPrams)) {
       const updataParams = {
         pageNo: urlPrams.page ? Number(urlPrams.page) : 1,
-        pageSize: urlPrams.pageSize ? Number(urlPrams.pageSize) : 20,
+        pageSize: urlPrams.pageSize ? Number(urlPrams.pageSize) : 10,
         options: omit(urlPrams, ['page', 'pageSize'])
+      }
+      store.commit(`${props.storeModelName}/updateTableData`, [])
+      store.commit(`${props.storeModelName}/updateParams`, updataParams)
+    } else {
+      const updataParams = {
+        pageNo: 1,
+        pageSize: 10,
+        options: {}
       }
       store.commit(`${props.storeModelName}/updateTableData`, [])
       store.commit(`${props.storeModelName}/updateParams`, updataParams)
@@ -400,7 +418,7 @@ export default defineComponent({
     }
     // 批量操作自定义提示
     const batchOperation = () => {
-      if (!batchVal.id) {
+      if (!batchVal.value.id) {
         ElMessageBox.alert('请先选择批量操作选项')
         return
       }
@@ -410,20 +428,20 @@ export default defineComponent({
           h('span', null, '您确认要 '),
           h(
             'span',
-            { style: 'color: #409EFF; font-weight: 600; font-size: 16px' },
-            `${batchVal.label}${computeds.multipleSelection.length}条`
+            { style: 'color: #062c6e; font-weight: 600; font-size: 16px' },
+            `${batchVal.value.label}${computeds.multipleSelection.length}条`
           ),
           h('span', null, ' 所选数据?')
         ]),
         showCancelButton: true,
         type: 'warning'
       }).then(() => {
-        post(props.batchOptions[batchVal.id as number].url, {
+        post(props.batchOptions[(batchVal.value.id) - 1].url, {
           ids: computeds.multipleSelection
         }).then(() => {
           ElMessage.success('操作完成')
           // 处理最后一页批量删除后的问题
-          if (includes(batchVal.label, '删除')) {
+          if (includes(batchVal.value.label, '删除')) {
             const total = computeds.total // 总条数
             const params = computeds.params // 请求数据的分页参数
             const length = computeds.multipleSelection.length // 删除的条数
@@ -458,6 +476,8 @@ export default defineComponent({
 
     return {
       ...toRefs(computeds),
+      elTableRef,
+      nfDownloadRef,
       batchVal,
       isDot,
       pageRoleId,

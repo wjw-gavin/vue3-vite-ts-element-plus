@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import { TableColumn } from '../typing'
+import { TableColumn } from './typings'
 
 const getComputeds = (storeModelName: string) => {
   const { state } = useStore()

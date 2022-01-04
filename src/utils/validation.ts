@@ -1,4 +1,4 @@
-import { isObject, isArray, toString } from 'lodash-es'
+import { isObject, isArray, toString, isEmpty } from 'lodash-es'
 
 // 匹配身份证(15位或18位)
 export function isIdCard(str: string): boolean {
@@ -8,11 +8,16 @@ export function isIdCard(str: string): boolean {
 }
 
 /**
- * @param {string} path
- * @returns {Boolean}
+ * 验证电子邮箱格式
  */
-export function isExternal(path: string): boolean {
-  return /^(https?:|mailto:|tel:)/.test(path)
+export function isEmail(value: string) {
+  return /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(value)
+}
+/**
+ * 验证税号
+ */
+export function isTaxNo(value: string) {
+  return /^[A-Z0-9]{18}$/.test(value)
 }
 
 /**
@@ -57,7 +62,7 @@ export function isFloatNumber(str: string | number): boolean {
 }
 
 // 判断包括对象属性，数组长度，字符串是否为空
-export function isEmpty(val: any): boolean {
+export function isEmptyData(val: any): boolean {
   if (isObject(val) || isArray(val)) {
     return isEmpty(val)
   } else {

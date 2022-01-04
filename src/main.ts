@@ -4,6 +4,7 @@ import store from './store'
 import App from './App.vue'
 import './assets/styles/index.scss'
 import './assets/styles/element-plus.scss'
+import './assets/styles/element-theme.scss'
 import dragDialog from './directives/dragDialog'
 
 const app = createApp(App)
@@ -26,5 +27,9 @@ Object.keys(components).forEach((key: string) => {
     app.component(component.name, component)
   }
 })
+
+// 全局属性 
+const $imgcdn = 'https://cdn.nucarf.cn/wxapp_taoyoubao/v1.0/images'
+app.provide('imgcdn', $imgcdn)
 
 app.use(dragDialog).use(router).use(store).mount('#app')

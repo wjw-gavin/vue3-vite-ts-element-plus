@@ -15,6 +15,7 @@ const actions = {
         privileges: privileges.join(',')
       }
       const data = await getPrivileges(params)
+      // const data = []
       store.commit(`${payload}/updateRoles`, data)
       commit('updateCount', --state.count)
     } else {
@@ -46,14 +47,7 @@ const actions = {
 
   getTableData: async ({ commit }, payload: string) => {
     store.commit(`${payload}/updateLoading`, true)
-    const apiName = store.state[payload].apiName
-    let apiUrl = ''
-    const index = apiName.indexOf('/')
-    if (index > -1) {
-      apiUrl = `${api[apiName.split('/')[0]]}/${apiName.slice(index + 1)}`
-    } else {
-      apiUrl = api[apiName]
-    }
+    const apiUrl = api[window.location.pathname]
     const params = store.state[payload].params
     const data: any = await getTableData(apiUrl, params)
     commit('updateCount', --state.count)

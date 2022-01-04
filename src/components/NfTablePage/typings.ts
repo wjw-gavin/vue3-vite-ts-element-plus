@@ -1,5 +1,5 @@
 export interface BatchOptions {
-  id: number | null
+  id: number
   label: string
   url: string
   role: string

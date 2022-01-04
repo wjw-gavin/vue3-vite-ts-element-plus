@@ -4,7 +4,7 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import baseURL from './config'
 import { ElMessage } from 'element-plus'
 import { readerFile } from '@/utils/utils'
-import { getToken } from '@/utils/auth'
+import { getToken, removeToken } from '@/utils/auth'
 
 // 创建axios实例
 const service = Axios.create({
@@ -15,7 +15,7 @@ const service = Axios.create({
 // 添加请求拦截器
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    const token: string = getToken() || 'e80396299b9a1c0026f38a786a4f8001'
+    const token: string = getToken()
     if (token) {
       config.headers['nToken'] = token
     }
@@ -46,6 +46,11 @@ service.interceptors.response.use(
     }
     const code = Number(data.status.code || 0)
     if (code !== 200) {
+      if (code === 21000) {
+        removeToken()
+        window.location.href = '/login'
+        return Promise.reject(data.status)
+      }
       ElMessage.closeAll()
       ElMessage({
         message: data.status.msg || data.status.message || 'error',

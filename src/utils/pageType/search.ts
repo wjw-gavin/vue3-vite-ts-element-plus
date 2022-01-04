@@ -7,5 +7,8 @@
  * @param : value => 对应的每个页面获取搜索项的type值，由后台提供
  */
 export default {
-  '/order': 'companyOrder' // 订单列表
+  '/invoice': 'invoiceOrderRequest', // 开具发票列表
+  '/invoice/request': 'invoiceRequest' // 发票申请记录列表
+  // '/account': 'companyUser', // 发票申请记录列表
+  // '/role': 'companyRole' // 发票申请记录列表
 }

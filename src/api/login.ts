@@ -1,17 +1,17 @@
-import { post } from '@/http/request'
+import { get, post } from '@/http/request'
 
-export function getCode(params: any) {
-  return post('/company/login/getSMSCode', params)
+export function getCode(params) {
+  return get('/management/center/code/send', params)
 }
 
-export function loginByPwd(params: any) {
-  return post('/company/login/password', params)
+export function loginByPwd(params) {
+  return post('/management/center/login/pwd', params)
 }
 
-export function loginByCode(params: any) {
-  return post('/company/login/SMSCode', params)
+export function loginByCode(params) {
+  return post('/management/center/login/code', params)
 }
 
 export function logout() {
-  return post('/company/login/logout')
+  return get('/management/center/logout')
 }
