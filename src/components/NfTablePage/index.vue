@@ -21,7 +21,7 @@
             <el-button
               v-if="roles[pageRoleId + '_add'] && addBtnLink"
               class="add-btn"
-              icon="el-icon-plus"
+              :icon="Plus"
               type="primary"
               @click="handleTableLeftClick"
             >
@@ -54,7 +54,7 @@
               class="useInOrder"
               type="flex"
               justify="end"
-              align="middile"
+              align="middle"
             >
               <slot name="top-btn-right"></slot>
               <el-button v-if="roles[pageRoleId + '_import']" type="text" @click="downTemplate">
@@ -156,7 +156,7 @@
                     <el-button
                       :class="[btn(scope).type ? btn(scope).type : '']"
                       type="text"
-                      size="mini"
+                      size="small"
                       @click.stop="btn(scope).click(scope)"
                     >
                       {{ btn(scope).name }}
@@ -168,7 +168,7 @@
                     v-if="btn.isShow"
                     :class="[btn.type ? btn.type : '']"
                     type="text"
-                    size="mini"
+                    size="small"
                     @click.stop="btn.click(scope)"
                   >
                     {{ btn.name }}
@@ -191,10 +191,11 @@
                 <el-button
                   class="default"
                   type="text"
-                  size="mini"
+                  size="small"
                   @click.stop=""
                 >
-                  更多<i class="el-icon-arrow-down el-icon--right"></i>
+                  更多
+                  <i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
@@ -244,6 +245,7 @@
  * @Date: 2020-01-06 13:32:56
  */
 import { defineComponent, toRefs, ref, reactive, watch, h } from 'vue'
+import { Plus } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { isFunction, findIndex, isEmpty, omit, includes } from 'lodash-es'
@@ -494,7 +496,8 @@ export default defineComponent({
       handleSearchClick,
       handlePageChange,
       handleSizeChange,
-      batchOperation
+      batchOperation,
+      Plus
     }
   }
 })

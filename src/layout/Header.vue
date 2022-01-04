@@ -33,7 +33,6 @@ import {
   ElMessageBox,
   ElIcon
 } from 'element-plus'
-import { Fold, Expand } from '@element-plus/icons'
 import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -47,9 +46,7 @@ export default defineComponent({
     ElDropdownMenu,
     ElDropdownItem,
     ElAvatar,
-    ElIcon,
-    Fold,
-    Expand
+    ElIcon
   },
   props: {
     isCollapse: {

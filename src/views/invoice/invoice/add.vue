@@ -23,7 +23,7 @@
           <el-input
             v-model="invoiceAmount"
             type="number"
-            size="mini"
+            size="small"
             placeholder="最多两位小数的金额"
           />
         </div>

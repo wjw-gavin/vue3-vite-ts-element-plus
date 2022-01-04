@@ -11,13 +11,21 @@
       <el-button
         v-if="onSaveBtnClick"
         type="primary"
+        size="large"
         :loading="isLoading"
         @click="handleSaveClick"
       >
         {{ saveBtnText }}
       </el-button>
-      <el-button v-if="onResetBtnClick" type="warning" @click="onResetBtnClick"> 重 置 </el-button>
-      <el-button v-if="showBackBtn" @click="$router.back()"> 返 回 </el-button>
+      <el-button
+        v-if="onResetBtnClick"
+        type="warning"
+        size="large"
+        @click="onResetBtnClick"
+      >
+        重 置
+      </el-button>
+      <el-button v-if="showBackBtn" size="large" @click="$router.back()"> 返 回 </el-button>
       <slot name="footer-btn"></slot>
     </footer>
   </div>

@@ -1,11 +1,10 @@
 // 自定义主题颜色
 @forward "element-plus/theme-chalk/src/common/var.scss" with (
-  $font-path: 'element-plus/dist/fonts',
   $colors: (
     "primary": (
       "base": #062c6e,
-    )
+    ),
   )
 );
 
-@import "element-plus/theme-chalk/src/index.scss";
+@use "element-plus/theme-chalk/src/index.scss" as *;

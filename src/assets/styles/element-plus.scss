@@ -198,10 +198,6 @@
     @include button-colors($normal: $primary, $hover: #38568b, $active: #242d4d);
   }
 
-  &.primary {
-    @include button-colors($normal: $primary, $hover: #38568b, $active: #242d4d);
-  }
-
   &.success {
     @include button-colors($normal: #67c23a, $hover: #85ce61, $active: #5daf34);
   }
