@@ -52,7 +52,6 @@ export default [
     url: '/api/getTableList',
     method: 'get',
     response: (res: IRes) => {
-      debugger
       const { page, pageSize } = res.query
       const result = tableList.list.filter(
         (v, i) => i >= (page - 1) * pageSize && i < page * pageSize
