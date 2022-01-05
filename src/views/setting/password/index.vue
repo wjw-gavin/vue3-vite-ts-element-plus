@@ -96,9 +96,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.item-box {
-  width: 400px;
-}
-</style>
