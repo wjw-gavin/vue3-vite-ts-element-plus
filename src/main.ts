@@ -36,8 +36,8 @@ for (const iconName in ElIconModules) {
     app.component(iconName, item)
   }
 }
-// 全局属性 
-const $imgcdn = 'https://cdn.nucarf.cn/wxapp_taoyoubao/v1.0/images'
-app.provide('imgcdn', $imgcdn)
+// // 全局属性
+// const $imgcdn = 'https://'
+// app.provide('imgcdn', $imgcdn)
 
 app.use(dragDialog).use(router).use(store).mount('#app')

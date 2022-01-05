@@ -1,15 +1,13 @@
 /* eslint-disable new-cap */
-import Axios from 'axios'
+import axios from 'axios'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import baseURL from './config'
 import { ElMessage } from 'element-plus'
-import { readerFile } from '@/utils/utils'
-import { getToken, removeToken } from '@/utils/auth'
+import { getToken } from '@/utils/auth'
 
 // 创建axios实例
-const service = Axios.create({
-  baseURL: baseURL,
-  timeout: 150000
+const service = axios.create({
+  baseURL: '/api',
+  timeout: 5000
 })
 
 // 添加请求拦截器
@@ -17,7 +15,7 @@ service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const token: string = getToken()
     if (token) {
-      config.headers['nToken'] = token
+      config.headers['token'] = token
     }
     return config
   },
@@ -31,26 +29,8 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   async (res: AxiosResponse) => {
     const { data } = res
-    if (!data.status && data.type.includes('json')) {
-      // Blob 失败返回json
-      const failData: any = await readerFile(data)
-      ElMessage.closeAll()
-      ElMessage({
-        message: failData.status.msg || failData.status.message || 'error',
-        showClose: true,
-        type: 'error',
-        duration: 4000
-      })
-    } else if (!data.status && data.type.includes('octet-stream')) {
-      return data
-    }
-    const code = Number(data.status.code || 0)
-    if (code !== 200) {
-      if (code === 21000) {
-        removeToken()
-        window.location.href = '/login'
-        return Promise.reject(data.status)
-      }
+    const code = data.status.code
+    if (code !== 0) {
       ElMessage.closeAll()
       ElMessage({
         message: data.status.msg || data.status.message || 'error',
@@ -60,7 +40,7 @@ service.interceptors.response.use(
       })
       return Promise.reject(data.status)
     }
-    if (code === 200) {
+    if (code === 0) {
       return data.data
     }
   },

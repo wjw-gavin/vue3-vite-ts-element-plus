@@ -1,13 +1,7 @@
 <template>
   <div class="login-wrap">
     <div class="logo-img">
-      <div class="wjy-logo">
-        <img :src="imgcdn + '/common/wjy-logo.png'" alt="" />
-      </div>
-      <div class="line"></div>
-      <div class="tyb-logo">
-        <img :src="imgcdn + '/common/tyb-logo.png'" alt="" />
-      </div>
+      <img src="@/assets/imgs/default-avatar.png" alt="" />
     </div>
     <div class="login">
       <div class="main-left_img">
@@ -23,14 +17,14 @@
                 <el-form-item label="" prop="phone">
                   <el-input v-model="loginForm.phone" type="number" placeholder="请输入手机号">
                     <template #prefix>
-                      <img :src="imgcdn + '/common/icon-mobile.png'" alt="" />
+                      <el-icon><iphone /></el-icon>
                     </template>
                   </el-input>
                 </el-form-item>
                 <el-form-item v-if="activeTab === 'password'" prop="password">
                   <el-input v-model="loginForm.password" type="password" placeholder="请输入密码">
                     <template #prefix>
-                      <img :src="imgcdn + '/common/icon-lock.png'" alt="" />
+                      <el-icon><lock /></el-icon>
                     </template>
                   </el-input>
                 </el-form-item>
@@ -39,14 +33,14 @@
                 <el-form-item label="" prop="phone">
                   <el-input v-model="loginForm.phone" placeholder="请输入手机号">
                     <template #prefix>
-                      <img :src="imgcdn + '/common/icon-mobile.png'" alt="" />
+                      <el-icon><iphone /></el-icon>
                     </template>
                   </el-input>
                 </el-form-item>
                 <el-form-item v-if="activeTab === 'code'" prop="code" class="code-item">
                   <el-input v-model="loginForm.code" maxlength="6" placeholder="请输入验证码">
                     <template #prefix>
-                      <img :src="imgcdn + '/common/icon-code.png'" alt="" />
+                      <el-icon><discount /></el-icon>
                     </template>
                   </el-input>
                   <el-button
@@ -61,13 +55,7 @@
               </el-tab-pane>
             </el-tabs>
             <el-form-item class="footer-btn">
-              <el-button
-                type="primary"
-                :loading="loginLoading"
-                @click="login"
-              >
-                登 录
-              </el-button>
+              <el-button type="primary" :loading="loginLoading" @click="login"> 登 录 </el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -82,9 +70,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs, onMounted, onBeforeUnmount, inject } from 'vue'
-import { ElForm, ElFormItem, ElInput, ElTabs, ElTabPane, ElMessage } from 'element-plus'
-import { getCode, loginByCode, loginByPwd } from '@/api/login'
+import { defineComponent, reactive, ref, toRefs, onMounted, onBeforeUnmount } from 'vue'
+import { ElForm, ElFormItem, ElInput, ElTabs, ElTabPane, ElMessage, ElIcon } from 'element-plus'
+import { login } from '@/api/login'
 import { setToken } from '@/utils/auth'
 import { isPhone } from '@/utils/validation'
 import elv from '@/utils/elValidation'
@@ -98,10 +86,10 @@ export default defineComponent({
     ElFormItem,
     ElInput,
     ElTabs,
-    ElTabPane
+    ElTabPane,
+    ElIcon
   },
   setup() {
-    const imgcdn = inject('imgcdn')
     const time = ref(60)
     const codeLoading = ref(false)
     const loginLoading = ref(false)
@@ -115,11 +103,11 @@ export default defineComponent({
         password: ''
       }
     })
-    const formRules = {
-      phone: [{ required: true, validator: elv.isPhone(),  trigger: 'blur' }],
+    const formRules = reactive({
+      phone: [{ required: true, validator: elv.isPhone(), trigger: 'blur' }],
       password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
       code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
-    }
+    })
 
     let barNode: HTMLElement | null = null
     onMounted(() => {
@@ -141,10 +129,10 @@ export default defineComponent({
       if (tabIndex === item.index) return
       tabIndex = item.index
       if (tab.name === 'password') {
-        (barNode as HTMLElement).classList.add('password')
+        ;(barNode as HTMLElement).classList.add('password')
         ;(barNode as HTMLElement).classList.remove('code')
       } else {
-        (<HTMLElement>barNode).classList.remove('password')
+        ;(<HTMLElement>barNode).classList.remove('password')
         ;(<HTMLElement>barNode).classList.add('code')
       }
     }
@@ -189,7 +177,7 @@ export default defineComponent({
     // 回车事件
     const enterClick = (event) => {
       if (loginLoading.value || event.keyCode !== 13) return
-      login()
+      loginFun()
     }
 
     const loginSuccess = (res) => {
@@ -204,7 +192,7 @@ export default defineComponent({
       router.push('/home')
     }
     // 触发登录
-    const login = () => {
+    const loginFun = () => {
       // 表单校验
       formRef.value.validate((valid) => {
         if (valid) {
@@ -215,21 +203,25 @@ export default defineComponent({
               phone: form.loginForm.phone,
               password: form.loginForm.password
             }
-            loginByPwd(params).then((res) => {
-              loginSuccess(res)
-            }).catch(() => {
-              loginLoading.value = false
-            })
+            login(params)
+              .then((res) => {
+                loginSuccess(res)
+              })
+              .catch(() => {
+                loginLoading.value = false
+              })
           } else {
             const params = {
               phone: form.loginForm.phone,
               code: form.loginForm.code
             }
-            loginByCode(params).then((res) => {
-              loginSuccess(res)
-            }).catch(() => {
-              loginLoading.value = false
-            })
+            login(params)
+              .then((res) => {
+                loginSuccess(res)
+              })
+              .catch(() => {
+                loginLoading.value = false
+              })
           }
         } else {
           return false
@@ -241,7 +233,6 @@ export default defineComponent({
     })
     return {
       ...toRefs(form),
-      imgcdn,
       loginLoading,
       codeLoading,
       activeTab,
@@ -261,10 +252,12 @@ export default defineComponent({
     height: 60px;
     line-height: 60px;
   }
+
   .el-button {
     padding: 15px 20px;
   }
 }
+
 .login-wrap {
   position: absolute;
   left: 0;
@@ -273,14 +266,17 @@ export default defineComponent({
   height: 100%;
   background: #f5f6fa;
 }
+
 .main-left_img {
   flex-shrink: 0;
   width: 665px;
   height: 568px;
+
   img {
     width: 100%;
   }
 }
+
 .login {
   height: 100%;
   min-height: 545px;
@@ -293,6 +289,7 @@ export default defineComponent({
   padding-top: 80px;
   box-sizing: border-box;
 }
+
 .logo-img {
   position: fixed;
   top: 0;
@@ -300,23 +297,28 @@ export default defineComponent({
   right: 0;
   padding: 22px 70px;
   background: #fff;
-  box-shadow: 0px 2px 12px 0px rgba(63, 78, 96, 0.08);
+  box-shadow: 0 2px 12px 0 rgba(63, 78, 96, 0.08);
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
   .line {
     height: 30px;
     width: 1px;
     background: #e3e3e3;
     margin: 0 24px;
   }
-  .wjy-logo, .tyb-logo{
+
+  .wjy-logo,
+  .tyb-logo {
     height: 35px;
   }
+
   img {
     height: 100%;
   }
 }
+
 .desc {
   position: absolute;
   top: 50%;
@@ -340,9 +342,11 @@ export default defineComponent({
   margin-left: 190px;
   flex-shrink: 0;
 }
+
 .content {
   background: #fff;
   padding: 34px 16px;
+
   .tip {
     color: #828384;
     font-size: 12px;
@@ -350,6 +354,7 @@ export default defineComponent({
     text-align: center;
   }
 }
+
 :deep(.el-form-item) {
   .el-input--prefix {
     .el-input__prefix {
@@ -357,37 +362,46 @@ export default defineComponent({
       display: flex;
       align-items: center;
     }
+
     img {
       width: 17px;
       height: 22px;
     }
+
     .el-input__inner {
       padding-left: 45px;
     }
   }
 }
+
 :deep(.code-item) {
   border-radius: 4px;
   border: 1px solid #dcdfe6;
+
   .el-form-item__content {
     display: flex;
   }
+
   .el-input__inner {
     border: 0;
     height: 58px;
     line-height: 58px;
   }
+
   .el-button {
     width: 160px;
     position: relative;
     padding: 14px 20px;
     font-weight: 500;
+
     &.disabled {
       color: #c0c4cc;
     }
+
     &:hover {
       opacity: 0.7;
     }
+
     &::before {
       content: '';
       width: 1px;
@@ -400,40 +414,50 @@ export default defineComponent({
     }
   }
 }
+
 footer {
   color: #999;
   text-align: center;
   margin-top: 80px;
+
   p {
     font-weight: 400;
     margin-bottom: 0;
   }
 }
+
 :deep(.el-tabs) {
   .el-tabs__item {
     color: #777782;
     font-size: 24px;
+
     &.is-active {
       color: $text-color;
     }
   }
+
   .el-tabs__nav-wrap::after {
     height: 1px;
   }
+
   .el-tabs__nav {
     padding: 20px 0;
   }
+
   .el-tabs__nav-scroll {
     display: flex;
     justify-content: center;
   }
+
   .el-tabs__content {
     padding: 0 45px;
   }
 }
+
 .footer-btn {
   padding: 0 45px;
   margin-bottom: 30px;
+
   .el-button {
     width: 100%;
     margin-top: 54px;

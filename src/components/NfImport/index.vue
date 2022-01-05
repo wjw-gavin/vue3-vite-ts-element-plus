@@ -1,7 +1,7 @@
 <template>
   <div class="nf-import">
     <nf-upload
-      :action="baseURL ? baseURL + '/' + uploadUrl : uploadUrl"
+      :action="uploadUrl"
       :multiple="false"
       list-type="text"
       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,.csv"
@@ -47,7 +47,6 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { ElTable, ElTableColumn, ElMessage } from 'element-plus'
 import importTypes from '@/utils/pageType/import'
-import axiosURL from '@/http/config'
 export default defineComponent({
   name: 'NfImport',
   components: {
@@ -81,7 +80,7 @@ export default defineComponent({
     }
     // 导入成功回调
     let result: any[] = reactive([])
-    const handleFileSuccess = (data: { failUser: any[]; existUser: any[]; }) => {
+    const handleFileSuccess = (data: { failUser: any[]; existUser: any[] }) => {
       if (data.failUser.length === 0 && data.existUser.length === 0) {
         ElMessage.success('导入成功')
       } else {
@@ -104,7 +103,6 @@ export default defineComponent({
     }
     return {
       result,
-      baseURL: axiosURL,
       dialogVisible,
       uploadUrl,
       beforeFileUpload,

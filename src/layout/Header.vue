@@ -37,7 +37,6 @@ import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { removeToken } from '@/utils/auth'
-import { logout } from '@/api/login'
 import avatarImg from '@/assets/imgs/default-avatar.png'
 export default defineComponent({
   name: 'NfHeader',
@@ -68,16 +67,10 @@ export default defineComponent({
     // 退出
     const handlelogout = () => {
       ElMessageBox.confirm('确认退出当前账户吗？').then(() => {
-        logout()
-          .then(() => {
-            localStorage.clear()
-            sessionStorage.clear()
-            removeToken()
-            router.push('/login')
-          })
-          .catch(() => {
-            ElMessage.warning('退出失败')
-          })
+        localStorage.clear()
+        sessionStorage.clear()
+        removeToken()
+        router.push('/login')
       })
     }
     return {
