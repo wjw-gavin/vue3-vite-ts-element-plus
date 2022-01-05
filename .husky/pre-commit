@@ -3,5 +3,3 @@
 
 # Format and submit code according to lintstagedrc.js configuration
 yarn lint:lint-staged
-
-yarn lint:pretty

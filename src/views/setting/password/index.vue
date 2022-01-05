@@ -1,6 +1,11 @@
 <template>
   <nf-form-wrap title="修改密码" :on-save-btn-click="onSaveBtnClick">
-    <el-form ref="ruleForm" :model="formData" :rules="formRules" label-width="95px">
+    <el-form
+      ref="ruleForm"
+      :model="formData"
+      :rules="formRules"
+      label-width="95px"
+    >
       <div class="w-96">
         <el-form-item label="手机号：">
           <el-input v-model="userInfo.phone" disabled />

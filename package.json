@@ -10,7 +10,6 @@
     "cz": "git cz",
     "prepare": "husky install",
     "lint:lint-staged": "lint-staged",
-    "lint:pretty": "pretty-quick --staged",
     "commitlint": "commitlint --config commitlint.config.js -e -V"
   },
   "dependencies": {
