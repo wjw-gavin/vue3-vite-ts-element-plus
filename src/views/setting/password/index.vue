@@ -1,15 +1,7 @@
 <template>
-  <nf-form-wrap
-    title="修改密码"
-    :on-save-btn-click="onSaveBtnClick"
-  >
-    <el-form
-      ref="ruleForm"
-      :model="formData"
-      :rules="formRules"
-      label-width="95px"
-    >
-      <div class="item-box">
+  <nf-form-wrap title="修改密码" :on-save-btn-click="onSaveBtnClick">
+    <el-form ref="ruleForm" :model="formData" :rules="formRules" label-width="95px">
+      <div class="w-96">
         <el-form-item label="手机号：">
           <el-input v-model="userInfo.phone" disabled />
         </el-form-item>
@@ -37,9 +29,6 @@
 import { computed, defineComponent, reactive, ref } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElMessage } from 'element-plus'
 import store from '@/store'
-import router from '@/router'
-import { removeToken } from '@/utils/auth'
-import { resetPwd } from '@/api/setting'
 export default defineComponent({
   components: {
     ElForm,
@@ -83,17 +72,10 @@ export default defineComponent({
       loading(true)
       ruleForm.value.validate((valid) => {
         if (valid) {
-          const params = {
-            password: formData.password
-          }
-          resetPwd(params).then(() => {
+          setTimeout(() => {
             loading(false)
-            ElMessage.success('修改成功，下次登录生效')
-            removeToken()
-            router.push('/login')
-          }).catch(() => {
-            loading(false)
-          })
+            ElMessage.success('修改成功')
+          }, 1000)
         } else {
           return false
         }

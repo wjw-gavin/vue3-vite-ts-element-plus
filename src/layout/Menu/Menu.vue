@@ -22,7 +22,7 @@ export default defineComponent({
   props: {
     activeMenu: {
       type: String,
-      default: '/'
+      default: '/home'
     }
   },
   setup() {
@@ -40,11 +40,6 @@ export default defineComponent({
           }
         ]
         const result = customMenus.concat(res as any[])
-        result.push({
-          children: [{ name: '修改密码', id: 'password' }],
-          id: 'setting',
-          name: '设置'
-        })
         menuList.value = result
       })
     }

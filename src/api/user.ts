@@ -1,5 +1,5 @@
 import { get } from '@/http/request'
 
-export function getUser() {
-  return get('/management/center/user/info')
+export function getUserInfo() {
+  return get('/user/info')
 }

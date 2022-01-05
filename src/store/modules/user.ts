@@ -1,4 +1,4 @@
-import { getUser } from '@/api/user'
+import { getUserInfo } from '@/api/user'
 import { USER } from '../typings'
 const state = {
   // 用户信息
@@ -14,10 +14,11 @@ const mutations = {
 
 const actions = {
   getUserInfo: async ({ commit }) => {
-    const data: any = await getUser()
+    const data: any = await getUserInfo()
     const result = <USER>{
       userId: data.userId,
-      userName: data.name
+      userName: data.name,
+      phone: data.phone
     }
     commit('updateUserInfo', result)
   }
