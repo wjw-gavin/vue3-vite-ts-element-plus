@@ -62,9 +62,5 @@ module.exports = {
     ],
     'vue/require-default-prop': 'off',
     'vue/html-closing-bracket-spacing': 'error'
-  },
-  globals: {
-    _: true,
-    dayjs: true
   }
 }
