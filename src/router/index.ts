@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { setToken, getToken } from '@/utils/auth'
 import routes from './routes'
 
 const router = createRouter({
@@ -26,28 +25,9 @@ router.beforeEach((to, from, next) => {
   if (to.name !== from.name) {
     NProgress.start()
   }
-  window.document.title = to.meta.title ? `${to.meta.title} | 淘油宝运营系统` : '淘油宝运营系统'
+  window.document.title = to.meta.title ? `${to.meta.title} | Gavin` : 'Gavin'
 
-  const query: any = to.query
-  if (query.nToken && query.path) {
-    setToken(query.nToken)
-    next(query.path)
-  } else {
-    const isLogin = getToken()
-    if (isLogin) {
-      if (to.name === 'login') {
-        next('/')
-      } else {
-        next()
-      }
-    } else {
-      if (to.name !== 'login') {
-        next('/login')
-      } else {
-        next()
-      }
-    }
-  }
+  next()
 })
 
 router.afterEach(() => {

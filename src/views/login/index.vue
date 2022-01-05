@@ -9,7 +9,7 @@
       </div>
       <div class="login-model">
         <div class="content">
-          <div class="text-center text-2xl font-semibold mb-5">运营管理系统</div>
+          <div class="text-center text-2xl font-semibold mb-5">后台管理系统模板</div>
           <el-form ref="formRef" :model="loginForm" :rules="formRules">
             <el-tabs id="login-tab" v-model="activeTab" @tab-click="handleTabClick">
               <div class="tip">同一手机号可登录牛卡福网络旗下的万金油和牛运宝等产品</div>
@@ -55,7 +55,9 @@
               </el-tab-pane>
             </el-tabs>
             <el-form-item class="footer-btn">
-              <el-button type="primary" :loading="loginLoading" @click="login"> 登 录 </el-button>
+              <el-button type="primary" :loading="loginLoading" @click="loginFun">
+                登 录
+              </el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -109,32 +111,14 @@ export default defineComponent({
       code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
     })
 
-    let barNode: HTMLElement | null = null
     onMounted(() => {
-      const tabs: HTMLElement = document.getElementById('login-tab') as HTMLElement
-      barNode = tabs.querySelector('.el-tabs__active-bar') as HTMLElement
-      if (activeTab.value === 'password') {
-        barNode.classList.add('password')
-        barNode.classList.remove('code')
-      } else {
-        barNode.classList.remove('password')
-        barNode.classList.add('code')
-      }
       window.addEventListener('keyup', enterClick)
     })
     // 切换登录方式
     let tabIndex = '0'
     const handleTabClick = (item) => {
-      const tab = item.props
       if (tabIndex === item.index) return
       tabIndex = item.index
-      if (tab.name === 'password') {
-        ;(barNode as HTMLElement).classList.add('password')
-        ;(barNode as HTMLElement).classList.remove('code')
-      } else {
-        ;(<HTMLElement>barNode).classList.remove('password')
-        ;(<HTMLElement>barNode).classList.add('code')
-      }
     }
     // 获取验证码
     const handleCode = () => {
@@ -155,24 +139,14 @@ export default defineComponent({
           codeText.value = '重新发送'
         }
       }, 1000)
-      getCode({
-        event: 'login',
-        phone: form.loginForm.phone
-      })
-        .then(() => {
-          ElMessage.success('验证码发送成功')
-          codeLoading.value = false
-          if (timer) {
-            clearInterval(timer)
-            time.value = 60
-            codeText.value = '重新发送'
-          }
-        })
-        .catch(() => {
-          codeLoading.value = false
-          time.value = 60
-          codeText.value = '重新发送'
-        })
+      ElMessage.success('验证码发送成功')
+      codeLoading.value = false
+      form.loginForm.code = '1234'
+      if (timer) {
+        clearInterval(timer)
+        time.value = 60
+        codeText.value = '重新发送'
+      }
     }
     // 回车事件
     const enterClick = (event) => {
@@ -180,17 +154,6 @@ export default defineComponent({
       loginFun()
     }
 
-    const loginSuccess = (res) => {
-      setToken(res.nToken)
-      loginLoading.value = false
-      store.commit('user/updateUserInfo', {
-        userId: res.userId,
-        userName: res.name,
-        roles: res.roles,
-        phone: res.phone
-      })
-      router.push('/home')
-    }
     // 触发登录
     const loginFun = () => {
       // 表单校验
@@ -198,31 +161,21 @@ export default defineComponent({
         if (valid) {
           // 验证通过
           loginLoading.value = true
-          if (activeTab.value === 'password') {
-            const params = {
-              phone: form.loginForm.phone,
-              password: form.loginForm.password
-            }
-            login(params)
-              .then((res) => {
-                loginSuccess(res)
+          login(form.loginForm)
+            .then((res) => {
+              setToken(res.token)
+              loginLoading.value = false
+              store.commit('user/updateUserInfo', {
+                userId: res.userId,
+                userName: res.name
               })
-              .catch(() => {
-                loginLoading.value = false
-              })
-          } else {
-            const params = {
-              phone: form.loginForm.phone,
-              code: form.loginForm.code
-            }
-            login(params)
-              .then((res) => {
-                loginSuccess(res)
-              })
-              .catch(() => {
-                loginLoading.value = false
-              })
-          }
+              router.push('/home')
+            })
+            .catch(() => {
+              console.log(123123)
+
+              loginLoading.value = false
+            })
         } else {
           return false
         }
@@ -241,7 +194,7 @@ export default defineComponent({
       formRules,
       handleTabClick,
       handleCode,
-      login
+      loginFun
     }
   }
 })
@@ -295,7 +248,7 @@ export default defineComponent({
   top: 0;
   left: 0;
   right: 0;
-  padding: 22px 70px;
+  padding: 15px 70px;
   background: #fff;
   box-shadow: 0 2px 12px 0 rgba(63, 78, 96, 0.08);
   display: flex;
@@ -316,6 +269,7 @@ export default defineComponent({
 
   img {
     height: 100%;
+    width: 80px;
   }
 }
 
@@ -379,7 +333,7 @@ export default defineComponent({
   border: 1px solid #dcdfe6;
 
   .el-form-item__content {
-    display: flex;
+    flex-wrap: nowrap;
   }
 
   .el-input__inner {
@@ -460,7 +414,8 @@ footer {
 
   .el-button {
     width: 100%;
-    margin-top: 54px;
+    margin-top: 30px;
+    height: 45px;
   }
 }
 </style>

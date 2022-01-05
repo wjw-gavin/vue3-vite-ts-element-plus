@@ -6,7 +6,7 @@ import { getToken } from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: '/api',
+  baseURL: '/mock/126012/api',
   timeout: 5000
 })
 
@@ -27,7 +27,7 @@ service.interceptors.request.use(
 
 // 添加响应拦截器
 service.interceptors.response.use(
-  async (res: AxiosResponse) => {
+  (res: AxiosResponse) => {
     const { data } = res
     const code = data.status.code
     if (code !== 0) {

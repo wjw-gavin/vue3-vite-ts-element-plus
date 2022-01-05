@@ -17,9 +17,7 @@ const actions = {
     const data: any = await getUser()
     const result = <USER>{
       userId: data.userId,
-      userName: data.name,
-      roles: data.roles,
-      phone: data.phone
+      userName: data.name
     }
     commit('updateUserInfo', result)
   }

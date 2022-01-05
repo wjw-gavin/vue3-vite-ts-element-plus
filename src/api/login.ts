@@ -1,5 +1,5 @@
 import { post } from '@/http/request'
 
-export function login(params: any) {
-  return post('/api/login', params)
+export function login(params) {
+  return post('/login', params)
 }
