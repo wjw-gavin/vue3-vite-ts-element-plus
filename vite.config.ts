@@ -16,7 +16,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     server: {
       port: 4000,
       proxy: {
-        '/api': {
+        '/mock': {
           target: 'http://yapi.smart-xwork.cn',
           changeOrigin: true //是否跨域
         }
