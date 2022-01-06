@@ -1,16 +1,18 @@
 <template>
-  <div class="chart-content">
-    <div id="chart_pie"></div>
-    <div id="chart_line"></div>
-    <div id="chart_bar"></div>
+  <div class="grid grid-flow-col grid-cols-2 grid-rows-2 gap-4">
+    <div id="chart_pie" class="h-80 p-5 bg-white rounded-md"></div>
+    <div id="chart_line" class="h-80 p-5 bg-white rounded-md"></div>
+    <div id="chart_bar" class="h-80 p-5 bg-white rounded-md"></div>
   </div>
 </template>
 <script lang="ts" setup>
 import { onMounted } from 'vue'
 import * as echarts from 'echarts'
+
+let pieChart
 const initPie = () => {
   const ele = document.getElementById('chart_pie') as HTMLElement
-  let pieChart = echarts.init(ele)
+  const pieChart = echarts.init(ele)
   // 绘制图表
   pieChart.setOption({
     title: {
@@ -53,7 +55,7 @@ const initPie = () => {
 }
 const initLine = () => {
   const ele = document.getElementById('chart_line') as HTMLElement
-  let lineChart = echarts.init(ele)
+  const lineChart = echarts.init(ele)
   // 绘制图表
   lineChart.setOption({
     title: {
@@ -115,7 +117,7 @@ const initLine = () => {
 }
 const initBar = () => {
   const ele = document.getElementById('chart_bar') as HTMLElement
-  let barChart = echarts.init(ele)
+  const barChart = echarts.init(ele)
   // 绘制图表
   barChart.setOption({
     title: {
@@ -143,16 +145,3 @@ onMounted(() => {
   initBar()
 })
 </script>
-<style lang="scss" scoped>
-.chart-content {
-  padding: 20px 10px;
-  background: #fff;
-  display: flex;
-
-  & > div {
-    flex: 1;
-    margin-right: 10px;
-    height: 400px;
-  }
-}
-</style>

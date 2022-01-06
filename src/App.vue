@@ -20,7 +20,7 @@ export default defineComponent({
     const locale = zhCn
 
     const resizeFun = () => {
-      const baseWidth = 768
+      const baseWidth = 1000
       const clientWidth = document.documentElement.clientWidth
       commit('layout/updateCollapse', clientWidth < baseWidth ? true : false)
     }
