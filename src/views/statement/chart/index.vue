@@ -9,7 +9,6 @@
 import { onMounted } from 'vue'
 import * as echarts from 'echarts'
 
-let pieChart
 const initPie = () => {
   const ele = document.getElementById('chart_pie') as HTMLElement
   const pieChart = echarts.init(ele)
