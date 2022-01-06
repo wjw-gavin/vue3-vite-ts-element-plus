@@ -3,6 +3,7 @@ import axios from 'axios'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils/auth'
+import router from '@/router'
 
 // 创建axios实例
 const service = axios.create({
@@ -16,6 +17,11 @@ service.interceptors.request.use(
     const token: string = getToken()
     if (token) {
       config.headers['token'] = token
+    }
+    const route = router.currentRoute.value
+    // 测试mock数据，可删除
+    if (route.path === '/base/mock' && config.url == '/api/getTableList') {
+      config.baseURL = ''
     }
     return config
   },

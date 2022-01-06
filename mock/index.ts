@@ -7,6 +7,8 @@ function getTag() {
 }
 
 function responseData(code: number, msg: string, data: any) {
+  console.log('--------')
+
   return {
     status: {
       code,
@@ -56,7 +58,7 @@ export default [
       const result = tableList.list.filter(
         (v, i) => i >= (page - 1) * pageSize && i < page * pageSize
       )
-      return responseData(200, '成功', result)
+      return responseData(0, '成功', result)
     }
   }
 ] as MockMethod[]

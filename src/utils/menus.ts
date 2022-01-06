@@ -11,6 +11,10 @@ const menus = {
       region: {
         name: '地区管理',
         path: '/region'
+      },
+      mock: {
+        name: 'mock数据',
+        path: '/base/mock'
       }
     }
   },
