@@ -7,7 +7,7 @@
 
     <!-- 侧边菜单栏 -->
     <div class="aside">
-      <Menu :active-menu="activeMenu" />
+      <Menu />
     </div>
 
     <!-- 主体内容 -->
@@ -21,8 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import { ElContainer, ElMain, ElScrollbar, ElHeader } from 'element-plus'
 import Header from './Header.vue'
@@ -37,25 +36,11 @@ export default defineComponent({
     Menu
   },
   setup() {
-    const route = useRoute()
     const store = useStore()
-    const activeMenu = ref('')
 
     store.dispatch('user/getUserInfo')
-    watch(
-      () => route,
-      (val) => {
-        const { meta } = val
-        if (meta.activePath as string) {
-          // 对应菜单激活 menu
-          activeMenu.value = meta.activePath as string
-        }
-      },
-      { immediate: true }
-    )
 
     return {
-      activeMenu,
       userInfo: computed(() => store.state['user'].userInfo),
       isCollapse: computed(() => store.state.layout.isCollapse)
     }

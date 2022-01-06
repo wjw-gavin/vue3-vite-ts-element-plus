@@ -7,8 +7,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, watch } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 import { ElScrollbar, ElMenu } from 'element-plus'
 import MenuItem from './MenuItem.vue'
 import menus from '@/utils/menus'
@@ -19,14 +20,10 @@ export default defineComponent({
     ElMenu,
     MenuItem
   },
-  props: {
-    activeMenu: {
-      type: String,
-      default: '/home'
-    }
-  },
   setup() {
+    const route = useRoute()
     const store = useStore()
+    const activeMenu = ref('')
     const menuList = ref<any>([])
 
     // 获取菜单
@@ -44,9 +41,20 @@ export default defineComponent({
       })
     }
     getMenuList()
-
+    watch(
+      () => route,
+      (val) => {
+        const { meta } = val
+        if (meta.activePath as string) {
+          // 对应菜单激活 menu
+          activeMenu.value = meta.activePath as string
+        }
+      },
+      { immediate: true }
+    )
     return {
       menuList,
+      activeMenu,
       defaultMenus: menus,
       isCollapse: computed(() => store.state.layout.isCollapse)
     }

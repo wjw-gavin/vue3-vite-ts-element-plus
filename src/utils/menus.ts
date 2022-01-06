@@ -14,6 +14,16 @@ const menus = {
       }
     }
   },
+  statement: {
+    name: '报表管理',
+    icon: 'icon-yunyingzhongxin',
+    children: {
+      chart: {
+        name: '图表管理',
+        path: '/statement/chart'
+      }
+    }
+  },
   system_config: {
     name: '系统设置',
     icon: 'icon-shezhi',
