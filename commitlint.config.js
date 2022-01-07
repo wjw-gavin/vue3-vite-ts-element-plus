@@ -44,7 +44,7 @@ module.exports = {
         'style', // 样式修改，即不影响程序逻辑的代码修改
         'docs', // 文档/注释更新
         'test', // 新增测试用例或是更新现有测试
-        'release', // 发布版本/修改配置文件
+        'release', // 发布版本
         'ci', // 主要目的是修改项目继续集成流程(例如 Travis，Jenkins，GitLab CI，Circle等)的提交
         'revert', // 回滚某个更早之前的提交
         'chore', // 不属于以上类型的其他类型
@@ -53,7 +53,6 @@ module.exports = {
         'types', // 类型定义文件更改
         'delete', // 删除文件、依赖包
         'add', // 增加依赖包
-        'build', // 修改配置文件
         'update' // 更新依赖
       ]
     ]
