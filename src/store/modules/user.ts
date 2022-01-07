@@ -18,7 +18,8 @@ const actions = {
     const result = <USER>{
       userId: data.userId,
       userName: data.name,
-      phone: data.phone
+      phone: data.phone,
+      company: data.company
     }
     commit('updateUserInfo', result)
   }

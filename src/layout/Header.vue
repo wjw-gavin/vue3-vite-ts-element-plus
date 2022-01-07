@@ -5,7 +5,7 @@
       <fold v-else />
     </el-icon>
     <span class="company-name">
-      {{ userInfo.companyName }}
+      {{ userInfo.company }}
     </span>
   </div>
   <div class="header-right">
