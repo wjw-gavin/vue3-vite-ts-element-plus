@@ -1,5 +1,5 @@
 <template>
-  <div class="nf-form-wrap relative mb-2.5" :class="{ 'show-footer': showFooter }">
+  <div class="g-form-wrap relative mb-2.5" :class="{ 'show-footer': showFooter }">
     <el-card>
       <template v-if="title" #header>
         <span>{{ title }}</span>
@@ -8,7 +8,12 @@
     </el-card>
     <!-- 如果没有按钮 默认footer不显示 -->
     <footer v-if="showFooter" class="form-btn-warp" :class="[isCollapse ? 'collapsed' : '']">
-      <el-button v-if="onSaveBtnClick" type="primary" :loading="isLoading" @click="handleSaveClick">
+      <el-button
+        v-if="onSaveBtnClick"
+        type="primary"
+        :loading="isLoading"
+        @click="handleSaveClick"
+      >
         {{ saveBtnText }}
       </el-button>
       <el-button v-if="onResetBtnClick" type="warning" @click="onResetBtnClick"> 重 置 </el-button>
@@ -22,7 +27,7 @@ import { defineComponent, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { ElCard } from 'element-plus'
 export default defineComponent({
-  name: 'NfFormWrap',
+  name: 'GFormWrap',
   components: {
     ElCard
   },
@@ -79,7 +84,7 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-.nf-form-wrap {
+.g-form-wrap {
   &.show-footer {
     margin-bottom: 80px;
   }

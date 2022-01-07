@@ -1,6 +1,6 @@
 <template>
-  <div class="nf-import">
-    <nf-upload
+  <div class="g-import">
+    <g-upload
       :action="uploadUrl"
       :multiple="false"
       list-type="text"
@@ -11,14 +11,14 @@
       <template #content>
         <el-button size="medium">导入</el-button>
       </template>
-    </nf-upload>
-    <nf-dialog
+    </g-upload>
+    <g-dialog
       v-model:dialog-visible="dialogVisible"
       title="导入结果"
       width="600px"
       cancel-btn-text="确认"
     >
-      <template #content class="nf-dialog-content">
+      <template #content class="g-dialog-content">
         <el-table :data="result" border max-height="400">
           <el-table-column prop="mobile" label="手机号">
             <template #default="{ row }">
@@ -32,15 +32,13 @@
           </el-table-column>
         </el-table>
       </template>
-    </nf-dialog>
+    </g-dialog>
   </div>
 </template>
 
 <script lang="ts">
 /**
  * @Description: 导入组件
- * @Author: wjw
- * @Date: 2021-08-19 14:58:31
  */
 import { defineComponent, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -48,7 +46,7 @@ import { useRoute } from 'vue-router'
 import { ElTable, ElTableColumn, ElMessage } from 'element-plus'
 import importTypes from '@/utils/pageType/import'
 export default defineComponent({
-  name: 'NfImport',
+  name: 'GImport',
   components: {
     ElTable,
     ElTableColumn
@@ -80,7 +78,7 @@ export default defineComponent({
     }
     // 导入成功回调
     let result: any[] = reactive([])
-    const handleFileSuccess = (data: { failUser: any[]; existUser: any[] }) => {
+    const handleFileSuccess = (data: { failUser: any[]; existUser: any[]; }) => {
       if (data.failUser.length === 0 && data.existUser.length === 0) {
         ElMessage.success('导入成功')
       } else {

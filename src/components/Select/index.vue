@@ -48,8 +48,6 @@
 <script lang="ts">
 /**
  * @Description: 下拉组件
- * @Author: wjw
- * @Date: 2021-08-19 17:16:56
  */
 import { defineComponent, reactive, PropType, toRefs } from 'vue'
 import { ElSelect, ElOption } from 'element-plus'
@@ -59,7 +57,7 @@ interface Options {
   value: string
 }
 export default defineComponent({
-  name: 'NfSelect',
+  name: 'GSelect',
   components: {
     ElSelect,
     ElOption

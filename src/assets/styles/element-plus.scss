@@ -15,9 +15,11 @@
     overflow-x: auto;
   }
 }
-.el-message-box__content{
+
+.el-message-box__content {
   word-break: break-all;
 }
+
 .el-form--inline {
   .el-form-item {
     width: 260px;
@@ -94,7 +96,7 @@
       }
     }
 
-    .el-submenu.nf-submenu.is-active {
+    .el-submenu.g-submenu.is-active {
       & > .el-sub-menu__title {
         color: #fff;
 
@@ -153,7 +155,7 @@
   }
 }
 
-.nf-table {
+.g-table {
   .el-table__row {
     td:last-child {
       .cell {
@@ -179,6 +181,7 @@
     color: $active;
   }
 }
+
 .el-button--text {
   background: 0 0;
   padding-left: 0;

@@ -9,7 +9,7 @@
       <i class="iconfont" :class="defaultMenus[item.id].icon"></i>
       <template #title>{{ item.name }}</template>
     </el-menu-item>
-    <el-sub-menu v-else class="nf-submenu" :index="item.name">
+    <el-sub-menu v-else class="g-submenu" :index="item.name">
       <template #title>
         <i class="iconfont" :class="defaultMenus[item.id].icon"></i>
         <span>{{ item.name }}</span>

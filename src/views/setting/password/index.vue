@@ -1,5 +1,5 @@
 <template>
-  <nf-form-wrap title="修改密码" :on-save-btn-click="onSaveBtnClick">
+  <g-form-wrap title="修改密码" :on-save-btn-click="onSaveBtnClick">
     <el-form
       ref="ruleForm"
       :model="formData"
@@ -27,7 +27,7 @@
         </el-form-item>
       </div>
     </el-form>
-  </nf-form-wrap>
+  </g-form-wrap>
 </template>
 
 <script lang="ts">

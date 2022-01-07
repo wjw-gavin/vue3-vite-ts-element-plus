@@ -38,7 +38,7 @@ import { useRouter } from 'vue-router'
 import { removeToken } from '@/utils/auth'
 import avatarImg from '@/assets/imgs/default-avatar.png'
 export default defineComponent({
-  name: 'NfHeader',
+  name: 'GHeader',
   components: {
     ElDropdown,
     ElDropdownMenu,

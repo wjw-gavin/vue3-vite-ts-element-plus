@@ -1,16 +1,16 @@
 <template>
   <div>
     <!-- 搜索 -->
-    <nf-top-search
+    <g-top-search
       :store-model-name="storeModelName"
       :search-click="handleSearchClick"
       :is-loading="isLoading"
       :search-label-width="searchLabelWidth"
     />
     <!-- 表格 -->
-    <div v-loading="isLoading" class="nf-table" element-loading-text="玩儿命加载中...">
+    <div v-loading="isLoading" class="g-table" element-loading-text="玩儿命加载中...">
       <!-- 表格操作组 -->
-      <div class="nf-table-operation">
+      <div class="g-table-operation">
         <el-row
           type="flex"
           justify="space-between"
@@ -61,13 +61,13 @@
                 下载导入模板
               </el-button>
               <!-- 导入 -->
-              <nf-import
+              <g-import
                 v-if="roles[pageRoleId + '_import']"
                 ref="nfImportdRef"
                 :store-model-name="storeModelName"
               />
               <!-- 导出 -->
-              <nf-export
+              <g-export
                 v-if="roles[pageRoleId + '_export']"
                 ref="nfDownloadRef"
                 v-model:isDot="isDot"
@@ -226,7 +226,7 @@
         </el-table-column>
       </el-table>
       <!-- 分页组件 -->
-      <nf-pagination
+      <g-pagination
         hide-on-single-page
         :current-page="params.pageNo"
         :page-size="params.pageSize"
@@ -241,8 +241,6 @@
 <script lang="ts">
 /**
  * @Description: 表格组件（包含搜索、编辑表头、添加导出等操作按钮、分页组件）
- * @Author: wjw
- * @Date: 2020-01-06 13:32:56
  */
 import { defineComponent, toRefs, ref, reactive, watch, h } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
@@ -269,7 +267,7 @@ import props from './props'
 import getComputeds from './computed'
 import { BatchOptions, Button } from './typings'
 export default defineComponent({
-  name: 'NfTablePage',
+  name: 'GTablePage',
   components: {
     ElRow,
     ElCol,
@@ -438,7 +436,7 @@ export default defineComponent({
         showCancelButton: true,
         type: 'warning'
       }).then(() => {
-        post(props.batchOptions[(batchVal.value.id) - 1].url, {
+        post(props.batchOptions[batchVal.value.id - 1].url, {
           ids: computeds.multipleSelection
         }).then(() => {
           ElMessage.success('操作完成')
@@ -504,7 +502,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.nf-table {
+.g-table {
   padding: 10px;
   border-radius: 4px;
   background-color: #fff;
@@ -578,7 +576,7 @@ export default defineComponent({
   }
 }
 
-:deep(.nf-icon-btn) {
+:deep(.g-icon-btn) {
   margin-left: 10px;
   padding: 6px 10px;
 

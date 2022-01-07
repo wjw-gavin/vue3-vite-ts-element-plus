@@ -17,8 +17,6 @@
 <script lang="ts">
 /**
  * @Description: 分页组件
- * @Author: wjw
- * @Date: 2021-08-19 16:45:56
  */
 import { ElPagination } from 'element-plus'
 import { defineComponent, reactive, toRefs, onUpdated } from 'vue'
@@ -30,7 +28,7 @@ interface OPTIONS {
   layout: string
 }
 export default defineComponent({
-  name: 'NfPagination',
+  name: 'GPagination',
   components: {
     ElPagination
   },
