@@ -9,7 +9,7 @@
       :upload-success="handleFileSuccess"
     >
       <template #content>
-        <el-button size="medium">导入</el-button>
+        <el-button>导入</el-button>
       </template>
     </g-upload>
     <g-dialog

@@ -14,10 +14,9 @@
 
       <template v-if="!customFooterBtns" #footer>
         <span>
-          <el-button size="medium" @click="visibleRef = false">{{ cancelBtnText }}</el-button>
+          <el-button @click="visibleRef = false">{{ cancelBtnText }}</el-button>
           <el-button
             v-if="clickSureBtn"
-            size="medium"
             type="primary"
             :disabled="disabled"
             :loading="saveBtnLoading"

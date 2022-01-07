@@ -1,11 +1,6 @@
 <template>
   <div class="g-export">
-    <el-button
-      size="medium"
-      :type="type"
-      :loading="loading"
-      @click="exportExcel"
-    >
+    <el-button :type="type" :loading="loading" @click="exportExcel">
       {{ text }}
     </el-button>
   </div>
@@ -51,7 +46,7 @@ export default defineComponent({
     const exportExcel = () => {
       const title = route.meta.title as string
       let postData = {}
-      let remainderParams = omit(params, ['pageNo', 'pageSize'])
+      let remainderParams = omit(params, ['page', 'pageSize'])
       postData = Object.assign({}, { options: params.value.options }, remainderParams)
       btnOptions.loading = true
       btnOptions.type = props.type === 'export' ? 'default' : 'text'
