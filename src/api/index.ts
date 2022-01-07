@@ -1,4 +1,4 @@
-import { get, post } from '@/http/request'
+import { get } from '@/http/request'
 
 // 菜单
 export function getMenus() {
@@ -17,5 +17,5 @@ export function getSearchData(type: string) {
 
 // 列表
 export function getTableData(url: string, params: any) {
-  return post(url, params)
+  return get(url, params)
 }
