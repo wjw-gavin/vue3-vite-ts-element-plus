@@ -9,7 +9,6 @@
       :total="total"
       :page-sizes="pageSizes"
       :layout="layout"
-      hide-on-single-page
     />
   </div>
 </template>
