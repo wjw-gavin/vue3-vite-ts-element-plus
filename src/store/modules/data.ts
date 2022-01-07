@@ -52,18 +52,8 @@ const actions = {
     const data: any = await getTableData(apiUrl, params)
     commit('updateCount', --state.count)
     store.commit(`${payload}/updateLoading`, false)
-    store.commit(`${payload}/updateTotal`, data.totalCount as number)
-    store.commit(`${payload}/updateTableData`, data.list ? data.list : (data as []))
-    if (data.hideColumn) {
-      const headerList = store.state[payload].tableHeadList
-      const headerListFiltered = filter(headerList, function (item) {
-        return indexOf(data.hideColumn, item.prop) === -1
-      })
-      store.commit(`${payload}/updateTableHeaderList`, headerListFiltered)
-    }
-    if (data.list_header) {
-      store.commit(`${payload}/updateTableHeaderList`, data.list_header)
-    }
+    store.commit(`${payload}/updateTotal`, data.total as number)
+    store.commit(`${payload}/updateTableData`, data.data ? data.data : (data as []))
   }
 }
 

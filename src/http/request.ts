@@ -5,15 +5,15 @@ import { cloneDeep, omit, assign } from 'lodash-es'
 // get默认请求
 export function get(apiUrl: string, params?: any): Promise<AxiosResponse> {
   let paramsData = {}
-  if (params && params.pageNo && params.pageSize) {
+  if (params && params.page && params.pageSize) {
     const data = cloneDeep(params)
     const pager = {
-      pageNo: data.pageNo,
+      page: data.page,
       pageSize: data.pageSize
     }
     const pagerParams = { pager: JSON.stringify(pager) }
 
-    const remainderParams = omit(data, ['pageNo', 'pageSize', 'options'])
+    const remainderParams = omit(data, ['page', 'pageSize', 'options'])
     paramsData = assign(pagerParams, data.options, remainderParams)
   } else {
     paramsData = params
@@ -24,15 +24,15 @@ export function get(apiUrl: string, params?: any): Promise<AxiosResponse> {
 // post默认请求
 export function post(apiUrl: string, params?: any): Promise<AxiosResponse> {
   let postData = {}
-  if (params && params.pageNo && params.pageSize) {
+  if (params && params.page && params.pageSize) {
     const data = cloneDeep(params)
     const pager = {
-      pageNo: data.pageNo,
+      page: data.page,
       pageSize: data.pageSize
     }
     const pagerParams = { pager: pager }
 
-    const remainderParams = omit(data, ['pageNo', 'pageSize', 'options'])
+    const remainderParams = omit(data, ['page', 'pageSize', 'options'])
     postData = assign(pagerParams, { options: data.options }, remainderParams)
   } else {
     postData = params

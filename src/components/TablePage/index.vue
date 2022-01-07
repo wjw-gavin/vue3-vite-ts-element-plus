@@ -227,8 +227,7 @@
       </el-table>
       <!-- 分页组件 -->
       <g-pagination
-        hide-on-single-page
-        :current-page="params.pageNo"
+        :current-page="params.page"
         :page-size="params.pageSize"
         :total="total"
         @current-change="handlePageChange"
@@ -306,7 +305,7 @@ export default defineComponent({
     const urlPrams = route.query
     if (!isEmpty(urlPrams)) {
       const updataParams = {
-        pageNo: urlPrams.page ? Number(urlPrams.page) : 1,
+        page: urlPrams.page ? Number(urlPrams.page) : 1,
         pageSize: urlPrams.pageSize ? Number(urlPrams.pageSize) : 10,
         options: omit(urlPrams, ['page', 'pageSize'])
       }
@@ -314,7 +313,7 @@ export default defineComponent({
       store.commit(`${props.storeModelName}/updateParams`, updataParams)
     } else {
       const updataParams = {
-        pageNo: 1,
+        page: 1,
         pageSize: 10,
         options: {}
       }
@@ -390,7 +389,7 @@ export default defineComponent({
       })
       const query = route.query
       const searchParams = {
-        pageNo: 1,
+        page: 1,
         options: Object.assign(condition, omit(query, ['page', 'pageSize']))
       }
       store.commit(`${props.storeModelName}/updateTableData`, [])
@@ -399,7 +398,7 @@ export default defineComponent({
     }
     const handlePageChange = (page: number) => {
       store.commit(`${props.storeModelName}/updateParams`, {
-        pageNo: page
+        page: page
       })
       updateUrlParams({
         page: page,
@@ -411,7 +410,7 @@ export default defineComponent({
       const pageSize = { pageSize: size }
       store.commit(`${props.storeModelName}/updateParams`, pageSize)
       updateUrlParams({
-        page: computeds.params.pageNo,
+        page: computeds.params.page,
         pageSize: size
       })
       getTableList()
@@ -446,15 +445,15 @@ export default defineComponent({
             const params = computeds.params // 请求数据的分页参数
             const length = computeds.multipleSelection.length // 删除的条数
             const pages = Math.ceil((total - length) / (params.pageSize as number)) // 删除后，数据总页数
-            let currentPage = Number(params.pageNo) > pages ? pages : Number(params.pageNo) // 如果当前页完全删除，跳转到上一页
+            let currentPage = Number(params.page) > pages ? pages : Number(params.page) // 如果当前页完全删除，跳转到上一页
             currentPage = currentPage < 1 ? 1 : currentPage
-            if (Number(currentPage) !== Number(params.pageNo)) {
+            if (Number(currentPage) !== Number(params.page)) {
               updateUrlParams({
                 page: currentPage,
                 pageSize: params.pageSize
               })
               store.commit(`${props.storeModelName}/updateParams`, {
-                pageNo: currentPage
+                page: currentPage
               })
             }
           }

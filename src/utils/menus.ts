@@ -8,9 +8,9 @@ const menus = {
     name: '基础信息管理',
     icon: 'icon-zhanghuguanli',
     children: {
-      region: {
-        name: '地区管理',
-        path: '/region'
+      role: {
+        name: '角色管理',
+        path: '/role'
       },
       mock: {
         name: 'mock数据',
