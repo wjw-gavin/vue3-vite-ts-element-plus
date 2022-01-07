@@ -7,8 +7,6 @@ function getTag() {
 }
 
 function responseData(code: number, msg: string, data: any) {
-  console.log('--------')
-
   return {
     status: {
       code,

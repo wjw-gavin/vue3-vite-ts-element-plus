@@ -172,8 +172,6 @@ export default defineComponent({
               router.push('/home')
             })
             .catch(() => {
-              console.log(123123)
-
               loginLoading.value = false
             })
         } else {
