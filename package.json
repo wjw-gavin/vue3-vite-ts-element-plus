@@ -1,5 +1,7 @@
 {
   "name": "vite-vue3",
+  "author": "Gavin",
+  "license": "MIT",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
