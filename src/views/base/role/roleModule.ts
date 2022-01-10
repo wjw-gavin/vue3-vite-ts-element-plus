@@ -3,7 +3,7 @@ const state = {
   params: {
     page: 1,
     pageSize: 10,
-    condition: {}
+    options: {}
   },
   roles: {}, // 权限
   apiName: 'roles',
