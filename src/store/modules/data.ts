@@ -1,4 +1,4 @@
-import { isArray, filter, indexOf } from 'lodash-es'
+import { isArray } from 'lodash-es'
 import store from '../index'
 import api from '@/utils/pageType/api'
 import { getPrivileges, getSearchData, getTableData } from '@/api/index'
