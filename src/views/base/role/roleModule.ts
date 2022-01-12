@@ -7,7 +7,7 @@ const state = {
   },
   roles: {}, // 权限
   apiName: 'roles',
-  privileges: ['role_add', 'role_export'],
+  privileges: ['role_add', 'role_export', 'role_import'],
   // 列表data数据
   total: 0,
   isLoading: false,

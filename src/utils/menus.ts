@@ -1,3 +1,4 @@
+// base_information; children -> role | mock 对应后台返回菜单的 id
 const menus = {
   home: {
     name: '首页',
