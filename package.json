@@ -7,7 +7,7 @@
     "dev": "vite",
     "serve": "vite --host",
     "build": "vite build",
-    "clean": "pnpm clean:cache",
+    "clean": "pnpm store prune",
     "preview": "vite preview",
     "cz": "git cz",
     "prepare": "husky install",
