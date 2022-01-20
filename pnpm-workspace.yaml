@@ -1,0 +1,5 @@
+# pnpm-workspace.yaml 定义了 工作空间 的根目录，并能够使您从工作空间中包含 / 排除目录 。
+
+packages:
+  - src/**
+  # - mock/**
