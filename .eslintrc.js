@@ -62,5 +62,13 @@ module.exports = {
     ],
     'vue/require-default-prop': 'off',
     'vue/html-closing-bracket-spacing': 'error'
-  }
+  },
+  overrides: [
+    {
+      files: ['*.html'],
+      rules: {
+        'vue/comment-directive': 'off'
+      }
+    }
+  ]
 }
