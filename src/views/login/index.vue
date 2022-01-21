@@ -72,7 +72,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs, onMounted, onBeforeUnmount } from 'vue'
+import { defineComponent, reactive, ref, toRefs, onMounted } from 'vue'
+import { onKeyStroke } from '@vueuse/core'
 import { ElForm, ElFormItem, ElInput, ElTabs, ElTabPane, ElMessage, ElIcon } from 'element-plus'
 import { login } from '@/api/login'
 import { setToken } from '@/utils/auth'
@@ -111,8 +112,12 @@ export default defineComponent({
       code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
     })
 
+    // 回车事件
     onMounted(() => {
-      window.addEventListener('keyup', enterClick)
+      onKeyStroke('Enter', () => {
+        if (loginLoading.value) return
+        loginFun()
+      })
     })
     // 切换登录方式
     let tabIndex = '0'
@@ -148,11 +153,6 @@ export default defineComponent({
         codeText.value = '重新发送'
       }
     }
-    // 回车事件
-    const enterClick = (event) => {
-      if (loginLoading.value || event.keyCode !== 13) return
-      loginFun()
-    }
 
     // 触发登录
     const loginFun = () => {
@@ -179,9 +179,6 @@ export default defineComponent({
         }
       })
     }
-    onBeforeUnmount(() => {
-      window.removeEventListener('keyup', enterClick)
-    })
     return {
       ...toRefs(form),
       loginLoading,

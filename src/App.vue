@@ -5,7 +5,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, onMounted } from 'vue'
+import { defineComponent, onMounted } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { useStore } from 'vuex'
 import { debounce } from 'lodash-es'
 import { ElConfigProvider } from 'element-plus'
@@ -29,10 +30,7 @@ export default defineComponent({
 
     onMounted(() => {
       // 视图发生变化更新菜单折叠状态
-      window.addEventListener('resize', debounceResize)
-    })
-    onBeforeMount(() => {
-      window.removeEventListener('resize', debounceResize)
+      useEventListener(window, 'resize', debounceResize)
     })
     return {
       locale
