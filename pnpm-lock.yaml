@@ -38,6 +38,7 @@ importers:
       mockjs: ^1.1.0
       nprogress: ^0.2.0
       postcss: ^8.4.5
+      postcss-html: ^1.3.0
       postcss-import: ^14.0.2
       prettier: ^2.5.1
       pretty-quick: ^3.1.3
@@ -97,6 +98,7 @@ importers:
       lint-staged: 12.2.1
       mockjs: 1.1.0
       postcss: 8.4.5
+      postcss-html: 1.3.0
       postcss-import: 14.0.2_postcss@8.4.5
       prettier: 2.5.1
       pretty-quick: 3.1.3_prettier@2.5.1
@@ -3665,6 +3667,15 @@ packages:
   /pify/2.3.0:
     resolution: {integrity: sha1-7RQaasBDqEnqWISY59yosVMw6Qw=, tarball: pify/download/pify-2.3.0.tgz?cache=0&sync_timestamp=1634019642198&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fpify%2Fdownload%2Fpify-2.3.0.tgz}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /postcss-html/1.3.0:
+    resolution: {integrity: sha512-ewbwd7OGW4dLsErtvZH9HpVMEcXnlhYSzKsr7MepGlOT8imHTIZ/+pdfEruLS+hTYapLTQAWDnoQcJpsYU4uRw==, tarball: postcss-html/download/postcss-html-1.3.0.tgz}
+    engines: {node: ^12 || >=14}
+    dependencies:
+      htmlparser2: 7.2.0
+      postcss: 8.4.5
+      postcss-safe-parser: 6.0.0_postcss@8.4.5
     dev: true
 
   /postcss-import/14.0.2_postcss@8.4.5:
