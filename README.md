@@ -10,7 +10,7 @@
 6. 文档还在编辑中...
 # 安装项目依赖
 
-cd `<app-name>` && yarn install
+cd `<app-name>` && pnpm install
 
 # 本地运行
 
