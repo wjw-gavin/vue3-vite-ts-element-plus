@@ -12,7 +12,7 @@
           <div class="text-center text-2xl font-semibold mb-5">后台管理系统模板</div>
           <el-form ref="formRef" :model="loginForm" :rules="formRules">
             <el-tabs id="login-tab" v-model="activeTab" @tab-click="handleTabClick">
-              <div class="tip">同一手机号可登录牛卡福网络旗下的万金油和牛运宝等产品</div>
+              <div class="tip"></div>
               <el-tab-pane label="账号登录" name="password">
                 <el-form-item label="" prop="phone">
                   <el-input v-model="loginForm.phone" type="number" placeholder="请输入手机号">
