@@ -5,7 +5,6 @@ import App from './App.vue'
 import './assets/styles/index.scss'
 import './assets/styles/element-plus.scss'
 import './assets/styles/element-theme.scss'
-import dragDialog from './directives/dragDialog'
 
 const app = createApp(App)
 
@@ -40,4 +39,4 @@ for (const iconName in ElIconModules) {
 // const $imgcdn = 'https://'
 // app.provide('imgcdn', $imgcdn)
 
-app.use(dragDialog).use(router).use(store).mount('#app')
+app.use(router).use(store).mount('#app')

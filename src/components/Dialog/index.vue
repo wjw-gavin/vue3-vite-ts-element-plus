@@ -1,35 +1,34 @@
 <template>
-  <div v-drag-dialog>
-    <el-dialog
-      v-model="visibleRef"
-      v-bind="$attrs"
-      :title="title"
-      :append-to-body="appendToBody"
-      :close-on-click-modal="closeOnClickModal"
-      :width="width"
-      @close="dialogClose"
-    >
-      <!-- 自定义内容 -->
-      <slot name="content"></slot>
+  <el-dialog
+    v-model="visibleRef"
+    v-bind="$attrs"
+    :title="title"
+    :append-to-body="appendToBody"
+    :close-on-click-modal="closeOnClickModal"
+    :width="width"
+    draggable
+    @close="dialogClose"
+  >
+    <!-- 自定义内容 -->
+    <slot name="content"></slot>
 
-      <template v-if="!customFooterBtns" #footer>
-        <span>
-          <el-button @click="visibleRef = false">{{ cancelBtnText }}</el-button>
-          <el-button
-            v-if="clickSureBtn"
-            type="primary"
-            :disabled="disabled"
-            :loading="saveBtnLoading"
-            @click="dialogSureClick"
-          >
-            {{ saveBtnText }}
-          </el-button>
-        </span>
-      </template>
-      <!-- 显示自定义底部 -->
-      <slot v-if="customFooterBtns" name="footer"></slot>
-    </el-dialog>
-  </div>
+    <template v-if="!customFooterBtns" #footer>
+      <span>
+        <el-button @click="visibleRef = false">{{ cancelBtnText }}</el-button>
+        <el-button
+          v-if="clickSureBtn"
+          type="primary"
+          :disabled="disabled"
+          :loading="saveBtnLoading"
+          @click="dialogSureClick"
+        >
+          {{ saveBtnText }}
+        </el-button>
+      </span>
+    </template>
+    <!-- 显示自定义底部 -->
+    <slot v-if="customFooterBtns" name="footer"></slot>
+  </el-dialog>
 </template>
 
 <script lang="ts">
