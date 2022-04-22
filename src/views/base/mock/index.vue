@@ -3,6 +3,7 @@
     <el-button typ="primary" @click="InitTableList">重置列表</el-button>
     <el-table
       v-loading="loading"
+      element-loading-text="玩儿命加载中..."
       empty-text="暂无数据"
       class="mt-5 mb-5"
       :data="tableList"
