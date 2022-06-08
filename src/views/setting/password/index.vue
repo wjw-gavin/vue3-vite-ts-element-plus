@@ -32,14 +32,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from 'vue'
-import { ElForm, ElFormItem, ElInput, ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import store from '@/store'
 export default defineComponent({
-  components: {
-    ElForm,
-    ElFormItem,
-    ElInput
-  },
   setup() {
     const ruleForm: any = ref(null)
     const formData = reactive({

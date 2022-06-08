@@ -23,7 +23,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ElSubMenu, ElMenuItem } from 'element-plus'
 
 interface Route {
   id: string
@@ -33,10 +32,6 @@ interface Route {
 }
 export default defineComponent({
   name: 'MenuItem',
-  components: {
-    ElSubMenu,
-    ElMenuItem
-  },
   props: {
     menuList: {
       type: Array as PropType<Route[]>,

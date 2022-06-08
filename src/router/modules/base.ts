@@ -26,15 +26,6 @@ const statementRouter = [
       title: '角色管理-编辑',
       activePath: '/role'
     }
-  },
-  {
-    path: '/base/mock',
-    name: 'base/mock',
-    component: () => import('@/views/base/mock/index.vue'),
-    meta: {
-      title: 'mock数据',
-      activePath: '/base/mock'
-    }
   }
 ]
 

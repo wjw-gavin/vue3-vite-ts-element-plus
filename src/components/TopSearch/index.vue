@@ -114,21 +114,12 @@
  * @Description: 列表搜索项组件
  */
 import { defineComponent, computed, ref, reactive } from 'vue'
-import { ElForm, ElFormItem, ElSelect, ElOption, ElInput, ElDatePicker } from 'element-plus'
 import { useStore } from 'vuex'
 import { cloneDeep, omit, forIn } from 'lodash-es'
 import { isEmptyData } from '@/utils/validation'
 import { get } from '@/http/request'
 export default defineComponent({
   name: 'GTopSearch',
-  components: {
-    ElForm,
-    ElFormItem,
-    ElSelect,
-    ElOption,
-    ElInput,
-    ElDatePicker
-  },
   props: {
     // store模块 名称
     storeModelName: {

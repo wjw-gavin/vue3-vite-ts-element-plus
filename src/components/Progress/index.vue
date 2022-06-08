@@ -13,12 +13,8 @@
  * @Description: 进度条组件
  */
 import { defineComponent } from 'vue'
-import { ElProgress } from 'element-plus'
 export default defineComponent({
   name: 'GProgress',
-  components: {
-    ElProgress
-  },
   props: {
     // 是否启用动画效果
     percentage: {

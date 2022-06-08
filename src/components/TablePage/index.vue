@@ -246,19 +246,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { isFunction, findIndex, isEmpty, omit, includes } from 'lodash-es'
-import {
-  ElRow,
-  ElCol,
-  ElTable,
-  ElTableColumn,
-  ElDropdown,
-  ElDropdownMenu,
-  ElDropdownItem,
-  ElSelect,
-  ElOption,
-  ElMessageBox,
-  ElMessage
-} from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus'
 import { updateUrlParams } from '@/utils/utils'
 import { post } from '@/http/request'
 import privilege from '@/utils/pageType/privilege'
@@ -267,17 +255,6 @@ import getComputeds from './computed'
 import { BatchOptions, Button } from './typings'
 export default defineComponent({
   name: 'GTablePage',
-  components: {
-    ElRow,
-    ElCol,
-    ElTable,
-    ElTableColumn,
-    ElDropdown,
-    ElDropdownMenu,
-    ElDropdownItem,
-    ElSelect,
-    ElOption
-  },
   props: props,
   setup(props, { attrs }) {
     const route = useRoute()

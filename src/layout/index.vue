@@ -23,15 +23,10 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
-import { ElContainer, ElMain, ElScrollbar, ElHeader } from 'element-plus'
 import Header from './Header.vue'
 import Menu from './Menu/Menu.vue'
 export default defineComponent({
   components: {
-    ElContainer,
-    ElMain,
-    ElScrollbar,
-    ElHeader,
     Header,
     Menu
   },

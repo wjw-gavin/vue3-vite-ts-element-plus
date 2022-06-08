@@ -1,43 +1,22 @@
 <template>
   <el-select
-    v-if="!!searchKey"
     :model-value="value"
     v-bind="$attrs"
     :value-key="valueKey ? valueKey : ''"
-    filterable
-    remote
+    :filterable="!!searchKey || filterable"
+    :remote="!!searchKey"
     :clearable="clearable"
     :multiple="multiple"
     collapse-tags
     reserve-keyword
     :loading="loading"
-    :remote-method="remoteMethod"
-    :placeholder="placeholder"
     :popper-append-to-body="popperAppendToBody"
+    :placeholder="placeholder"
+    :remote-method="remoteMethod"
     @change="changeEvent"
   >
     <el-option
       v-for="option in optionList"
-      :key="option[props.key]"
-      :label="option[props.value]"
-      :value="valueKey ? option : option[props.key]"
-    />
-  </el-select>
-  <el-select
-    v-else
-    :model-value="value"
-    v-bind="$attrs"
-    :value-key="valueKey ? valueKey : ''"
-    :clearable="clearable"
-    :multiple="multiple"
-    collapse-tags
-    filterable
-    :placeholder="placeholder"
-    :popper-append-to-body="popperAppendToBody"
-    @change="changeEvent"
-  >
-    <el-option
-      v-for="option in options"
       :key="option[props.key]"
       :label="option[props.value]"
       :value="valueKey ? option : option[props.key]"
@@ -50,7 +29,6 @@
  * @Description: 下拉组件
  */
 import { defineComponent, reactive, PropType, toRefs } from 'vue'
-import { ElSelect, ElOption } from 'element-plus'
 import { get } from '@/http/request'
 interface Options {
   key: number | string
@@ -58,10 +36,6 @@ interface Options {
 }
 export default defineComponent({
   name: 'GSelect',
-  components: {
-    ElSelect,
-    ElOption
-  },
   props: {
     // 占位符
     placeholder: {
@@ -75,7 +49,7 @@ export default defineComponent({
     },
     // 如果设置了该属性，绑定值为对象
     valueKey: {
-      type: [String, Object],
+      type: String,
       default: ''
     },
     // 搜索内容的key，如果设置了该属性，会启用远程搜索

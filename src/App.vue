@@ -9,13 +9,9 @@ import { defineComponent, onMounted } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { useStore } from 'vuex'
 import { debounce } from 'lodash-es'
-import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 export default defineComponent({
-  components: {
-    ElConfigProvider
-  },
   setup() {
     const { commit } = useStore()
     const locale = zhCn

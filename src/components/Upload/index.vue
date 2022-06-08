@@ -4,7 +4,7 @@
       <li v-for="(img, index) in filePreviewList" :key="index" class="el-upload-list__item">
         <el-image
           class="image"
-          :src="img"
+          :src="(img as string)"
           fit="fill"
           style="width: 100%"
         />
@@ -44,14 +44,12 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
-import { ElUpload, ElMessage, ElLoading } from 'element-plus'
+import { defineComponent, reactive, ref, PropType } from 'vue'
+import { ElMessage, ElLoading } from 'element-plus'
+import type { UploadFile, UploadFiles } from 'element-plus'
 import { getToken } from '@/utils/auth'
 export default defineComponent({
   name: 'GUpload',
-  components: {
-    ElUpload
-  },
   props: {
     // 上传地址
     action: {
@@ -75,7 +73,7 @@ export default defineComponent({
     },
     // 文件列表的类型
     listType: {
-      type: String,
+      type: String as PropType<'text' | 'picture' | 'picture-card'>,
       default: 'picture-card'
     },
     // 是否允许上传多个
@@ -139,7 +137,7 @@ export default defineComponent({
       }
     }
     // 上传成功
-    const addEventOnSuccess = (response, file: any, fileList: any) => {
+    const addEventOnSuccess = (response: any, file: UploadFile, fileList: UploadFiles) => {
       if (response.status.code === 0) {
         if (props.uploadSuccess) {
           const item = <

@@ -21,16 +21,11 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import { ElRow, ElCol } from 'element-plus'
 import { useStore } from 'vuex'
 import { random } from 'lodash-es'
 import dayjs from 'dayjs'
 import soulSoother from '@/assets/typings/home'
 export default defineComponent({
-  components: {
-    ElRow,
-    ElCol
-  },
   setup() {
     // 首页心灵鸡汤
     const word = soulSoother[random(0, soulSoother.length - 1)]

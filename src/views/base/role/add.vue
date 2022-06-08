@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { ElForm, ElFormItem, ElInput, ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 import elv from '@/utils/elValidation'
 

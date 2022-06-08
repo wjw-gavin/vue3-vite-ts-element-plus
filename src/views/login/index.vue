@@ -74,7 +74,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs, onMounted } from 'vue'
 import { onKeyStroke } from '@vueuse/core'
-import { ElForm, ElFormItem, ElInput, ElTabs, ElTabPane, ElMessage, ElIcon } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { login } from '@/api/login'
 import { setToken } from '@/utils/auth'
 import { isPhone } from '@/utils/validation'
@@ -84,14 +84,6 @@ import router from '@/router'
 let timer: any
 
 export default defineComponent({
-  components: {
-    ElForm,
-    ElFormItem,
-    ElInput,
-    ElTabs,
-    ElTabPane,
-    ElIcon
-  },
   setup() {
     const time = ref(60)
     const codeLoading = ref(false)

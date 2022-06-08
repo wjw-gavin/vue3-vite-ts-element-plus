@@ -36,12 +36,8 @@
  * @Description: el-dialog 二次封装
  */
 import { defineComponent, watchEffect, ref } from 'vue'
-import { ElDialog } from 'element-plus'
 export default defineComponent({
   name: 'GDialog',
-  components: {
-    ElDialog
-  },
   props: {
     // 是否插入到body
     appendToBody: {

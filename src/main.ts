@@ -8,15 +8,6 @@ import './assets/styles/element-theme.scss'
 
 const app = createApp(App)
 
-import { ElButton, ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox } from 'element-plus'
-
-// element-plus 全局组件
-app.component(ElButton.name, ElButton)
-const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox]
-plugins.forEach((plugin) => {
-  app.use(plugin)
-})
-
 // 注册自定义全局组件
 const components: any = import.meta.globEager('./components/**/*.vue')
 Object.keys(components).forEach((key: string) => {
@@ -27,13 +18,11 @@ Object.keys(components).forEach((key: string) => {
   }
 })
 
-// 统一注册Icon图标
-import * as ElIconModules from '@element-plus/icons-vue'
-for (const iconName in ElIconModules) {
-  if (Reflect.has(ElIconModules, iconName)) {
-    const item = ElIconModules[iconName]
-    app.component(iconName, item)
-  }
+// 全局注册Icon图标
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
 }
 // // 全局属性
 // const $imgcdn = 'https://'

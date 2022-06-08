@@ -16,7 +16,6 @@
       >
         {{ saveBtnText }}
       </el-button>
-      <el-button v-if="onResetBtnClick" type="warning" @click="onResetBtnClick"> 重 置 </el-button>
       <el-button v-if="showBackBtn" @click="$router.back()"> 返 回 </el-button>
       <slot name="footer-btn"></slot>
     </footer>
@@ -25,20 +24,11 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import { useStore } from 'vuex'
-import { ElCard } from 'element-plus'
 export default defineComponent({
   name: 'GFormWrap',
-  components: {
-    ElCard
-  },
   props: {
     // 按钮点击事件回调
     onSaveBtnClick: {
-      type: Function,
-      default: null
-    },
-    // 重置按钮 如果有此方法则显示按钮
-    onResetBtnClick: {
       type: Function,
       default: null
     },

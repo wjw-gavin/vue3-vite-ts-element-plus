@@ -17,7 +17,6 @@
 /**
  * @Description: 分页组件
  */
-import { ElPagination } from 'element-plus'
 import { defineComponent, reactive, toRefs, onUpdated } from 'vue'
 interface OPTIONS {
   isPagination: boolean
@@ -28,9 +27,6 @@ interface OPTIONS {
 }
 export default defineComponent({
   name: 'GPagination',
-  components: {
-    ElPagination
-  },
   props: {
     total: {
       type: Number,

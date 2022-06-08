@@ -24,14 +24,7 @@
 </template>
 
 <script lang="ts">
-import {
-  ElDropdown,
-  ElDropdownMenu,
-  ElDropdownItem,
-  ElAvatar,
-  ElMessageBox,
-  ElIcon
-} from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -39,13 +32,6 @@ import { removeToken } from '@/utils/auth'
 import avatarImg from '@/assets/imgs/default-avatar.png'
 export default defineComponent({
   name: 'GHeader',
-  components: {
-    ElDropdown,
-    ElDropdownMenu,
-    ElDropdownItem,
-    ElAvatar,
-    ElIcon
-  },
   props: {
     isCollapse: {
       type: Boolean,

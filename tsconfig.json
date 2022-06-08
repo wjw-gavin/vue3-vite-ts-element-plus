@@ -13,6 +13,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
+      "element-plus/global",
       "webpack-env",
       "node"
     ],
@@ -33,7 +34,8 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "types/**/*.d.ts",
-    "types/**/*.ts"
+    "types/**/*.ts",
+    "components.d.ts"
   ],
   "exclude": [
     "node_modules",

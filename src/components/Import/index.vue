@@ -18,7 +18,7 @@
       width="600px"
       cancel-btn-text="确认"
     >
-      <template #content class="g-dialog-content">
+      <template #content>
         <el-table :data="result" border max-height="400">
           <el-table-column prop="mobile" label="手机号">
             <template #default="{ row }">
@@ -43,14 +43,10 @@
 import { defineComponent, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { ElTable, ElTableColumn, ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import importTypes from '@/utils/pageType/import'
 export default defineComponent({
   name: 'GImport',
-  components: {
-    ElTable,
-    ElTableColumn
-  },
   props: {
     // store模块 名称
     storeModelName: {

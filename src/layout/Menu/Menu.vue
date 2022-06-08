@@ -10,14 +10,11 @@
 import { defineComponent, ref, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { ElScrollbar, ElMenu } from 'element-plus'
 import MenuItem from './MenuItem.vue'
 import menus from '@/utils/menus'
 import { getMenus } from '@/api/index'
 export default defineComponent({
   components: {
-    ElScrollbar,
-    ElMenu,
     MenuItem
   },
   setup() {
