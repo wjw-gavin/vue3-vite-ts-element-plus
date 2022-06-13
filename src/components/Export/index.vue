@@ -15,10 +15,10 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { omit } from 'lodash-es'
 import { getToken } from '@/utils/auth'
-import { download } from '@/utils/utils'
+import { download } from '@/utils'
 import exportKey from '@/utils/pageType/export'
 import downKey from '@/utils/pageType/download'
-import axios from '@/http/axios'
+import request from '@/http'
 export default defineComponent({
   name: 'GExport',
   props: {
@@ -58,7 +58,7 @@ export default defineComponent({
         key = downKey[route.path]
       }
       const apiUrl = `/company/${key}/export/excel`
-      axios({
+      request({
         method: 'POST',
         url: apiUrl,
         data: postData,

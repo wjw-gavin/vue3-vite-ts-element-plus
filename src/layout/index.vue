@@ -12,7 +12,7 @@
 
     <!-- 主体内容 -->
     <el-main id="nucarf-main" :class="[isCollapse ? 'isCollapse' : '']">
-      <el-scrollbar v-if="userInfo.userId">
+      <el-scrollbar>
         <!-- 主体部分 -->
         <router-view />
       </el-scrollbar>

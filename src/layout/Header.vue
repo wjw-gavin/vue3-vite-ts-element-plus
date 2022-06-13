@@ -4,15 +4,13 @@
       <expand v-if="isCollapse" />
       <fold v-else />
     </el-icon>
-    <span class="company-name">
-      {{ userInfo.company }}
-    </span>
+    <span class="company-name"> 管理后台 </span>
   </div>
   <div class="header-right">
     <el-dropdown>
       <div class="el-dropdown-link">
         <el-avatar :src="avatar" />
-        <span class="name">{{ userInfo.userName }}</span>
+        <span class="name">{{ userInfo.name }}</span>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
@@ -24,12 +22,13 @@
 </template>
 
 <script lang="ts">
-import { ElMessageBox } from 'element-plus'
 import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { removeToken } from '@/utils/auth'
+import { clearLocal } from '@/utils/auth'
+import { messageBoxConfirm } from '@/utils'
 import avatarImg from '@/assets/imgs/default-avatar.png'
+import { logout } from '@/api/login'
 export default defineComponent({
   name: 'GHeader',
   props: {
@@ -51,11 +50,13 @@ export default defineComponent({
 
     // 退出
     const handlelogout = () => {
-      ElMessageBox.confirm('确认退出当前账户吗？').then(() => {
-        localStorage.clear()
-        sessionStorage.clear()
-        removeToken()
-        router.push('/login')
+      messageBoxConfirm({
+        message: '确认退出当前账户吗？',
+        confirm: async () => {
+          await logout()
+          clearLocal()
+          router.push('/login')
+        }
       })
     }
     return {

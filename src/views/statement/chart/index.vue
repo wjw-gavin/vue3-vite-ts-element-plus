@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue'
 import * as echarts from 'echarts'
-
+// 要按需引入，文件太大了
 const initPie = () => {
   const ele = document.getElementById('chart_pie') as HTMLElement
   const pieChart = echarts.init(ele)

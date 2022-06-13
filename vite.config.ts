@@ -4,13 +4,22 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+// import visualizer from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    // visualizer({
+    //   // 打包后自动打开分析报告
+    //   open: true
+    // }),
     AutoImport({
-      resolvers: [ElementPlusResolver()]
+      resolvers: [
+        ElementPlusResolver({
+          importStyle: 'sass'
+        })
+      ]
     }),
     Components({
       dts: true,
@@ -20,16 +29,20 @@ export default defineConfig({
           names: ['RouterLink', 'RouterView']
         }
       ],
-      resolvers: [ElementPlusResolver()],
+      resolvers: [
+        ElementPlusResolver({
+          importStyle: 'sass'
+        })
+      ],
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/]
     })
   ],
   server: {
     port: 4000,
     proxy: {
-      '/mock': {
-        target: 'http://yapi.smart-xwork.cn',
-        changeOrigin: true //是否跨域
+      '/api': {
+        target: 'http://example.xxx.com',
+        changeOrigin: true
       }
     }
   },
@@ -41,7 +54,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "src/assets/styles/var.scss" as *;`
+        additionalData: `@use "@/assets/styles/element-theme.scss" as *;`
       }
     },
     postcss: {
@@ -51,8 +64,10 @@ export default defineConfig({
   // 分割打包
   build: {
     sourcemap: false, // 开启 CSS source maps
+    // Turning off brotliSize display can slightly reduce packaging time
+    brotliSize: false,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
-      external: ['el-button', 'ElButton'],
       output: {
         // 分割打包
         manualChunks(id) {

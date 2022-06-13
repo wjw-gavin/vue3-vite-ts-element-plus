@@ -14,37 +14,43 @@
             <el-tabs id="login-tab" v-model="activeTab" @tab-click="handleTabClick">
               <div class="tip"></div>
               <el-tab-pane label="账号登录" name="password">
-                <el-form-item label="" prop="phone">
-                  <el-input v-model="loginForm.phone" type="number" placeholder="请输入手机号">
+                <el-form-item label="" prop="mobile">
+                  <el-input v-model="loginForm.mobile" type="number" placeholder="请输入手机号">
                     <template #prefix>
-                      <el-icon><iphone /></el-icon>
+                      <el-icon :size="22"><iphone /></el-icon>
                     </template>
                   </el-input>
                 </el-form-item>
                 <el-form-item v-if="activeTab === 'password'" prop="password">
-                  <el-input v-model="loginForm.password" type="password" placeholder="请输入密码">
+                  <el-input
+                    v-model="loginForm.password"
+                    type="password"
+                    show-password
+                    placeholder="请输入密码"
+                  >
                     <template #prefix>
-                      <el-icon><lock /></el-icon>
+                      <el-icon :size="22"><lock /></el-icon>
                     </template>
                   </el-input>
                 </el-form-item>
               </el-tab-pane>
               <el-tab-pane label="验证码登录" name="code">
-                <el-form-item label="" prop="phone">
-                  <el-input v-model="loginForm.phone" placeholder="请输入手机号">
+                <el-form-item label="" prop="mobile">
+                  <el-input v-model="loginForm.mobile" placeholder="请输入手机号">
                     <template #prefix>
-                      <el-icon><iphone /></el-icon>
+                      <el-icon :size="22"><iphone /></el-icon>
                     </template>
                   </el-input>
                 </el-form-item>
                 <el-form-item v-if="activeTab === 'code'" prop="code" class="code-item">
                   <el-input v-model="loginForm.code" maxlength="6" placeholder="请输入验证码">
                     <template #prefix>
-                      <el-icon><discount /></el-icon>
+                      <el-icon :size="22"><discount /></el-icon>
                     </template>
                   </el-input>
                   <el-button
-                    type="text"
+                    link
+                    type="primary"
                     :loading="codeLoading"
                     :class="{ disabled: codeText !== '获取验证码' && codeText !== '重新发送' }"
                     @click="handleCode"
@@ -73,6 +79,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs, onMounted } from 'vue'
+import type { FormRules } from 'element-plus'
 import { onKeyStroke } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
 import { login } from '@/api/login'
@@ -90,16 +97,16 @@ export default defineComponent({
     const loginLoading = ref(false)
     const activeTab = ref('password')
     const codeText = ref('获取验证码')
-    const formRef = ref<any>(null)
+    const formRef = ref()
     const form = reactive({
       loginForm: {
-        phone: '',
+        mobile: '',
         code: '',
         password: ''
       }
     })
-    const formRules = reactive({
-      phone: [{ required: true, validator: elv.isPhone(), trigger: 'blur' }],
+    const formRules = reactive<FormRules>({
+      mobile: [{ required: true, validator: elv.isPhone(), trigger: 'blur' }],
       password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
       code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
     })
@@ -121,11 +128,11 @@ export default defineComponent({
     const handleCode = () => {
       if (!(codeText.value === '获取验证码' || codeText.value === '重新发送')) return
 
-      if (form.loginForm.phone === '') {
+      if (form.loginForm.mobile === '') {
         ElMessage.error('请输入手机号')
         return
       }
-      if (!isPhone(form.loginForm.phone)) return
+      if (!isPhone(form.loginForm.mobile)) return
       codeLoading.value = true
       codeText.value = time.value + 's'
       timer = setInterval(() => {
@@ -157,11 +164,8 @@ export default defineComponent({
             .then((res) => {
               setToken(res.token)
               loginLoading.value = false
-              store.commit('user/updateUserInfo', {
-                userId: res.userId,
-                userName: res.name
-              })
-              router.push('/home')
+              store.commit('user/updateUserInfo', res.user)
+              router.push('/dashboard')
             })
             .catch(() => {
               loginLoading.value = false
@@ -310,7 +314,7 @@ export default defineComponent({
     }
 
     .el-input__inner {
-      padding-left: 45px;
+      padding-left: 20px;
     }
   }
 }
@@ -323,8 +327,8 @@ export default defineComponent({
     flex-wrap: nowrap;
   }
 
-  .el-input__inner {
-    border: 0;
+  .el-input__wrapper {
+    box-shadow: none;
     height: 58px;
     line-height: 58px;
   }

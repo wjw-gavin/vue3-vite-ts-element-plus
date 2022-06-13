@@ -1,5 +1,5 @@
-import { get } from '@/http/request'
+import { get } from '@/http'
 
-export function getUserInfo() {
-  return get('/user/info')
+export function getUserInfo(id: number) {
+  return get(`/user/${id}`)
 }

@@ -1,27 +1,23 @@
 import { getUserInfo } from '@/api/user'
-import { USER } from '../typings'
+import { USER } from '../types'
+const localUser = localStorage.getItem('user')
 const state = {
   // 用户信息
-  userInfo: {}
+  userInfo: localUser ? JSON.parse(localUser) : {}
 }
 
 const mutations = {
   // 更新用户信息
   updateUserInfo(state, payload) {
     state.userInfo = Object.assign({}, state.userInfo, payload)
+    localStorage.setItem('user', JSON.stringify(state.userInfo))
   }
 }
 
 const actions = {
-  getUserInfo: async ({ commit }) => {
-    const data: any = await getUserInfo()
-    const result = <USER>{
-      userId: data.userId,
-      userName: data.name,
-      phone: data.phone,
-      company: data.company
-    }
-    commit('updateUserInfo', result)
+  getUserInfo: async ({ state, commit }) => {
+    const data: USER = await getUserInfo(state.userInfo.id)
+    commit('updateUserInfo', data)
   }
 }
 

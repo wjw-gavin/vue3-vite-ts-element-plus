@@ -3,8 +3,7 @@ import router from './router'
 import store from './store'
 import App from './App.vue'
 import './assets/styles/index.scss'
-import './assets/styles/element-plus.scss'
-import './assets/styles/element-theme.scss'
+import '@/assets/styles/element-plus.scss'
 
 const app = createApp(App)
 

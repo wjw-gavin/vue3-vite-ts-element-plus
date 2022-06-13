@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { goPage } from '@/utils/utils'
+import { goPage } from '@/utils'
 
 const storeModelName = 'roleModule'
 const tableOperation = reactive({

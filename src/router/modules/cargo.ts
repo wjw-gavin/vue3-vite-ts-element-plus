@@ -1,5 +1,5 @@
 // 账户管理 路由
-const statementRouter = [
+const cargoRouter = [
   {
     path: '/statement/chart',
     name: 'statement/chart',
@@ -11,4 +11,4 @@ const statementRouter = [
   }
 ]
 
-export default statementRouter
+export default cargoRouter

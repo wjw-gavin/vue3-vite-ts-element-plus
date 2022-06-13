@@ -15,7 +15,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const goHome = () => {
-      router.push('/home')
+      router.push('/dashboard')
     }
 
     return {

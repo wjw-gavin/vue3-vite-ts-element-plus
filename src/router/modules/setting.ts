@@ -1,4 +1,3 @@
-// 账户管理 路由
 const settingRouter = [
   {
     path: '/set/password',

@@ -1,30 +1,34 @@
 // base_information; children -> role | mock 对应后台返回菜单的 id
 const menus = {
-  home: {
+  dashboard: {
     name: '首页',
     icon: 'icon-xshouye',
-    path: '/home'
+    path: '/dashboard'
   },
-  base_information: {
-    name: '基础信息管理',
+  user_manage: {
+    name: '用户管理',
     icon: 'icon-zhanghuguanli',
     children: {
-      role: {
-        name: '角色管理',
-        path: '/role'
+      user: {
+        name: '用户列表',
+        path: '/user'
       },
-      mock: {
-        name: 'mock数据',
-        path: '/base/mock'
+      feedback: {
+        name: '用户列表',
+        path: '/feedback'
       }
     }
   },
-  statement: {
-    name: '报表管理',
+  cargo_manage: {
+    name: '货源管理',
     icon: 'icon-yunyingzhongxin',
     children: {
-      chart: {
-        name: '图表管理',
+      cargo: {
+        name: '货源信息',
+        path: '/statement/chart'
+      },
+      to_be_confirmed: {
+        name: '待确认货源信息',
         path: '/statement/chart'
       }
     }

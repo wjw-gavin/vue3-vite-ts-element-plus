@@ -2,6 +2,11 @@ import { cloneDeep, assign } from 'lodash-es'
 import { LocationQueryRaw } from 'vue-router'
 import router from '@/router'
 
+import { ElMessageBox, ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message-box.css'
+import 'element-plus/theme-chalk/el-message.css'
+import { IMessageBox } from './types'
+
 /**
  * @Description: 根据地址下载文件
  * @param : href  下载链接
@@ -37,5 +42,35 @@ export function goPage(path = '/', query?: LocationQueryRaw) {
   router.push({
     path: path,
     query: query
+  })
+}
+/**
+ * @Description: ElMessage，不用每次都手动导入 el 组件和 scss 文件
+ * @param: { message } 提示信息
+ * @param : { confirm } 点击确定回调
+ */
+export function message(
+  message: string,
+  type?: 'success' | 'warning' | 'info' | 'error',
+  duration?: number
+) {
+  ElMessage({
+    message: message,
+    type: type || 'error',
+    duration: duration
+  })
+}
+/**
+ * @Description: ElMessageBox.confirm
+ * 为什么不直接用？因为官方 ElMessageBox.confirm 弹出后确认按钮会自动 focus 状态误认为不可点击
+ * https://github.com/element-plus/element-plus/issues/6773
+ */
+export function messageBoxConfirm(option: IMessageBox) {
+  ElMessageBox({
+    title: option.title || '提示',
+    message: option.message,
+    showCancelButton: option.showCancelButton || true
+  }).then(() => {
+    option.confirm && option.confirm()
   })
 }

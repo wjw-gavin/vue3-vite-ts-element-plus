@@ -1,4 +1,5 @@
-import { get } from '@/http/request'
+import { get } from '@/http'
+import { cloneDeep, omit, assign } from 'lodash-es'
 
 // 菜单
 export function getMenus() {
@@ -17,5 +18,19 @@ export function getSearchData(type: string) {
 
 // 列表
 export function getTableData(url: string, params: any) {
-  return get(url, params)
+  let paramsData = {}
+  if (params && params.page && params.pageSize) {
+    const data = cloneDeep(params)
+    const pager = {
+      page: data.page,
+      pageSize: data.pageSize
+    }
+    const pagerParams = { pager: JSON.stringify(pager) }
+
+    const remainderParams = omit(data, ['page', 'pageSize', 'options'])
+    paramsData = assign(pagerParams, data.options, remainderParams)
+  } else {
+    paramsData = params
+  }
+  return get(url, paramsData)
 }

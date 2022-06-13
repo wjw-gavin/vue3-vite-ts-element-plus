@@ -29,7 +29,7 @@
  * @Description: 下拉组件
  */
 import { defineComponent, reactive, PropType, toRefs } from 'vue'
-import { get } from '@/http/request'
+import { get } from '@/http'
 interface Options {
   key: number | string
   value: string

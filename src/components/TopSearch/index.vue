@@ -117,7 +117,7 @@ import { defineComponent, computed, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { cloneDeep, omit, forIn } from 'lodash-es'
 import { isEmptyData } from '@/utils/validation'
-import { get } from '@/http/request'
+import { get } from '@/http'
 export default defineComponent({
   name: 'GTopSearch',
   props: {
