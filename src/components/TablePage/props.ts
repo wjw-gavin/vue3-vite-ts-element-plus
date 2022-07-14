@@ -1,5 +1,5 @@
-import { PropType } from 'vue'
-import { BatchOptions, TableOperation } from './typings'
+import type { PropType } from 'vue'
+import type { BatchOptions, TableOperation } from './types'
 
 const props = {
   // store模块 名称
@@ -15,7 +15,7 @@ const props = {
   // 搜索label宽度
   searchLabelWidth: {
     type: String,
-    default: '90px'
+    default: ''
   },
   // 添加按钮路由路径
   addBtnLink: {

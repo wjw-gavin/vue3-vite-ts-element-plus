@@ -18,7 +18,7 @@
       v-for="option in optionList"
       :key="option[props.key]"
       :label="option[props.value]"
-      :value="valueKey ? option : option[props.key] || ''"
+      :value="valueKey ? option : option[props.key]"
     />
   </el-select>
 </template>
@@ -28,23 +28,18 @@
  * @Description: 下拉组件
  */
 import { defineComponent, reactive, PropType, toRefs } from 'vue'
-import { getItemAutocomplete } from '@/api/common'
+import { getSearchItemAutocomplete } from '@/api/common'
 interface Options {
   key: number | string
   value: string
 }
 export default defineComponent({
-  name: 'GSelect',
+  name: 'GTopSelect',
   props: {
     // 是否插入body
     popperAppendToBody: {
       type: Boolean,
       default: false
-    },
-    // 如果设置了该属性，执行请求下拉数据（不是autocomplete）
-    reload: {
-      type: String,
-      default: ''
     },
     // 如果设置了该属性，绑定值为对象
     valueKey: {
@@ -81,26 +76,29 @@ export default defineComponent({
       type: [String, Number, Object],
       default: ''
     },
-    // 默认id，name，如果是key value，传入props="{key: 'key', value: 'value'}"
+    // 选中的值(name)
+    selectValue: {
+      type: String,
+      default: ''
+    },
+    // 选中的key(id)
+    selectKey: {
+      type: String,
+      default: ''
+    },
+    // 默认key，value，如果是id name，传入props="{key: 'id', value: 'name'}"
     props: {
       type: Object,
       default: () => {
         return {
-          key: 'id',
-          value: 'name'
+          key: 'key',
+          value: 'value'
         }
       }
     }
   },
   emits: ['update:value'],
   setup(props, { emit }) {
-    // // 请求下拉数据
-    // function reloadOptions() {}
-
-    // if (props.reload) {
-    //   reloadOptions()
-    // }
-
     const select = reactive({
       loading: false,
       optionList: props.options
@@ -108,9 +106,9 @@ export default defineComponent({
     // 远程搜索
     const remoteMethod = (query: string) => {
       if (query.trim() !== '') {
-        select.loading = true
-        getItemAutocomplete(props.searchKey, { keyword: query }).then((res: any) => {
-          select.loading = false
+        // select.loading = true
+        getSearchItemAutocomplete(props.searchKey, { keyword: query }).then((res: any) => {
+          // select.loading = false
           select.optionList = res.options
         })
       } else {

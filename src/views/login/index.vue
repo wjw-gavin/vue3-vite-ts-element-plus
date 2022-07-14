@@ -1,8 +1,5 @@
 <template>
   <div class="login-wrap">
-    <div class="logo-img">
-      <img src="@/assets/imgs/default-avatar.png" alt="" />
-    </div>
     <div class="login">
       <div class="main-left_img">
         <img src="@/assets/imgs/login-bg.png" alt="" />
@@ -79,7 +76,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs, onMounted } from 'vue'
-import type { FormRules } from 'element-plus'
+import type { FormRules, FormInstance } from 'element-plus'
 import { onKeyStroke } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
 import { login } from '@/api/login'
@@ -97,7 +94,7 @@ export default defineComponent({
     const loginLoading = ref(false)
     const activeTab = ref('password')
     const codeText = ref('获取验证码')
-    const formRef = ref()
+    const formRef = ref<FormInstance>()
     const form = reactive({
       loginForm: {
         mobile: '',
@@ -143,9 +140,11 @@ export default defineComponent({
           codeText.value = '重新发送'
         }
       }, 1000)
-      ElMessage.success('验证码发送成功')
-      codeLoading.value = false
-      form.loginForm.code = '1234'
+      setTimeout(() => {
+        ElMessage.success('验证码发送成功')
+        codeLoading.value = false
+        form.loginForm.code = '1234'
+      }, 1500)
       if (timer) {
         clearInterval(timer)
         time.value = 60
@@ -156,7 +155,7 @@ export default defineComponent({
     // 触发登录
     const loginFun = () => {
       // 表单校验
-      formRef.value.validate((valid) => {
+      formRef.value?.validate((valid) => {
         if (valid) {
           // 验证通过
           loginLoading.value = true
@@ -165,7 +164,7 @@ export default defineComponent({
               setToken(res.token)
               loginLoading.value = false
               store.commit('user/updateUserInfo', res.user)
-              router.push('/dashboard')
+              router.push('/home')
             })
             .catch(() => {
               loginLoading.value = false
@@ -377,7 +376,7 @@ footer {
     font-size: 24px;
 
     &.is-active {
-      color: $text-color;
+      color: #0b1527;
     }
   }
 

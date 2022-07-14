@@ -1,4 +1,4 @@
-import { message } from '@/utils'
+import { ElMessage } from 'element-plus'
 
 export const showMessage = (status: number | string) => {
   let msg = ''
@@ -39,5 +39,5 @@ export const showMessage = (status: number | string) => {
     default:
       msg = `请求失败(${status})!`
   }
-  message(msg)
+  ElMessage.error(msg)
 }

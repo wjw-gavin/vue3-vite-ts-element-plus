@@ -4,6 +4,7 @@
       ref="searchForm"
       :model="formData"
       :inline="true"
+      label-position="top"
       :label-width="searchLabelWidth"
     >
       <template v-for="item in searchData" :key="item.id">
@@ -13,7 +14,6 @@
             :key="autocomplete.id"
             class="complex"
             :label="$index === 0 ? item.name + '：' : ''"
-            :prop="autocomplete.paramName"
           >
             <el-select
               v-model="formData[autocomplete.paramName]"
@@ -40,35 +40,35 @@
           </el-form-item>
         </template>
 
-        <el-form-item v-else :prop="item.paramName" :label="item.name + '：'">
+        <el-form-item v-else :label="item.name + '：'">
           <!-- 输入框 -->
-          <!-- @input="formatNumber(item)" -->
           <el-input
             v-if="item.type === 'text' || item.type === 'number'"
-            v-model="formData[item.paramName]"
+            v-model="formData[item.id]"
             class="search-item"
-            :name="item.paramName"
             :type="item.type"
-            :placeholder="item.hint"
+            :placeholder="'请输入' + item.hint"
             clearable
           />
           <!-- 下拉选择框 -->
-          <g-select
+          <g-top-select
             v-else-if="item.type === 'select' || item.type === 'multi_select'"
-            v-model:value="formData[item.paramName]"
+            v-model="formData[item.id]"
             class="search-item"
-            :placeholder="item.hint"
+            value-key="key"
+            :placeholder="'请选择' + item.hint"
             :multiple="item.type === 'multi_select'"
             :collapse-tags="item.type === 'multi_select'"
             :options="item.options"
           />
 
           <!-- 远程搜索选择框 -->
-          <g-select
+          <g-top-select
             v-else-if="item.type === 'auto_complete'"
-            v-model:value="formData[item.paramName]"
+            v-model="formData[item.id]"
             class="search-item"
-            :placeholder="item.hint"
+            value-key="key"
+            :placeholder="'请输入' + item.hint"
             :search-key="item.id"
             :options="item.options"
           />
@@ -76,10 +76,9 @@
           <!-- 日期选择 -->
           <el-date-picker
             v-else-if="item.type === 'date'"
-            v-model="formData[item.paramName]"
+            v-model="formData[item.id]"
             :append-to-body="false"
             class="search-item"
-            :name="item.paramName"
             type="date"
             :placeholder="'请选择' + item.hint"
             format="YYYY-MM-DD"
@@ -89,21 +88,19 @@
           <!-- 日期选择范围 -->
           <el-date-picker
             v-else-if="item.type === 'time_range' || item.type === 'date_range'"
-            v-model="formData[item.paramName]"
+            v-model="formData[item.id]"
             class="search-item"
-            :name="item.paramName"
             :type="item.type === 'time_range' ? 'datetimerange' : 'daterange'"
-            :start-placeholder="item.hint || ''"
-            :end-placeholder="item.hint || ''"
+            :start-placeholder="'请选择' + item.hint || '请选择'"
+            :end-placeholder="'请选择' + item.hint || '请选择'"
             format="YYYY-MM-DD HH:mm:ss"
             value-format="x"
             :clearable="item.defaultValue ? false : true"
           />
         </el-form-item>
       </template>
-      <el-form-item>
-        <el-button type="primary" :loading="isLoading" @click="handleSearch"> 查询 </el-button>
-        <el-button :loading="isLoading" @click="resetSearch"> 重置 </el-button>
+      <el-form-item class="search-btns">
+        <el-button type="primary" :loading="isLoading" @click="handleSearch"> 查 询 </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -116,10 +113,15 @@
 import { defineComponent, computed, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { cloneDeep, omit, forIn } from 'lodash-es'
-import { isEmptyData } from '@/utils/validation'
+import { isEmpty } from '@/utils/validation'
 import { get } from '@/http'
+import { transfromForFrontend } from '@/utils/searchTransform'
+import GTopSelect from './select.vue'
 export default defineComponent({
   name: 'GTopSearch',
+  components: {
+    GTopSelect
+  },
   props: {
     // store模块 名称
     storeModelName: {
@@ -129,7 +131,7 @@ export default defineComponent({
     // 搜索项label宽度
     searchLabelWidth: {
       type: String,
-      default: '90px'
+      default: ''
     },
     // 按钮点击事件回调
     searchClick: {
@@ -145,22 +147,24 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
     const loading = ref(false)
-    const formData: Record<string, any> = reactive({})
+
     const searchData = computed(() => {
       const data = store.state[props.storeModelName].searchData || []
-      data.forEach((item) => {
-        if (item.defaultValue) {
-          formData[item.paramName] = item.defaultValue
-        }
-      })
       return data
     })
-
-    // 限制input[number]只能输入正整数
-    // const formatNumber = (item) => {
-    //   if (item.type !== 'number') return
-    //   formData[item.paramName] = (formData[item.paramName] as string).replace(/[^\d]/g, '')
-    // }
+    // 从store取出搜索数据后，要还原回搜索组件绑定的格式
+    const condition = store.state[props.storeModelName].params.condition
+    const formData: any = reactive(transfromForFrontend(condition))
+    for (let i in formData) {
+      searchData.value.forEach((item: { type: string; id: string; options: any[]; }) => {
+        if (item.type === 'auto_complete') {
+          // 现在只有auto_complete的会有问题
+          if (item.id === i) {
+            item.options = [formData[i]]
+          }
+        }
+      })
+    }
     // 级联复合搜索
     const cascaderHandleChange = (value: any, children: any, index: number) => {
       if (index + 1 === children.length) return // 排除随后一项
@@ -185,46 +189,18 @@ export default defineComponent({
       if (props.searchClick) {
         let result = cloneDeep(formData)
         forIn(result, (val, key) => {
-          if (isEmptyData(val)) {
+          if (isEmpty(val)) {
             result = omit(result, key)
           }
         })
         props.searchClick(result)
       }
     }
-    // 重置
-    const resetSearch = () => {
-      searchData.value.forEach((item) => {
-        switch (item.type) {
-          case 'auto_complete':
-            item['options'] = []
-            formData[item.paramName] = ''
-            break
-          case 'multi_select':
-            formData[item.paramName] = []
-            break
-          default:
-            formData[item.paramName] = ''
-        }
-        if (item.defaultValue && (item.type === 'time_range' || item.type === 'date_range')) {
-          formData[item.paramName] = item.defaultValue
-        }
-      })
-      const result = {}
-      forIn(formData, (val, key) => {
-        if (!isEmptyData(val)) {
-          result[key] = val
-        }
-      })
-      props.searchClick(result)
-    }
 
     return {
       loading,
       formData,
       searchData,
-      // formatNumber,
-      resetSearch,
       handleSearch,
       cascaderHandleChange
     }
@@ -242,7 +218,7 @@ export default defineComponent({
 
   .el-form--inline .el-form-item {
     width: auto;
-
+    margin-bottom: 10px;
     &.complex {
       margin-bottom: 0;
 
@@ -268,5 +244,12 @@ export default defineComponent({
 .el-form {
   box-sizing: border-box;
   width: 100%;
+}
+.search-btns {
+  display: flex !important;
+  :deep(.el-form-item__content) {
+    display: flex;
+    align-items: flex-end;
+  }
 }
 </style>

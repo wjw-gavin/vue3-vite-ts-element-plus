@@ -22,13 +22,15 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
+import type { Loading } from '@/components/Dialog/types'
 import { useRoute, useRouter } from 'vue-router'
 import elv from '@/utils/elValidation'
 
 const route = useRoute()
 const router = useRouter()
 const isEditing = ref(false)
-const ruleForm: any = ref(null)
+const ruleForm = ref<FormInstance>()
 const formData = reactive(<
   {
     name: string
@@ -38,7 +40,7 @@ const formData = reactive(<
   name: '',
   phone: ''
 })
-const formRules = reactive({
+const formRules = reactive<FormRules>({
   name: [{ required: true, message: '请输入正确的姓名', trigger: 'blur' }],
   phone: [{ required: true, validator: elv.isPhone(), trigger: 'blur' }]
 })
@@ -54,8 +56,8 @@ if (isEditing.value) {
   getDetail()
 }
 // 保存提交
-const onSaveBtnClick = (loading) => {
-  ruleForm.value.validate((valid) => {
+const onSaveBtnClick = (loading: Loading) => {
+  ruleForm.value?.validate((valid) => {
     if (valid) {
       loading(true)
       if (isEditing.value) {

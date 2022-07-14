@@ -19,8 +19,7 @@
         >
           <el-col :span="14">
             <el-button
-              v-if="roles[pageRoleId + '_add'] && addBtnLink"
-              class="add-btn"
+              v-if="addBtnLink"
               :icon="Plus"
               type="primary"
               @click="handleTableLeftClick"
@@ -37,7 +36,7 @@
                 @change="batchChanged"
               >
                 <template v-for="item in batchOptions" :key="item.id">
-                  <el-option v-if="roles[item.role]" :label="item.label" :value="item" />
+                  <el-option :label="item.label" :value="item" />
                 </template>
               </el-select>
               <el-button
@@ -51,13 +50,19 @@
           </el-col>
           <el-col :span="10">
             <el-row
+              v-if="false"
               class="useInOrder"
               type="flex"
               justify="end"
               align="middle"
             >
               <slot name="top-btn-right"></slot>
-              <el-button v-if="roles[pageRoleId + '_import']" type="text" @click="downTemplate">
+              <el-button
+                v-if="roles[pageRoleId + '_import']"
+                link
+                type="primary"
+                @click="downTemplate"
+              >
                 下载导入模板
               </el-button>
               <!-- 导入 -->
@@ -102,7 +107,7 @@
         />
 
         <el-table-column
-          v-for="item in tableActiveHeaders"
+          v-for="item in tableHeadList"
           :key="item.prop"
           :min-width="item.width ? item.width : item.label.length * 14 + 44"
           show-overflow-tooltip
@@ -141,7 +146,7 @@
         <!-- 操作按钮 -->
         <el-table-column
           v-if="showTableOperation"
-          :fixed="tableOperation.fixed ? tableOperation.fixed : false"
+          :fixed="tableOperation.fixed ? tableOperation.fixed : 'right'"
           :width="tableOperation.width"
         >
           <template #header>
@@ -154,9 +159,9 @@
                 <template v-if="isFunction(btn)">
                   <div v-if="btn(scope).isShow" class="operation-btn-box">
                     <el-button
-                      :class="[btn(scope).type ? btn(scope).type : '']"
-                      type="text"
+                      link
                       size="small"
+                      :type="btn(scope).type ? btn(scope).type : 'primary'"
                       @click.stop="btn(scope).click(scope)"
                     >
                       {{ btn(scope).name }}
@@ -166,9 +171,9 @@
                 <div v-else class="operation-btn-box">
                   <el-button
                     v-if="btn.isShow"
-                    :class="[btn.type ? btn.type : '']"
-                    type="text"
+                    link
                     size="small"
+                    :type="btn.type ? btn.type : 'primary'"
                     @click.stop="btn.click(scope)"
                   >
                     {{ btn.name }}
@@ -189,8 +194,8 @@
                 trigger="click"
               >
                 <el-button
-                  class="default"
-                  type="text"
+                  link
+                  type="default"
                   size="small"
                   @click.stop=""
                 >
@@ -228,7 +233,7 @@
       <!-- 分页组件 -->
       <g-pagination
         :current-page="params.page"
-        :page-size="params.pageSize"
+        :page-size="params.per_page"
         :total="total"
         @current-change="handlePageChange"
         @size-change="handleSizeChange"
@@ -245,58 +250,55 @@ import { defineComponent, toRefs, ref, reactive, watch, h } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-import { isFunction, findIndex, isEmpty, omit, includes } from 'lodash-es'
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { isFunction, findIndex, includes } from 'lodash-es'
+import { ElMessageBox, ElMessage, ElTable } from 'element-plus'
 import { updateUrlParams } from '@/utils'
 import { post } from '@/http'
-import privilege from '@/utils/pageType/privilege'
+import type { BatchOptions, Button } from './types'
+import privilege from '@/utils/page/privilege'
 import props from './props'
 import getComputeds from './computed'
-import { BatchOptions, Button } from './typings'
+
 export default defineComponent({
   name: 'GTablePage',
   props: props,
-  setup(props, { attrs }) {
+  emits: { 'left-btn-click': null },
+  setup(props, { attrs, emit }) {
     const route = useRoute()
     const router = useRouter()
     const store = useStore()
+
     const computeds = reactive(getComputeds(props.storeModelName))
+
     // 默认第一条批量操作
     const batchVal = ref<BatchOptions>(props.batchOptions[0])
-    const elTableRef = ref<any>(null)
+    const elTableRef = ref<InstanceType<typeof ElTable> | null>(null)
     const nfDownloadRef = ref<any>(null)
     const isDot = ref(false)
     const pageRoleId = privilege[route.path]
     const defaultOptions = reactive({
       border: true,
-      size: 'mini',
+      size: 'small',
       selection: false,
       selectable: () => true,
-      searchLabelWidth: '90px'
+      searchLabelWidth: ''
     })
-    // 初始化
-    Object.assign(defaultOptions, attrs)
 
-    store.commit('data/updateCount', 2)
-    // 读取url页码等参数
-    const urlPrams = route.query
-    if (!isEmpty(urlPrams)) {
+    const initTable = () => {
+      Object.assign(defaultOptions, attrs)
+      store.commit('data/updateCount', 1)
+
+      // 读取url页码等参数
+      const urlPrams = route.query
       const updataParams = {
         page: urlPrams.page ? Number(urlPrams.page) : 1,
-        pageSize: urlPrams.pageSize ? Number(urlPrams.pageSize) : 10,
-        options: omit(urlPrams, ['page', 'pageSize'])
-      }
-      store.commit(`${props.storeModelName}/updateTableData`, [])
-      store.commit(`${props.storeModelName}/updateParams`, updataParams)
-    } else {
-      const updataParams = {
-        page: 1,
-        pageSize: 10,
-        options: {}
+        per_page: urlPrams.per_page ? Number(urlPrams.per_page) : 10
       }
       store.commit(`${props.storeModelName}/updateTableData`, [])
       store.commit(`${props.storeModelName}/updateParams`, updataParams)
     }
+    // 初始化表格
+    initTable()
 
     const getSearchData = () => {
       store.dispatch('data/getSearchData', props.storeModelName)
@@ -329,7 +331,7 @@ export default defineComponent({
       return ''
     }
     // 非checkbox点击高亮（可多选）
-    const rowClick = (row) => {
+    const rowClick = (row: any) => {
       if (!props.highlightClickRow) return
       if (row.rowClass) {
         row.rowClass = ''
@@ -339,20 +341,28 @@ export default defineComponent({
     }
     // 点击左侧按钮跳转
     const handleTableLeftClick = () => {
-      router.push(props.addBtnLink)
+      if (props.addBtnLink) {
+        router.push(props.addBtnLink)
+      } else {
+        emit('left-btn-click')
+      }
     }
-    const handleSelectionChange = (val) => {
+    // 多选相关
+    const handleSelectionChange = (val: any[]) => {
       const multipleSelection = val.map((item) => item[props.rowKey])
       store.commit(`${props.storeModelName}/updateSelection`, multipleSelection)
     }
-    const handleSelectionAll = (val) => {
+    const handleSelectionAll = (val: any[]) => {
       const multipleSelection = val.map((item) => item[props.rowKey])
       store.commit(`${props.storeModelName}/updateSelection`, multipleSelection)
+    }
+    const toggleRowSelection = (row: object) => {
+      elTableRef.value?.toggleRowSelection(row, false)
     }
     // 选择批量操作 重置
     const batchChanged = () => {
       store.commit(`${props.storeModelName}/updateSelection`, [])
-      elTableRef.value.clearSelection()
+      elTableRef.value?.clearSelection()
     }
     // 下载导入模板
     const downTemplate = () => {
@@ -360,14 +370,16 @@ export default defineComponent({
     }
     // 点击搜索
     const handleSearchClick = (condition) => {
-      updateUrlParams({
-        page: 3,
-        pageSize: computeds.params.pageSize
-      })
-      const query = route.query
+      updateUrlParams(
+        {
+          page: 3,
+          per_page: computeds.params.per_page
+        },
+        'search'
+      )
       const searchParams = {
         page: 1,
-        options: Object.assign(condition, omit(query, ['page', 'pageSize']))
+        condition: condition
       }
       store.commit(`${props.storeModelName}/updateTableData`, [])
       store.commit(`${props.storeModelName}/updateParams`, searchParams)
@@ -379,16 +391,16 @@ export default defineComponent({
       })
       updateUrlParams({
         page: page,
-        pageSize: computeds.params.pageSize
+        per_page: computeds.params.per_page
       })
       getTableList()
     }
     const handleSizeChange = (size: number) => {
-      const pageSize = { pageSize: size }
-      store.commit(`${props.storeModelName}/updateParams`, pageSize)
+      const perPage = { per_page: size }
+      store.commit(`${props.storeModelName}/updateParams`, perPage)
       updateUrlParams({
         page: computeds.params.page,
-        pageSize: size
+        per_page: size
       })
       getTableList()
     }
@@ -421,20 +433,20 @@ export default defineComponent({
             const total = computeds.total // 总条数
             const params = computeds.params // 请求数据的分页参数
             const length = computeds.multipleSelection.length // 删除的条数
-            const pages = Math.ceil((total - length) / (params.pageSize as number)) // 删除后，数据总页数
+            const pages = Math.ceil((total - length) / (params.per_page as number)) // 删除后，数据总页数
             let currentPage = Number(params.page) > pages ? pages : Number(params.page) // 如果当前页完全删除，跳转到上一页
             currentPage = currentPage < 1 ? 1 : currentPage
             if (Number(currentPage) !== Number(params.page)) {
               updateUrlParams({
                 page: currentPage,
-                pageSize: params.pageSize
+                per_page: params.per_page
               })
               store.commit(`${props.storeModelName}/updateParams`, {
                 page: currentPage
               })
             }
           }
-          elTableRef.value.clearSelection()
+          elTableRef.value?.clearSelection()
           getTableList()
           store.commit(`${props.storeModelName}/updateSelection`, [])
         })
@@ -443,13 +455,12 @@ export default defineComponent({
 
     watch(
       () => computeds.count,
-      (val) => {
+      (val: number) => {
         if (val === 0) {
           getTableList()
         }
       }
     )
-
     return {
       ...toRefs(computeds),
       elTableRef,
@@ -465,6 +476,7 @@ export default defineComponent({
       handleTableLeftClick,
       handleSelectionChange,
       handleSelectionAll,
+      toggleRowSelection,
       batchChanged,
       downTemplate,
       handleSearchClick,
@@ -490,10 +502,15 @@ export default defineComponent({
     background: rgb(220, 237, 220);
   }
 
-  .cell span {
-    @include ellipsis;
-
-    max-width: 100%;
+  .cell {
+    font-size: 12px;
+    span {
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 100%;
+    }
   }
 }
 
@@ -501,10 +518,6 @@ export default defineComponent({
   .el-button,
   .el-select {
     margin-bottom: 10px;
-  }
-
-  .add-btn {
-    margin-right: 10px;
   }
 }
 

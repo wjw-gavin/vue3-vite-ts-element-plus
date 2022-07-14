@@ -4,7 +4,14 @@
     add-btn-link="/role/add"
     :selection="false"
     :table-operation="tableOperation"
-  />
+  >
+    <!-- 根据tableHeadList slotName字端 动态插入 插槽 -->
+    <template v-for="item in tableHeadListSlotName" :key="item.slotName" #[item.slotName]="{ row }">
+      <span v-if="row" :class="row.count > 100 ? 'text-blue-600' : 'text-green-400'">
+        {{ row[item.prop] }}
+      </span>
+    </template>
+  </g-table-page>
 
   <div class="text-sm text-red-400 mt-4">
     <p>因不是真实接口，改变分页时，不会更新相应数据，但传参已经更新。</p>
@@ -13,22 +20,24 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-import { goPage } from '@/utils'
+import { computed } from 'vue'
+import type { TableHeadList } from '@/types/storeModule'
+import router from '@/router'
+import store from '@/store'
 
 const storeModelName = 'roleModule'
-const tableOperation = reactive({
-  width: 85,
+const tableOperation = {
+  width: 100,
   fixed: 'right',
   buttonGroups: [
     ({ row }) => {
       return {
         name: '编辑',
-        type: 'primary',
         isShow: row.acl.can_edit,
         click: ({ row }) => {
-          goPage('/role/edit', {
-            id: row.id
+          router.push({
+            path: '/role/edit',
+            query: { id: row.id }
           })
         }
       }
@@ -40,12 +49,14 @@ const tableOperation = reactive({
         isShow: row.acl.can_delete,
         click: ({ row }) => {
           console.log(row)
-
-          // const apiUrl = `/${row.id}`
-          // deleteTableRow(apiUrl, storeModelName, row)
         }
       }
     }
   ]
+}
+
+const tableHeadListSlotName = computed(() => {
+  const tableHeadList = store.state[storeModelName].tableHeadList
+  return tableHeadList.filter((item: TableHeadList) => item.slotName)
 })
 </script>

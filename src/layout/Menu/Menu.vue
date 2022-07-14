@@ -12,7 +12,7 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import MenuItem from './MenuItem.vue'
 import menus from '@/utils/menus'
-import menuData from './menu'
+import { getMenus } from '@/api/common'
 export default defineComponent({
   components: {
     MenuItem
@@ -25,7 +25,17 @@ export default defineComponent({
 
     // 获取菜单
     const getMenuList = () => {
-      menuList.value = menuData
+      getMenus().then((res: any) => {
+        const customMenus = [
+          {
+            id: 'home',
+            name: '首页',
+            children: <any>[]
+          }
+        ]
+        const result = customMenus.concat(res as any[])
+        menuList.value = result
+      })
     }
     getMenuList()
     watch(

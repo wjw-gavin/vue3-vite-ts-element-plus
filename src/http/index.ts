@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { showMessage } from './status'
-import { IResponse } from './type'
+import type { IResponse } from './type'
 import { getToken, clearLocal } from '@/utils/auth'
 
 const axiosInstance: AxiosInstance = axios.create({
@@ -84,6 +84,21 @@ export function post<T = any>(url: string, data?: any): Promise<T> {
     url,
     data,
     method: 'POST'
+  })
+}
+
+export function put<T = any>(url: string, data?: any): Promise<T> {
+  return request({
+    url,
+    data,
+    method: 'PUT'
+  })
+}
+
+export function $delete<T = any>(url: string): Promise<T> {
+  return request({
+    url,
+    method: 'DELETE'
   })
 }
 

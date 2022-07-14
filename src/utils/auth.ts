@@ -1,16 +1,16 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'X-TOKEN'
+const TokenKey = 'nToken'
 
 export function getToken(): string {
   return Cookies.get(TokenKey) || ''
 }
 
-export function setToken(token: string) {
+export function setToken(token: string): void {
   Cookies.set(TokenKey, token)
 }
 
-export function removeToken() {
+export function removeToken(): void {
   Cookies.remove(TokenKey)
 }
 

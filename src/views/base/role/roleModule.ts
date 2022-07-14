@@ -16,23 +16,20 @@ const state = {
   tableHeadList: [
     {
       label: '角色名称',
-      prop: 'name',
-      checked: 1
+      prop: 'name'
     },
     {
       label: '角色描述',
-      prop: 'description',
-      checked: 1
+      prop: 'description'
     },
     {
       label: '员工数量',
       prop: 'count',
-      checked: 1
+      slotName: 'count'
     },
     {
       label: '创建时间',
-      prop: 'create_time',
-      checked: 1
+      prop: 'create_time'
     }
   ]
 }

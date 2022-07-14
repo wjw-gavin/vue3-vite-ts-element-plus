@@ -10,8 +10,8 @@ body {
   padding: 0;
   height: 100%;
   min-width: 900px;
-  color: $text-color;
-  font-size: $font-size-sm;
+  color: #0b1527;
+  font-size: 14;
   background-color: #f2f5fb;
 }
 
@@ -51,8 +51,6 @@ ul {
   list-style: none;
 }
 
-.time-range-page {
-  .search-item {
-    width: 380px !important;
-  }
+#nprogress .bar {
+  background-color: $primary;
 }

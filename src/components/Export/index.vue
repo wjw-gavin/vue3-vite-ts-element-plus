@@ -16,8 +16,8 @@ import { useRoute } from 'vue-router'
 import { omit } from 'lodash-es'
 import { getToken } from '@/utils/auth'
 import { download } from '@/utils'
-import exportKey from '@/utils/pageType/export'
-import downKey from '@/utils/pageType/download'
+import exportKey from '@/utils/page/export'
+import downKey from '@/utils/page/download'
 import request from '@/http'
 export default defineComponent({
   name: 'GExport',
@@ -46,7 +46,7 @@ export default defineComponent({
     const exportExcel = () => {
       const title = route.meta.title as string
       let postData = {}
-      let remainderParams = omit(params, ['page', 'pageSize'])
+      let remainderParams = omit(params, ['page', 'per_page'])
       postData = Object.assign({}, { options: params.value.options }, remainderParams)
       btnOptions.loading = true
       btnOptions.type = props.btnType === 'export' ? 'default' : 'text'

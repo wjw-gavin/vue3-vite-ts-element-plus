@@ -18,20 +18,18 @@
       width="600px"
       cancel-btn-text="确认"
     >
-      <template #content>
-        <el-table :data="result" border max-height="400">
-          <el-table-column prop="mobile" label="手机号">
-            <template #default="{ row }">
-              {{ row.mobile }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="result" label="处理结果">
-            <template #default="{ row }">
-              <span :class="[row.result === '失败' ? 'error' : 'warning']">{{ row.result }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </template>
+      <el-table :data="result" border max-height="400">
+        <el-table-column prop="mobile" label="手机号">
+          <template #default="{ row }">
+            {{ row.mobile }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="result" label="处理结果">
+          <template #default="{ row }">
+            <span :class="[row.result === '失败' ? 'error' : 'warning']">{{ row.result }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
     </g-dialog>
   </div>
 </template>
@@ -44,7 +42,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import importTypes from '@/utils/pageType/import'
+import importTypes from '@/utils/page/import'
 export default defineComponent({
   name: 'GImport',
   props: {
@@ -93,7 +91,7 @@ export default defineComponent({
         })
         result = [...failUser, ...existUser]
       }
-      store.dispatch('pageData/getTableData', props.storeModelName)
+      store.dispatch('data/getTableData', props.storeModelName)
     }
     return {
       result,

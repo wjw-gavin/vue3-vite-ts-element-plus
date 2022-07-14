@@ -6,9 +6,8 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { useEventListener, useDebounceFn } from '@vueuse/core'
 import { useStore } from 'vuex'
-import { debounce } from 'lodash-es'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 export default defineComponent({
@@ -22,7 +21,7 @@ export default defineComponent({
       commit('layout/updateCollapse', clientWidth < baseWidth ? true : false)
     }
 
-    const debounceResize = debounce(resizeFun, 300)
+    const debounceResize = useDebounceFn(resizeFun, 300)
 
     onMounted(() => {
       // 视图发生变化更新菜单折叠状态

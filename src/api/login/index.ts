@@ -1,15 +1,11 @@
 import { post } from '@/http'
+import type { ILogin } from './types'
 
 enum URL {
   login = '/login',
   logout = '/logout'
 }
 
-interface ILogin {
-  mobile: number | string
-  password: string
-  code?: string
-}
 export function login(params: ILogin) {
   return post(URL.login, params)
 }

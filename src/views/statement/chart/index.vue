@@ -7,11 +7,13 @@
 </template>
 <script lang="ts" setup>
 import { onMounted } from 'vue'
-import * as echarts from 'echarts'
-// 要按需引入，文件太大了
+import * as echartsAll from 'echarts'
+import echarts from '@/plugins/echarts/line'
+import type { EChartOption, EChartType } from '@/plugins/echarts/line'
+
 const initPie = () => {
   const ele = document.getElementById('chart_pie') as HTMLElement
-  const pieChart = echarts.init(ele)
+  const pieChart = echartsAll.init(ele)
   // 绘制图表
   pieChart.setOption({
     title: {
@@ -54,9 +56,9 @@ const initPie = () => {
 }
 const initLine = () => {
   const ele = document.getElementById('chart_line') as HTMLElement
-  const lineChart = echarts.init(ele)
+  const lineChart: EChartType = echarts.init(ele)
   // 绘制图表
-  lineChart.setOption({
+  const option: EChartOption = {
     title: {
       // text: "折线图堆叠"
     },
@@ -112,11 +114,12 @@ const initLine = () => {
         data: [820, 932, 901, 934, 1290, 1330, 1320]
       }
     ]
-  })
+  }
+  lineChart.setOption(option)
 }
 const initBar = () => {
   const ele = document.getElementById('chart_bar') as HTMLElement
-  const barChart = echarts.init(ele)
+  const barChart = echartsAll.init(ele)
   // 绘制图表
   barChart.setOption({
     title: {

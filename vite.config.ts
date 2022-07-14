@@ -40,8 +40,8 @@ export default defineConfig({
   server: {
     port: 4000,
     proxy: {
-      '/api': {
-        target: 'http://example.xxx.com',
+      '/mock': {
+        target: 'http://yapi.smart-xwork.cn',
         changeOrigin: true
       }
     }
@@ -65,8 +65,8 @@ export default defineConfig({
   build: {
     sourcemap: false, // 开启 CSS source maps
     // Turning off brotliSize display can slightly reduce packaging time
-    brotliSize: false,
-    chunkSizeWarningLimit: 1000,
+    // brotliSize: false,
+    chunkSizeWarningLimit: 2000,
     rollupOptions: {
       output: {
         // 分割打包

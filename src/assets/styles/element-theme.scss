@@ -2,7 +2,7 @@
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
-      'base': #0052cc
+      'base': #062c6e
     )
   )
 );
@@ -14,20 +14,3 @@ $primary: #062c6e;
 $success: #67c23a;
 $warning: #e6a23c;
 $error: #f56c6c;
-
-/* 文字基本颜色 */
-$text-color: #0b1527; // 基本色
-
-// font
-$font-size-xl: 20px; // 特殊 大字体
-$font-size-lg: 18px; // 大标题
-$font-size-md: 16px; // 标题
-$font-size-sm: 14px; // 正文
-$font-size-xs: 12px; // 辅助文字
-
-/* mixin scss  */
-@mixin ellipsis() {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}

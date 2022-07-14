@@ -20,16 +20,16 @@ const routes: any[] = [
   {
     path: '/',
     name: 'Layout',
-    redirect: '/dashboard',
+    redirect: '/home',
     component: () => import('@/layout/index.vue'),
     children: [
       {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
+        path: '/home',
+        name: 'home',
+        component: () => import('@/views/home/index.vue'),
         meta: {
           title: '首页',
-          activePath: '/dashboard'
+          activePath: '/home'
         }
       }
     ]

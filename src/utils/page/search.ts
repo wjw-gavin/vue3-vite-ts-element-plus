@@ -7,6 +7,4 @@
 export default {
   '/invoice': 'invoiceOrderRequest', // 开具发票列表
   '/invoice/request': 'invoiceRequest' // 发票申请记录列表
-  // '/account': 'companyUser', // 发票申请记录列表
-  // '/role': 'companyRole' // 发票申请记录列表
 }

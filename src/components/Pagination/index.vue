@@ -3,11 +3,11 @@
     <el-pagination
       v-if="isPagination"
       v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
+      v-model:page-size="per_page"
       v-bind="$attrs"
       background
       :total="total"
-      :page-sizes="pageSizes"
+      :page-sizes="per_pages"
       :layout="layout"
     />
   </div>
@@ -21,8 +21,8 @@ import { defineComponent, reactive, toRefs, onUpdated } from 'vue'
 interface OPTIONS {
   isPagination: boolean
   currentPage: number
-  pageSize: number
-  pageSizes: number[]
+  per_page: number
+  per_pages: number[]
   layout: string
 }
 export default defineComponent({
@@ -37,8 +37,8 @@ export default defineComponent({
     const defaultOptions = reactive<OPTIONS>({
       isPagination: true,
       currentPage: 1,
-      pageSize: 20,
-      pageSizes: [10, 20, 30, 40, 50, 100],
+      per_page: 20,
+      per_pages: [10, 20, 30, 40, 50, 100],
       layout: 'total, sizes, prev, pager, next, jumper'
     })
 

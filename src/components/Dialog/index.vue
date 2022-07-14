@@ -10,11 +10,11 @@
     @close="dialogClose"
   >
     <!-- 自定义内容 -->
-    <slot name="content"></slot>
+    <slot></slot>
 
     <template v-if="!customFooterBtns" #footer>
       <span>
-        <el-button @click="visibleRef = false">{{ cancelBtnText }}</el-button>
+        <el-button v-if="showCancelBtn" @click="visibleRef = false">{{ cancelBtnText }}</el-button>
         <el-button
           v-if="clickSureBtn"
           type="primary"
@@ -83,6 +83,11 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    // 确认按钮文字
+    showCancelBtn: {
+      type: Boolean,
+      default: true
     },
     // 确认按钮文字
     saveBtnText: {

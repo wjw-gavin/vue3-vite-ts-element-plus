@@ -3,12 +3,12 @@ import router from './router'
 import store from './store'
 import App from './App.vue'
 import './assets/styles/index.scss'
-import '@/assets/styles/element-plus.scss'
+import './plugins/element-plus'
 
 const app = createApp(App)
 
 // 注册自定义全局组件
-const components: any = import.meta.globEager('./components/**/*.vue')
+const components: any = import.meta.globEager('./components/**/index.vue')
 Object.keys(components).forEach((key: string) => {
   const component = components[key].default
   // 如果组件内定义name 则需要全局引用的

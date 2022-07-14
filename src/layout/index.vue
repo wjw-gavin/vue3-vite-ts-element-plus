@@ -11,8 +11,8 @@
     </div>
 
     <!-- 主体内容 -->
-    <el-main id="nucarf-main" :class="[isCollapse ? 'isCollapse' : '']">
-      <el-scrollbar>
+    <el-main :class="[isCollapse ? 'isCollapse' : '']">
+      <el-scrollbar class="main-scrollbar">
         <!-- 主体部分 -->
         <router-view />
       </el-scrollbar>
@@ -95,8 +95,12 @@ export default defineComponent({
     margin-left: 64px;
   }
 
-  :deep(.el-scrollbar__view:not(.el-time-spinner__list)) {
-    padding: 10px;
+  :deep(.main-scrollbar) {
+    & > .el-scrollbar__wrap {
+      & > .el-scrollbar__view {
+        padding: 10px;
+      }
+    }
   }
 }
 </style>

@@ -1,25 +1,21 @@
 import { isArray } from 'lodash-es'
 import store from '../index'
-import api from '@/utils/pageType/api'
-import { getPrivileges, getSearchData, getTableData } from '@/api/index'
-import search from '@/utils/pageType/search' // 每个页面搜索type
+import api from '@/utils/page/api'
+import { getPrivileges, getSearchData, getTableData } from '@/api/common'
+import search from '@/utils/page/search' // 每个页面搜索type
 
 const state = {
-  count: 2 // 列表依赖搜索数据
+  count: 1 // 列表依赖搜索数据
 }
 const actions = {
-  getPrivileges: async ({ commit, state }, payload: string) => {
+  getPrivileges: async ({}, payload: string) => {
     const privileges = store.state[payload].privileges
     if (isArray(privileges) && privileges.length > 0) {
       const params = {
         privileges: privileges.join(',')
       }
       const data = await getPrivileges(params)
-      // const data = []
       store.commit(`${payload}/updateRoles`, data)
-      commit('updateCount', --state.count)
-    } else {
-      commit('updateCount', --state.count)
     }
   },
   getSearchData: async ({ commit, state }, payload: string) => {
@@ -45,12 +41,11 @@ const actions = {
     commit('updateCount', --state.count)
   },
 
-  getTableData: async ({ commit }, payload: string) => {
+  getTableData: async ({}, payload: string) => {
     store.commit(`${payload}/updateLoading`, true)
     const apiUrl = api[window.location.pathname]
     const params = store.state[payload].params
     const data: any = await getTableData(apiUrl, params)
-    commit('updateCount', --state.count)
     store.commit(`${payload}/updateLoading`, false)
     store.commit(`${payload}/updateTotal`, data.total as number)
     store.commit(`${payload}/updateTableData`, data.data ? data.data : (data as []))
