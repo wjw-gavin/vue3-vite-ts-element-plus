@@ -15,8 +15,11 @@ export default defineComponent({
     const { commit } = useStore()
     const locale = zhCn
 
+    const baseWidth = 992
+    const clientWidth = document.documentElement.clientWidth
+    commit('layout/updateCollapse', clientWidth < baseWidth ? true : false)
+
     const resizeFun = () => {
-      const baseWidth = 1000
       const clientWidth = document.documentElement.clientWidth
       commit('layout/updateCollapse', clientWidth < baseWidth ? true : false)
     }
