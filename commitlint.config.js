@@ -1,5 +1,4 @@
-/* eslint-disable comma-dangle */
-/* eslint-disable no-useless-escape */
+/** @type {import('cz-git').UserConfig} */
 module.exports = {
   ignores: [(commit) => commit.includes('init')],
   extends: ['@commitlint/config-conventional'],
@@ -55,6 +54,20 @@ module.exports = {
         'add', // 增加依赖包
         'update' // 更新依赖
       ]
+    ]
+  },
+  prompt: {
+    allowEmptyIssuePrefixs: false,
+    allowCustomIssuePrefixs: false,
+
+    // English
+    typesAppend: [
+      { value: 'wip', name: 'wip:      work in process' },
+      { value: 'workflow', name: 'workflow: workflow improvements' },
+      { value: 'types', name: 'types:    type definition file changes' },
+      { value: 'delete', name: 'delete:   delete files or packages changes' },
+      { value: 'add', name: 'add:      add files or packages changes' },
+      { value: 'update', name: 'update:   update files or packages changes' }
     ]
   }
 }
