@@ -40,15 +40,15 @@ const tableHeadListSlotName = computed(() => {
 处理了列表删除最后一页数据后，分页显示不正常的问题，
 处理了可选择列表，分页多选及删除的问题
 ```js
-  import HzTablePage from '@/components/TablePage/index.vue'
+  import GTablePage from '@/components/TablePage/index.vue'
   import { updateTableByDel } from '@/utils'
 
-  // hz-table-page 增加 ref="hzTableRef"
-  const hzTableRef = ref<InstanceType<typeof HzTablePage> | null>(null)
+  // g-table-page 增加 ref="gTableRef"
+  const gTableRef = ref<InstanceType<typeof GTablePage> | null>(null)
 
   // 删除成功后执行
   updateTableByDel({ storeModelName, row })
-  hzTableRef.value?.toggleRowSelection(row)
+  gTableRef.value?.toggleRowSelection(row)
 
   // module -> state 添加
   const state = {
