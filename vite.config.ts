@@ -65,20 +65,20 @@ export default defineConfig({
   build: {
     sourcemap: false, // 开启 CSS source maps
     // Turning off brotliSize display can slightly reduce packaging time
-    // brotliSize: false,
+    brotliSize: false,
     chunkSizeWarningLimit: 2000,
-    rollupOptions: {
-      output: {
-        // 分割打包
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            const path = id.toString().split('node_modules/')[1]
-            const name = path.split('/')[0].toString()
-            return name
-          }
-        }
-      }
-    },
+    // rollupOptions: {
+    //   output: {
+    //     // 分割打包
+    //     manualChunks(id) {
+    //       if (id.includes('node_modules')) {
+    //         const path = id.toString().split('node_modules/')[2]
+    //         const name = path.split('/')[0].toString()
+    //         return name
+    //       }
+    //     }
+    //   }
+    // },
     commonjsOptions: {
       requireReturnsDefault: 'namespace' // 要求ES模块返回其名称空间，但插件不添加标记，从而创建更高效的代码
     }
