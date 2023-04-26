@@ -9,7 +9,9 @@
     />
   </el-card>
   <el-card v-loading="loading" element-loading-text="玩命加载中...">
-    <slot name="table-top" />
+    <div class="flex justify-between mb-4">
+      <slot name="table-top" />
+    </div>
     <el-table :data="tableData" border v-bind="$attrs">
       <!-- 表格复选框 -->
       <el-table-column
@@ -67,8 +69,7 @@
             <template v-if="isFunction(btn)">
               <div v-if="btn(scope).show" class="px-2 inline-block">
                 <el-link
-                  link
-                  size="small"
+                  :underline="false"
                   :type="btn(scope).type ? btn(scope).type : 'primary'"
                   @click.stop="btn(scope).click!(scope)"
                 >
@@ -79,8 +80,7 @@
             <div v-else class="px-2 inline-block">
               <el-link
                 v-if="btn.show"
-                link
-                size="small"
+                :underline="false"
                 :type="btn.type ? btn.type : 'primary'"
                 @click.stop="btn.click!(scope)"
               >
@@ -133,8 +133,8 @@ const {
 
 let searchData: TObject = Object.assign(
   {
-    current: pager.page,
-    size: pager.pageSize
+    page: pager.page,
+    pageSize: pager.pageSize
   },
   props.tableConfig.params
 )

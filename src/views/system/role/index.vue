@@ -1,11 +1,17 @@
 <template>
-  <o-table :table-config="tableConfig" />
+  <o-table :table-config="tableConfig">
+    <template #table-top>
+      <el-button type="primary" @click="handleAdd">添加</el-button>
+    </template>
+  </o-table>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 import router from '@/router'
 import { ETable } from '@/api/common/enum'
+import { confirmBox } from '@/utils'
 import type { ITableConfig } from '@/types'
 
 const tableConfig = reactive<ITableConfig>({
@@ -43,10 +49,7 @@ const tableConfig = reactive<ITableConfig>({
         text: '编辑',
         show: true,
         click: ({ row }) => {
-          router.push({
-            path: '/role/edit',
-            query: { id: row.id }
-          })
+          router.push(`/system/role/edit/${row.id}`)
         }
       },
       // 带权限的写法
@@ -56,14 +59,21 @@ const tableConfig = reactive<ITableConfig>({
           type: 'danger',
           show: row.acl.can_edit,
           click: ({ row }) => {
-            router.push({
-              path: '/role/edit',
-              query: { id: row.id }
-            })
+            handleDelete(row.id)
           }
         }
       }
     ]
   }
 })
+
+const handleAdd = () => {
+  router.push('/system/role/add/')
+}
+
+const handleDelete = (id: number) => {
+  confirmBox(`请确认是否要删除该条数据：${id}？`).then(() => {
+    ElMessage.success('删除成功')
+  })
+}
 </script>
