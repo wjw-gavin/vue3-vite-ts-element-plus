@@ -1,3 +1,5 @@
+import 'vue-router'
+
 /**
  * path:'router-name'             跳转地址
  * name:'router-name'             如果用到<keep-alive>，必须设置该属性
@@ -37,28 +39,28 @@ const routes: any[] = [
   {
     path: '/:pathMatch(.*)*',
     name: '404',
-    component: () => import('@/views/404/404.vue'),
+    component: () => import('@/views/404/index.vue'),
     meta: {
       activePath: '/404'
     }
   }
 ]
 
-interface Route {
-  path: string
-  name: string
-  component(): any
-  meta: Record<string, string | boolean>
-}
-
-/** 当路由很多时，可以拆分成小模块 **/
-// 自动导入Modules 模块
-const routeModuleFiles = import.meta.globEager('./modules/*.ts')
+// 导入模块路由
+const routeModuleFiles = import.meta.glob('./modules/*.ts', { eager: true })
 Object.keys(routeModuleFiles).forEach((key: string) => {
-  const module = routeModuleFiles[key].default
-  module.forEach((route: Route) => {
+  const module: any = routeModuleFiles[key]
+  module.default.forEach((route: any) => {
     routes[1].children.push(route)
   })
 })
 
 export default routes
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    title?: string
+    icon?: string
+    activePath?: string
+  }
+}

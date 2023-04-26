@@ -4,11 +4,11 @@
       <div class="grid-content">
         <div class="userInfo">
           <div class="userImg">
-            <img src="@/assets/imgs/default-avatar.png" alt="" />
+            <img :src="avatar" alt="" />
           </div>
           <div class="userRight">
             <h2 class="name">
-              你好，<span>{{ userInfo.userName }}</span>
+              你好，<span>{{ user.name }}</span>
             </h2>
             <p class="loginTime">登录日期：{{ currentTime }}</p>
             <p class="userWord">{{ soulWord }}</p>
@@ -19,28 +19,21 @@
   </el-row>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
-import { useStore } from 'vuex'
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
 import { random } from 'lodash-es'
 import dayjs from 'dayjs'
+import { useUserStore } from '@/stores/user'
 import soulSoother from '@/assets/typings/home'
-export default defineComponent({
-  setup() {
-    // 首页心灵鸡汤
-    const word = soulSoother[random(0, soulSoother.length - 1)]
-    const soulWord = ref(word)
-    const currentTime = ref(dayjs().format('YYYY-MM-DD'))
+import avatar from '@/icons/avatar.svg'
 
-    const store = useStore()
+// 首页心灵鸡汤
+const word = soulSoother[random(0, soulSoother.length - 1)]
+const soulWord = ref(word)
+const currentTime = ref(dayjs().format('YYYY-MM-DD'))
 
-    return {
-      soulWord,
-      currentTime,
-      userInfo: computed(() => store.state.user.userInfo)
-    }
-  }
-})
+const userStore = useUserStore()
+const user = computed(() => userStore.user)
 </script>
 
 <style scoped lang="scss">
@@ -61,9 +54,8 @@ export default defineComponent({
   height: 100%;
 
   .userImg {
-    width: 120px;
+    width: 110px;
     min-width: 100px;
-    height: 120px;
     border-radius: 50%;
     margin-left: 40px;
     vertical-align: middle;

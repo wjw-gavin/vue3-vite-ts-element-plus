@@ -1,14 +1,12 @@
 <template>
   <el-container>
     <!-- 头部 -->
-    <el-header style="height: 50px">
-      <Header :is-collapse="isCollapse" />
+    <el-header>
+      <o-header />
     </el-header>
 
     <!-- 侧边菜单栏 -->
-    <div class="aside">
-      <Menu />
-    </div>
+    <o-menu />
 
     <!-- 主体内容 -->
     <el-main :class="[isCollapse ? 'isCollapse' : '']">
@@ -20,27 +18,19 @@
   </el-container>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useStore } from 'vuex'
-import Header from './Header.vue'
-import Menu from './Menu/Menu.vue'
-export default defineComponent({
-  components: {
-    Header,
-    Menu
-  },
-  setup() {
-    const store = useStore()
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useLayoutStore } from '@/stores/layout'
+import { useUserStore } from '@/stores/user'
+import OHeader from './Header.vue'
+import OMenu from './Menu/Menu.vue'
 
-    store.dispatch('user/getUserInfo')
+const layoutstore = useLayoutStore()
+const usestore = useUserStore()
 
-    return {
-      userInfo: computed(() => store.state['user'].userInfo),
-      isCollapse: computed(() => store.state.layout.isCollapse)
-    }
-  }
-})
+usestore.getUser()
+
+const isCollapse = computed(() => layoutstore.isCollapse)
 </script>
 
 <style scoped lang="scss">
@@ -56,7 +46,7 @@ export default defineComponent({
   align-items: center;
   justify-content: space-between;
   color: #fff;
-  background-color: #2e3759;
+  background-color: #162746;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
   p {
@@ -72,7 +62,7 @@ export default defineComponent({
   bottom: 0;
   z-index: 100;
   box-sizing: border-box;
-  background-color: #2e3759;
+  background-color: var(--el-color-primary);
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -82,7 +72,7 @@ export default defineComponent({
 
 .el-main {
   height: 100%;
-  margin-top: 50px;
+  margin-top: 60px;
   margin-left: 220px;
   padding: 0;
   overflow: hidden;

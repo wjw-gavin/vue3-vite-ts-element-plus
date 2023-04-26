@@ -1,17 +1,11 @@
-/*! @import */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* reset css */
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  min-width: 900px;
-  color: #0b1527;
-  font-size: 14;
+  min-width: 992px;
+  color: #181818;
   background-color: #f2f5fb;
 }
 
@@ -27,10 +21,6 @@ body {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
-}
-
-input[type='number'] {
-  -moz-appearance: textfield;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -52,5 +42,5 @@ ul {
 }
 
 #nprogress .bar {
-  background-color: $primary;
+  background-color: var(--el-color-primary);
 }

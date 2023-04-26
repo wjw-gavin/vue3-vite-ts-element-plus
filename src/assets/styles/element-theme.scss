@@ -2,15 +2,19 @@
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
-      'base': #062c6e
+      'base': #445ebf
+    ),
+    'success': (
+      'base': #00b578
+    ),
+    'warning': (
+      'base': #ff8f1f
+    ),
+    'danger': (
+      'base': #ff3b30
+    ),
+    'info': (
+      'base': #999999
     )
   )
 );
-
-// @use "element-plus/theme-chalk/src/index.scss" as *;
-
-/* 主题颜色 */
-$primary: #062c6e;
-$success: #67c23a;
-$warning: #e6a23c;
-$error: #f56c6c;

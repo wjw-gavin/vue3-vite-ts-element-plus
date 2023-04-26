@@ -1,160 +1,81 @@
 /**
  * 覆盖 element-plus 的某些样式
  */
-.el-message-box__content {
-  word-break: break-all;
-}
 
-.el-form--inline {
-  .el-form-item {
-    width: 250px;
+.el-form {
+  &--inline {
+    .el-form-item {
+      width: 300px;
+    }
   }
 
   .el-select,
   .el-input {
     width: 100%;
   }
-}
 
-.el-table {
-  --el-table-header-background-color: #f3f5f9;
-
-  .sort-caret.ascending {
-    top: 0;
-  }
-
-  .sort-caret.descending {
-    bottom: 0;
-  }
-
-  .caret-wrapper {
-    height: 22px;
-  }
-
-  .is-sortable .cell {
-    height: 23px;
-  }
-
-  .cell {
-    img {
-      cursor: pointer;
-      display: inline-block;
-      height: 35px;
-      max-width: 100%;
-      vertical-align: middle;
-    }
-  }
-}
-
-.el-menu--popup {
-  padding: 0;
-}
-
-.el-form.el-form--label-top {
   .el-form-item {
     .el-form-item__label {
       margin-bottom: 2px;
     }
   }
+
+  .el-date-editor {
+    .el-input__wrapper {
+      box-sizing: border-box;
+      width: 300px !important;
+    }
+  }
 }
 
-.menu-container,
-.el-menu--vertical {
-  .el-menu {
-    background-color: #2e3759;
-    color: rgba(255, 255, 255, 0.7);
+.el-menu {
+  .el-menu-item,
+  .el-sub-menu__title {
+    height: 50px;
+    line-height: 50px;
+  }
 
-    .el-menu-item,
-    .el-sub-menu__title {
-      height: 50px;
-      line-height: 50px;
-    }
-
-    .el-sub-menu__title {
-      color: rgba(255, 255, 255, 0.7);
-
-      &:hover {
-        background-color: #242d4d;
-      }
-
-      i {
-        color: rgba(255, 255, 255, 0.7);
-        transition: color 0.3s;
-      }
-    }
-
-    .el-submenu.hz-submenu.is-active {
-      & > .el-sub-menu__title {
-        color: #fff;
-
-        i {
-          color: #fff;
+  &--collapse {
+    .el-sub-menu {
+      &.is-active {
+        background-color: #ecf5ff;
+        .el-icon {
+          color: var(--el-color-primary);
         }
       }
     }
+  }
 
-    .el-menu-item {
-      background-color: #2e3759;
-      color: rgba(255, 255, 255, 0.7);
+  .el-menu-item {
+    &.is-active {
+      background-color: #ecf5ff;
+    }
 
-      i {
-        color: rgba(255, 255, 255, 0.7);
-        transition: color 0.3s;
-      }
-
-      &.is-active {
-        color: rgba(255, 255, 255, 0.7);
-        // background-color: $primary;
-        background-color: #07f;
-      }
-
-      &:not(.is-active):hover {
-        outline: 0;
-        background-color: #242d4d;
-      }
+    &:not(.is-active):hover {
+      background-color: #ecf5ff;
     }
   }
 }
 
-.el-menu--collapse {
-  width: 62px;
-}
+.el-table {
+  --el-table-header-bg-color: #fafafa;
 
-.el-loading-mask {
-  z-index: 1000;
-}
-
-.el-transfer-panel__item {
-  display: block;
-}
-
-.el-table-column--selection .cell {
-  height: 23px;
-
-  .el-checkbox {
-    height: 23px;
+  thead {
+    color: #333333;
+    font-weight: bold;
   }
 }
 
-.el-table--mini {
-  td,
-  th {
-    padding: 3px 0;
+.el-pagination {
+  justify-content: right;
+}
+
+.el-card {
+  &.is-always-shadow {
+    box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.05);
   }
 }
 
-.hz-table {
-  .el-table__row {
-    td:last-child {
-      .cell {
-        padding: 0 10px;
-        display: flex;
-        justify-content: flex-start;
-      }
-    }
-  }
-}
-
-.el-transfer-panel {
-  width: 240px;
+.el-dropdown-link:focus-visible {
+  outline: unset;
 }

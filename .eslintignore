@@ -1,12 +1,3 @@
-
-*.sh
-node_modules
-*.md
-*.woff
-*.ttf
-.vscode
-.idea
-dist
-/public
-.husky
-.local
+node_modules/
+dist/
+auto-imports.d.ts

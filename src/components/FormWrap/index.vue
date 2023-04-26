@@ -1,110 +1,136 @@
 <template>
-  <div class="g-form-wrap relative mb-2.5" :class="{ 'show-footer': showFooter }">
+  <div
+    class="o-form-wrap relative mb-2.5"
+    :class="{ 'show-footer': showFooter }"
+  >
     <el-card>
       <template v-if="title" #header>
-        <span>{{ title }}</span>
+        <div class="flex justify-between">
+          <span>{{ title }}</span>
+          <!--  标题右侧按钮  -->
+          <slot name="header-right" />
+        </div>
       </template>
-      <slot></slot>
+      <slot />
     </el-card>
     <!-- 如果没有按钮 默认footer不显示 -->
-    <footer v-if="showFooter" class="form-btn-warp" :class="[isCollapse ? 'collapsed' : '']">
+    <footer
+      v-if="showFooter"
+      class="form-btn-warp"
+      :class="[isCollapse ? 'collapsed' : '']"
+    >
+      <el-button v-if="showCancel" @click="$router.back()"> 返 回 </el-button>
       <el-button
-        v-if="onSaveBtnClick"
+        v-if="showConfirm"
         type="primary"
-        :loading="isLoading"
-        @click="handleSaveClick"
+        :loading="loading"
+        @click="onConfirm"
       >
-        {{ saveBtnText }}
+        {{ confirmText }}
       </el-button>
-      <el-button v-if="showBackBtn" @click="$router.back()"> 返 回 </el-button>
-      <slot name="footer-btn"></slot>
+      <slot name="footer-btn" />
     </footer>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
-import { useStore } from 'vuex'
-export default defineComponent({
-  name: 'GFormWrap',
-  props: {
-    // 按钮点击事件回调
-    onSaveBtnClick: {
-      type: Function,
-      default: null
-    },
-    // 标题文字
-    title: {
-      type: String,
-      default: ''
-    },
-    // 提交按钮文字
-    saveBtnText: {
-      type: String,
-      default: '提 交'
-    },
-    // 是否显示返回按钮
-    showBackBtn: {
-      type: Boolean,
-      default: true
-    },
-    // 是否显示按钮组
-    showFooter: {
-      type: Boolean,
-      default: true
-    }
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
+import { throttle } from 'lodash-es'
+import { useLayoutStore } from '@/stores/layout'
+
+defineOptions({
+  name: 'OFormWrap'
+})
+
+const emit = defineEmits(['confirm'])
+const props = defineProps({
+  // 标题文字
+  title: {
+    type: String,
+    default: ''
   },
-  setup(props) {
-    const { state } = useStore()
-    const isLoading = ref(false)
-
-    const handleSaveClick = () => {
-      if (props.onSaveBtnClick) {
-        props.onSaveBtnClick((loading = true) => {
-          isLoading.value = loading
-        })
-      }
-    }
-
-    return {
-      isLoading,
-      isCollapse: computed(() => state.layout.isCollapse),
-      handleSaveClick
-    }
+  // 是否显示标题右侧按钮
+  showRightBtn: {
+    type: Boolean,
+    default: true
+  },
+  // 是否显示返回按钮
+  showCancel: {
+    type: Boolean,
+    default: true
+  },
+  // 取消按钮文字
+  cancelText: {
+    type: String,
+    default: '取 消'
+  },
+  // 是否显示确认按钮
+  showConfirm: {
+    type: Boolean,
+    default: true
+  },
+  // 确认按钮文字
+  confirmText: {
+    type: String,
+    default: '提 交'
+  },
+  // 是否显示按钮组
+  showFooter: {
+    type: Boolean,
+    default: true
+  },
+  // 节流时间
+  throttleTime: {
+    type: Number,
+    default: 1000
   }
 })
+
+const store = useLayoutStore()
+const loading = ref(false)
+
+const isCollapse = computed(() => store.isCollapse)
+
+// 默认支持防连点间隔1s
+// 也可以修改时间间隔或通过loading方式实现防连点
+const onConfirm = throttle(() => {
+  if (!loading.value) {
+    emit('confirm', (value = false) => {
+      loading.value = value
+    })
+  }
+}, props.throttleTime)
 </script>
+
 <style lang="scss" scoped>
-.g-form-wrap {
+.o-form-wrap {
   &.show-footer {
     margin-bottom: 80px;
-  }
-
-  .el-card {
-    box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.05);
   }
 }
 
 .el-card {
   :deep(.el-card__header) {
     font-size: 16px;
-    color: $primary;
+    color: var(--el-color-primary);
     font-weight: 700;
+    line-height: 2em;
   }
 }
 
 .form-btn-warp {
-  width: 100%;
-  padding: 20px;
   position: fixed;
   z-index: 4;
   bottom: 0;
   right: 0;
-  background-color: #fff;
-  left: 220px;
-  transition: 0.3s ease-in-out;
+  width: 100%;
+  padding: 20px;
+  left: 230px;
   perspective: none;
+  background-color: #fff;
+  border-radius: 4px;
+  transition: 0.3s ease-in-out;
   backface-visibility: hidden;
-  box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.05);
 
   &.collapsed {
     left: 62px;

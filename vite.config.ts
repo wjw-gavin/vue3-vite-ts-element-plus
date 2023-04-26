@@ -1,44 +1,18 @@
+import { resolve } from 'node:path'
+import { URL, fileURLToPath } from 'node:url'
+import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+// @ts-expect-error
+import DefineOptions from 'unplugin-vue-define-options/vite'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
-// import visualizer from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    // visualizer({
-    //   // 打包后自动打开分析报告
-    //   open: true
-    // }),
-    AutoImport({
-      resolvers: [
-        ElementPlusResolver({
-          importStyle: 'sass'
-        })
-      ]
-    }),
-    Components({
-      dts: true,
-      types: [
-        {
-          from: 'vue-router',
-          names: ['RouterLink', 'RouterView']
-        }
-      ],
-      resolvers: [
-        ElementPlusResolver({
-          importStyle: 'sass'
-        })
-      ],
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/]
-    })
-  ],
   server: {
-    port: 4000,
     proxy: {
       '/mock': {
         target: 'http://yapi.smart-xwork.cn',
@@ -46,9 +20,28 @@ export default defineConfig({
       }
     }
   },
+  plugins: [
+    vue(),
+    UnoCSS(),
+    DefineOptions(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()]
+    }),
+    Components({
+      resolvers: [
+        ElementPlusResolver({
+          importStyle: 'sass'
+        })
+      ]
+    }),
+    createSvgIconsPlugin({
+      iconDirs: [resolve(process.cwd(), 'src/icons')],
+      inject: 'body-first'
+    })
+  ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
+      '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
   css: {
@@ -56,31 +49,18 @@ export default defineConfig({
       scss: {
         additionalData: `@use "@/assets/styles/element-theme.scss" as *;`
       }
-    },
-    postcss: {
-      plugins: [require('autoprefixer'), require('tailwindcss'), require('postcss-import')]
     }
   },
-  // 分割打包
   build: {
-    sourcemap: false, // 开启 CSS source maps
-    // Turning off brotliSize display can slightly reduce packaging time
-    brotliSize: false,
-    chunkSizeWarningLimit: 2000,
-    // rollupOptions: {
-    //   output: {
-    //     // 分割打包
-    //     manualChunks(id) {
-    //       if (id.includes('node_modules')) {
-    //         const path = id.toString().split('node_modules/')[2]
-    //         const name = path.split('/')[0].toString()
-    //         return name
-    //       }
-    //     }
-    //   }
-    // },
-    commonjsOptions: {
-      requireReturnsDefault: 'namespace' // 要求ES模块返回其名称空间，但插件不添加标记，从而创建更高效的代码
+    chunkSizeWarningLimit: 1500,
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            return 'vendor'
+          }
+        }
+      }
     }
   }
 })

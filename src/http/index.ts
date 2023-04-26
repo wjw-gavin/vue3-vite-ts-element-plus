@@ -1,106 +1,96 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios'
+import { TOOKENkEY, clearLocal, getToken } from '@/utils'
 import { showMessage } from './status'
-import type { IResponse } from './type'
-import { getToken, clearLocal } from '@/utils/auth'
 
-const axiosInstance: AxiosInstance = axios.create({
+export const axiosInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_API_BASEURL,
-  timeout: 5000
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
 })
 
 // axios实例拦截请求
 axiosInstance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config) => {
     const token = getToken()
-    if (token) {
-      if (config && config.headers) {
-        config.headers['X-TOKEN'] = token
-      }
+    if (token && config && config.headers) {
+      config.headers[TOOKENkEY] = token
     }
     return config
   },
-  (error: any) => {
+  (error) => {
     return Promise.reject(error)
   }
 )
 
 // axios实例拦截响应
 axiosInstance.interceptors.response.use(
-  (res: AxiosResponse) => {
+  (res) => {
     const { data } = res
-    const code = data.status.code
-    if (code === 0) {
-      return data.data
-    } else {
-      switch (data.status.code) {
-        case 1:
-          showMessage('缺少入口参数')
-          break
-        case 2:
-          clearLocal()
-          window.location.href = '/dashboard'
-          break
-        case 3:
-          showMessage('内部服务调用失败')
-          break
-        default:
-          showMessage(data.status.message)
-      }
-      return Promise.reject(data)
+    const { code, msg } = data.status
+    switch (code) {
+      case 0:
+        return data
+      case 401:
+        // 授权过期，重新登录
+        clearLocal()
+        window.location.href = '/login'
+        break
+      default:
+        showMessage(msg)
+        return Promise.reject(data)
     }
   },
-  // 请求失败
-  (error: any) => {
+  (error) => {
     const { response } = error
     if (response) {
-      // 请求已发出，但是不在2xx的范围
-      showMessage(response.status)
+      const status = response.status
+      showMessage(status)
       return Promise.reject(response.data)
     }
   }
 )
 
-const request = <T = any>(config: AxiosRequestConfig): Promise<T> => {
-  const conf = config
-  return new Promise((resolve) => {
-    axiosInstance
-      .request<any, AxiosResponse<IResponse>>(conf)
-      .then((res: AxiosResponse<IResponse>) => {
-        resolve(res as unknown as T)
+export const request = <ResponseType = unknown>(
+  url: string,
+  options?: AxiosRequestConfig<unknown>
+): Promise<ResponseType> => {
+  return new Promise((resolve, reject) => {
+    axiosInstance({
+      url,
+      ...options
+    })
+      .then((res) => {
+        resolve(res.data)
       })
+      .catch((err) => reject(err))
   })
 }
 
 export function get<T = any>(url: string, params?: any): Promise<T> {
-  return request({
-    url,
+  return request(url, {
     params,
     method: 'GET'
   })
 }
 
 export function post<T = any>(url: string, data?: any): Promise<T> {
-  return request({
-    url,
+  return request(url, {
     data,
     method: 'POST'
   })
 }
 
 export function put<T = any>(url: string, data?: any): Promise<T> {
-  return request({
-    url,
+  return request(url, {
     data,
     method: 'PUT'
   })
 }
 
 export function $delete<T = any>(url: string): Promise<T> {
-  return request({
-    url,
+  return request(url, {
     method: 'DELETE'
   })
 }
-
-export default request
-export type { AxiosInstance, AxiosResponse }

@@ -1,45 +1,21 @@
 {
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "noImplicitAny": false,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
     "baseUrl": ".",
-    "types": [
-      "element-plus/global",
-      "webpack-env",
-      "node"
-    ],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
+    "types": [
+      "node",
+      "webpack-env",
+      "element-plus/global",
+      "unplugin-vue-define-options/macros-global"
     ]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "types/**/*.d.ts",
-    "types/**/*.ts",
-    "components.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.js"
+  "references": [
+    {
+      "path": "./tsconfig.config.json"
+    }
   ]
 }

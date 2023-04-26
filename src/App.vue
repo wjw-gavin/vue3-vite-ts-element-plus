@@ -1,39 +1,26 @@
 <template>
-  <el-config-provider :locale="locale">
+  <el-config-provider :locale="zhCn">
     <router-view />
   </el-config-provider>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted } from 'vue'
-import { useEventListener, useDebounceFn } from '@vueuse/core'
-import { useStore } from 'vuex'
+<script lang="ts" setup>
+import { onMounted } from 'vue'
+import { useDebounceFn, useEventListener } from '@vueuse/core'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import { useLayoutStore } from '@/stores/layout'
 
-export default defineComponent({
-  setup() {
-    const { commit } = useStore()
-    const locale = zhCn
+const store = useLayoutStore()
+const baseWidth = 992
 
-    const baseWidth = 992
-    const clientWidth = document.documentElement.clientWidth
-    commit('layout/updateCollapse', clientWidth < baseWidth ? true : false)
+const resizeFun = () => {
+  const clientWidth = document.documentElement.clientWidth
+  store.updateCollapse(clientWidth < baseWidth)
+}
+const debounceResize = useDebounceFn(resizeFun, 300)
 
-    const resizeFun = () => {
-      const clientWidth = document.documentElement.clientWidth
-      commit('layout/updateCollapse', clientWidth < baseWidth ? true : false)
-    }
-
-    const debounceResize = useDebounceFn(resizeFun, 300)
-
-    onMounted(() => {
-      // 视图发生变化更新菜单折叠状态
-      useEventListener(window, 'resize', debounceResize)
-    })
-    return {
-      locale
-    }
-  }
+onMounted(() => {
+  useEventListener(window, 'resize', debounceResize)
 })
 </script>
 

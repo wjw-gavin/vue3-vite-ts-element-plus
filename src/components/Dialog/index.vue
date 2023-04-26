@@ -1,134 +1,113 @@
 <template>
   <el-dialog
-    v-model="visibleRef"
+    v-model="dialogVisible"
     v-bind="$attrs"
-    :title="title"
-    :append-to-body="appendToBody"
-    :close-on-click-modal="closeOnClickModal"
-    :width="width"
     draggable
-    @close="dialogClose"
+    :close-on-click-modal="closeOnClickModal"
   >
-    <!-- 自定义内容 -->
-    <slot></slot>
+    <slot />
 
-    <template v-if="!customFooterBtns" #footer>
-      <span>
-        <el-button v-if="showCancelBtn" @click="visibleRef = false">{{ cancelBtnText }}</el-button>
-        <el-button
-          v-if="clickSureBtn"
-          type="primary"
-          :disabled="disabled"
-          :loading="saveBtnLoading"
-          @click="dialogSureClick"
-        >
-          {{ saveBtnText }}
+    <template #footer>
+      <div>
+        <el-button v-if="showCancel" @click="onCancel">
+          {{ cancelText }}
         </el-button>
-      </span>
+        <el-button
+          v-if="showConfirm"
+          type="primary"
+          :loading="loading"
+          :disabled="disabled"
+          @click="onConfirm"
+        >
+          {{ confirmText }}
+        </el-button>
+      </div>
+      <slot name="footer" />
     </template>
-    <!-- 显示自定义底部 -->
-    <slot v-if="customFooterBtns" name="footer"></slot>
   </el-dialog>
 </template>
 
-<script lang="ts">
-/**
- * @Description: el-dialog 二次封装
- */
-import { defineComponent, watchEffect, ref } from 'vue'
-export default defineComponent({
-  name: 'GDialog',
-  props: {
-    // 是否插入到body
-    appendToBody: {
-      type: Boolean,
-      default: false
-    },
-    // 是否显示弹框
-    dialogVisible: {
-      type: Boolean,
-      default: false
-    },
-    // 标题
-    title: {
-      type: String,
-      default: '提示'
-    },
-    // 弹框宽度
-    width: {
-      type: String,
-      default: '500px'
-    },
-    // 点击遮罩隐藏
-    closeOnClickModal: {
-      type: Boolean,
-      default: false
-    },
-    // 自定义底部按钮
-    customFooterBtns: {
-      type: Boolean,
-      default: false
-    },
-    // 按钮点击事件回调
-    clickSureBtn: {
-      type: Function,
-      default: null
-    },
-    // 按钮点击事件回调
-    closeDialog: {
-      type: Function,
-      default: null
-    },
-    // 是否可点击
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    // 确认按钮文字
-    showCancelBtn: {
-      type: Boolean,
-      default: true
-    },
-    // 确认按钮文字
-    saveBtnText: {
-      type: String,
-      default: '确 认'
-    },
-    // 关闭按钮文字
-    cancelBtnText: {
-      type: String,
-      default: '取 消'
-    }
+<script lang="ts" setup>
+import { throttle } from 'lodash-es'
+import { computed, ref } from 'vue'
+
+defineOptions({
+  name: 'ODialog'
+})
+
+const props = defineProps({
+  // 是否显示弹框
+  modelValue: {
+    type: Boolean,
+    default: false
   },
-  emits: ['update:dialogVisible'],
-  setup(props, { emit }) {
-    const saveBtnLoading = ref(false)
-    const visibleRef = ref(false)
-    const dialogSureClick = () => {
-      if (props.clickSureBtn) {
-        props.clickSureBtn((loading = false) => {
-          saveBtnLoading.value = loading
-        })
-      }
-    }
-    const dialogClose = () => {
-      // 关闭弹框回调（嵌套有用）
-      if (props.closeDialog) {
-        props.closeDialog()
-      } else {
-        saveBtnLoading.value = false
-        emit('update:dialogVisible', false)
-      }
-    }
-    watchEffect(() => {
-      visibleRef.value = props.dialogVisible
-    })
-    return {
-      saveBtnLoading,
-      visibleRef,
-      dialogSureClick,
-      dialogClose
-    }
+  // 点击遮罩隐藏
+  closeOnClickModal: {
+    type: Boolean,
+    default: false
+  },
+  // 自定义底部按钮
+  customFooter: {
+    type: Boolean,
+    default: false
+  },
+  // 不可点击
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  // 节流时间
+  throttleTime: {
+    type: Number,
+    default: 1000
+  },
+  // 是否显示取消按钮
+  showCancel: {
+    type: Boolean,
+    default: true
+  },
+  // 取消按钮文字
+  cancelText: {
+    type: String,
+    default: '取 消'
+  },
+  // 是否显示确认按钮
+  showConfirm: {
+    type: Boolean,
+    default: true
+  },
+  // 确认按钮文字
+  confirmText: {
+    type: String,
+    default: '确 认'
   }
 })
+
+const emit = defineEmits(['update:modelValue', 'confirm', 'cancel'])
+
+const loading = ref(false)
+
+const dialogVisible = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
+
+// 默认支持防连点间隔1s
+// 也可以修改时间间隔或通过loading方式实现防连点
+const onConfirm = throttle(() => {
+  if (!loading.value) {
+    emit('confirm', (value = false) => {
+      loading.value = value
+    })
+  }
+}, props.throttleTime)
+
+const onCancel = () => {
+  emit('cancel')
+  emit('update:modelValue', false)
+}
 </script>

@@ -6,12 +6,6 @@ export const showMessage = (status: number | string) => {
     case 400:
       msg = '请求错误(400)'
       break
-    case 401:
-      msg = '未授权，请重新登录(401)'
-      break
-    case 403:
-      msg = '拒绝访问(403)'
-      break
     case 404:
       msg = '请求出错(404)'
       break
@@ -37,7 +31,7 @@ export const showMessage = (status: number | string) => {
       msg = 'HTTP版本不受支持(505)'
       break
     default:
-      msg = `请求失败(${status})!`
+      msg = `${status || '请求失败'}!`
   }
   ElMessage.error(msg)
 }
