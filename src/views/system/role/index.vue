@@ -15,7 +15,7 @@ import { confirmBox } from '@/utils'
 import type { ITableConfig } from '@/types'
 
 const tableConfig = reactive<ITableConfig>({
-  api: ETable.getOrderList,
+  api: ETable.getRoleList,
   headers: [
     {
       prop: 'name',

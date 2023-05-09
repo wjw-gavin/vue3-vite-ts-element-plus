@@ -49,6 +49,6 @@ function inputLimitDirective(app: App) {
 }
 
 export function directives(app: App) {
-  // 鉴权指令
+  // 注册指令
   focusDirective(app), inputLimitDirective(app)
 }
