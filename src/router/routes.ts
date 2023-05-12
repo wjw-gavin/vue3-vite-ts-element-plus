@@ -1,4 +1,13 @@
 import 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    title?: string
+    icon?: string
+    activePath?: string
+  }
+}
 
 /**
  * path:'router-name'             跳转地址
@@ -10,7 +19,7 @@ import 'vue-router'
   }
  */
 
-const routes: any[] = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
@@ -50,17 +59,9 @@ const routes: any[] = [
 const routeModuleFiles = import.meta.glob('./modules/*.ts', { eager: true })
 Object.keys(routeModuleFiles).forEach((key: string) => {
   const module: any = routeModuleFiles[key]
-  module.default.forEach((route: any) => {
-    routes[1].children.push(route)
+  module.default.forEach((route: RouteRecordRaw) => {
+    routes[1].children!.push(route)
   })
 })
 
 export default routes
-
-declare module 'vue-router' {
-  interface RouteMeta {
-    title?: string
-    icon?: string
-    activePath?: string
-  }
-}
