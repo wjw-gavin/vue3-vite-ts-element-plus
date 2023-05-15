@@ -66,7 +66,7 @@
         />
       </el-form-item>
     </template>
-    <div class="mt-23px">
+    <div class="mt-7.5">
       <el-button @click="resetForm(myFormRef)">重置</el-button>
       <el-button type="primary" @click="submitForm"> 查询 </el-button>
     </div>
