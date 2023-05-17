@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import { setUrlParams } from '@/utils'
 
 interface IPaginationData {
   total: number
@@ -21,12 +22,20 @@ export function usePagination(_paginationData: Partial<IPaginationData> = {}) {
     Object.assign({ ...defaultPaginationData }, _paginationData)
   )
 
-  const handleCurrentChange = (value: number) => {
-    pagination.page = value
+  const handleCurrentChange = (page: number) => {
+    pagination.page = page
+    setUrlParams({
+      page,
+      pageSize: pagination.pageSize
+    })
   }
 
-  const handleSizeChange = (value: number) => {
-    pagination.pageSize = value
+  const handleSizeChange = (pageSize: number) => {
+    pagination.pageSize = pageSize
+    setUrlParams({
+      page: pagination.page,
+      pageSize
+    })
   }
 
   return { pagination, handleCurrentChange, handleSizeChange }

@@ -108,6 +108,7 @@
 <script lang="ts" setup>
 import { type PropType, watch } from 'vue'
 import { isFunction } from 'native-lodash'
+import { useRoute } from 'vue-router'
 import { usePagination, useTable } from '@/hooks'
 import { getTableData } from '@/api/common'
 import type { ITableConfig, TObject } from '@/types'
@@ -125,21 +126,26 @@ const props = defineProps({
   }
 })
 
-const {
-  pagination: pager,
-  handleSizeChange,
-  handleCurrentChange
-} = usePagination()
+const { pagination: pager } = usePagination()
 
+const route = useRoute()
+const query = route.query
 let searchData: TObject = Object.assign(
   {
-    page: pager.page,
-    pageSize: pager.pageSize
+    current: Number(query.page) || pager.page,
+    size: Number(query.pageSize) || pager.pageSize
   },
   props.tableConfig.params
 )
 
-const { pagination, tableData, loading, loadData } = useTable(getTableData, {
+const {
+  loading,
+  tableData,
+  pagination,
+  loadData,
+  handleSizeChange,
+  handleCurrentChange
+} = useTable(getTableData, {
   api: props.tableConfig.api,
   params: searchData
 })
@@ -149,5 +155,12 @@ const submitSearch = (search: TObject) => {
   loadData(searchData)
 }
 
-watch([() => pagination.page, () => pagination.pageSize], loadData)
+watch([() => pagination.page, () => pagination.pageSize], () =>
+  loadData(
+    Object.assign(searchData, {
+      current: pagination.page,
+      size: pagination.pageSize
+    })
+  )
+)
 </script>

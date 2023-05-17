@@ -27,6 +27,10 @@ export function useTable<
   const { pagination, handleCurrentChange, handleSizeChange } = usePagination()
 
   const loadData = async (_params?: any) => {
+    // 更新分页组件
+    pagination.page = _params.page
+    pagination.pageSize = _params.pageSize
+
     if (process.env.NODE_ENV !== 'production' && !api) {
       console.error('请求 url 为空')
       return
@@ -48,8 +52,8 @@ export function useTable<
   }
 
   return {
-    tableData,
     loading,
+    tableData,
     pagination,
     loadData,
     handleSizeChange,
