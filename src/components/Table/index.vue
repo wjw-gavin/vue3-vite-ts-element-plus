@@ -132,8 +132,8 @@ const route = useRoute()
 const query = route.query
 let searchData: TObject = Object.assign(
   {
-    current: Number(query.page) || pager.page,
-    size: Number(query.pageSize) || pager.pageSize
+    page: Number(query.page) || pager.page,
+    pageSize: Number(query.pageSize) || pager.pageSize
   },
   props.tableConfig.params
 )
@@ -151,15 +151,21 @@ const {
 })
 
 const submitSearch = (search: TObject) => {
-  searchData = Object.assign(search, props.tableConfig.params)
+  searchData = {
+    page: 1,
+    pageSize: pagination.pageSize,
+    ...props.tableConfig.params,
+    ...search
+  }
+
   loadData(searchData)
 }
 
 watch([() => pagination.page, () => pagination.pageSize], () =>
   loadData(
     Object.assign(searchData, {
-      current: pagination.page,
-      size: pagination.pageSize
+      page: pagination.page,
+      pageSize: pagination.pageSize
     })
   )
 )

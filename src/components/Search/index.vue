@@ -3,7 +3,7 @@
     <template v-for="item in searchItems" :key="item.prop">
       <!--------------------------- 时间区间 --------------------->
       <template v-if="item.type === 'dateRange'">
-        <el-form-item :prop="item.prop[0]" :label="item.name[0]">
+        <el-form-item :prop="item.prop[0]" :label="item.label[0]">
           <el-date-picker
             v-model="myForm[item.prop[0]]"
             :type="item.subType || 'date'"
@@ -13,7 +13,7 @@
             :value-format="item.format ? item.format : 'yyyy-MM-dd HH:mm:ss'"
           />
         </el-form-item>
-        <el-form-item :prop="item.prop[1]" :label="item.name[1]">
+        <el-form-item :prop="item.prop[1]" :label="item.label[1]">
           <el-date-picker
             v-model="myForm[item.prop[1]]"
             :type="item.subType || 'date'"
@@ -25,13 +25,13 @@
         </el-form-item>
       </template>
       <!------------------ 单个表单项 --------------------->
-      <el-form-item v-else :prop="item.prop" :label="(item.name as string)">
+      <el-form-item v-else :prop="item.prop" :label="(item.label as string)">
         <!-- 基础输入框 -->
         <el-input
           v-if="item.type === 'text'"
           v-model="myForm[item.prop as string]"
           clearable
-          :placeholder="getPlaceHolder(item.placeholder)"
+          :placeholder="item.placeholder as string || '请输入' + item.label"
         />
 
         <!-- 下拉选择框 -->
@@ -168,6 +168,7 @@ export default defineComponent({
 
     const resetForm = (formEl: FormInstance | undefined) => {
       formEl?.resetFields()
+      submitForm()
     }
 
     const remoteMethod = (query: string, item: ISearchItem) => {
