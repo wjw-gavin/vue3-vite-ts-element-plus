@@ -37,7 +37,7 @@ const tableConfig = reactive<ITableConfig>({
   searchItems: [
     {
       type: 'text',
-      name: '名称',
+      label: '名称',
       prop: 'role_name'
     }
   ],

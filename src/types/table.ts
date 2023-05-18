@@ -29,7 +29,7 @@ export interface ITableHead {
 
 export interface ISearchItem {
   /** 搜索项名称 */
-  name: string[] | string
+  label: string[] | string
 
   /** 表单类型 */
   type: ISearchItemType
