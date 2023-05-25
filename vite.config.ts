@@ -5,8 +5,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-// @ts-expect-error
-import DefineOptions from 'unplugin-vue-define-options/vite'
+// import DefineOptions from 'unplugin-vue-define-options/vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
@@ -23,7 +22,7 @@ export default defineConfig({
   plugins: [
     vue(),
     UnoCSS(),
-    DefineOptions(),
+    // DefineOptions(),
     AutoImport({
       resolvers: [ElementPlusResolver()]
     }),

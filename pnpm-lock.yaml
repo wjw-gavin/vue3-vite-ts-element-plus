@@ -102,9 +102,6 @@ devDependencies:
   unplugin-vue-components:
     specifier: ^0.24.1
     version: 0.24.1(vue@3.3.4)
-  unplugin-vue-define-options:
-    specifier: ^1.3.6
-    version: 1.3.6(vue@3.3.4)
   vite:
     specifier: ^4.3.8
     version: 4.3.8(@types/node@18.16.14)(sass@1.62.1)
@@ -1466,25 +1463,6 @@ packages:
       typescript: 5.0.4
     dev: true
 
-  /@vue-macros/common@1.3.2(vue@3.3.4):
-    resolution: {integrity: sha512-D/hNU0+0HPGFpGf1TO2eKpBKVFTIsHMjzu7/IXe9+hz0TY+WJOGtnlpJyMWFWnM56mXvBOMiQ74zW8MTFlbMMQ==}
-    engines: {node: '>=16.14.0'}
-    peerDependencies:
-      vue: ^2.7.0 || ^3.2.25
-    peerDependenciesMeta:
-      vue:
-        optional: true
-    dependencies:
-      '@babel/types': 7.21.5
-      '@rollup/pluginutils': 5.0.2
-      '@vue/compiler-sfc': 3.3.4
-      local-pkg: 0.4.3
-      magic-string-ast: 0.1.2
-      vue: 3.3.4
-    transitivePeerDependencies:
-      - rollup
-    dev: true
-
   /@vue/compiler-core@3.3.4:
     resolution: {integrity: sha512-cquyDNvZ6jTbf/+x+AgM2Arrp6G4Dzbb0R64jiG804HRMfRiFXWI6kqUVqZ6ZR0bQhIoQjB4+2bhNtVwndW15g==}
     dependencies:
@@ -1794,14 +1772,6 @@ packages:
   /assign-symbols@1.0.0:
     resolution: {integrity: sha512-Q+JC7Whu8HhmTdBph/Tq59IoRtoy6KAm5zzPv00WdujX82lbAL8K7WVjne7vdCsAmbF4AYaDOPyO3k0kl8qIrw==}
     engines: {node: '>=0.10.0'}
-    dev: true
-
-  /ast-walker-scope@0.4.1:
-    resolution: {integrity: sha512-Ro3nmapMxi/remlJdzFH0tiA7A59KDbxVoLlKWaLDrPELiftb9b8w+CCyWRM+sXZH5KHRAgv8feedW6mihvCHA==}
-    engines: {node: '>=14.19.0'}
-    dependencies:
-      '@babel/parser': 7.21.9
-      '@babel/types': 7.21.5
     dev: true
 
   /async-validator@4.2.5:
@@ -4223,13 +4193,6 @@ packages:
       yallist: 4.0.0
     dev: true
 
-  /magic-string-ast@0.1.2:
-    resolution: {integrity: sha512-P53AZrzq7hclCU6HWj88xNZHmP15DKjMmK/vBytO1qnpYP3ul4IEZlyCE0aU3JRnmgWmZPmoTKj4Bls7v0pMyA==}
-    engines: {node: '>=14.19.0'}
-    dependencies:
-      magic-string: 0.30.0
-    dev: true
-
   /magic-string@0.27.0:
     resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
     engines: {node: '>=12'}
@@ -5981,18 +5944,6 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
-    dev: true
-
-  /unplugin-vue-define-options@1.3.6(vue@3.3.4):
-    resolution: {integrity: sha512-aRvjxXHehL5HDGGDqBMSIwcIVEpOzY5p5f2i1Tioht+TbfFlibf8ECikYHDg369c2iHVY5NmxVOxl5qVOVIipw==}
-    engines: {node: '>=16.14.0'}
-    dependencies:
-      '@vue-macros/common': 1.3.2(vue@3.3.4)
-      ast-walker-scope: 0.4.1
-      unplugin: 1.3.1
-    transitivePeerDependencies:
-      - rollup
-      - vue
     dev: true
 
   /unplugin@1.3.1:
