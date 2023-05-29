@@ -3,12 +3,8 @@ import type { App, DirectiveBinding } from 'vue'
 // 自动获取焦点
 function focusDirective(app: App) {
   app.directive('focus', {
-    mounted(el: any) {
-      if (el.nodeName === 'INPUT') {
-        el.focus()
-      } else {
-        el.querySelector('input').focus()
-      }
+    mounted(el: HTMLElement) {
+      el.focus()
     }
   })
 }
@@ -22,7 +18,7 @@ function focusDirective(app: App) {
  */
 function inputLimitDirective(app: App) {
   app.directive('limit', {
-    mounted(el: any, binding: DirectiveBinding, vnode: any) {
+    mounted(el: HTMLInputElement, binding: DirectiveBinding, vnode: any) {
       if (binding.value === 0) {
         console.error('limit 绝对值必须大于0')
       }
