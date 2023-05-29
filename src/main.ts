@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { type Component, createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 // 注册 svg 图标
@@ -17,7 +17,7 @@ import './plugins/element-plus'
 const app = createApp(App)
 
 // 注册自定义组件
-const components: any = import.meta.glob('@/components/*/index.vue', {
+const components: Component = import.meta.glob('@/components/*/index.vue', {
   eager: true
 })
 Object.keys(components).forEach((key: string) => {

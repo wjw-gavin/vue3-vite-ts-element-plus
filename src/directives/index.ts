@@ -32,10 +32,10 @@ function inputLimitDirective(app: App) {
         input = el.querySelector('input')
       }
 
-      ;(input as HTMLInputElement).addEventListener('input', (e: any) => {
-        let value = e.target.value
+      input!.addEventListener('input', (e: Event) => {
+        let value = (e.target as HTMLInputElement).value
         const reg = new RegExp(`^\\d*(\\.?\\d{0,${limit}})`, 'g')
-        value = value.match(reg)[0] || ''
+        value = value.match(reg)![0] || ''
         if (vnode.dirs.length > 0) {
           vnode.dirs[0].instance.$emit('update:modelValue', value)
         }
