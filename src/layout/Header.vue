@@ -4,7 +4,7 @@
       <expand v-if="isCollapse" />
       <fold v-else />
     </el-icon>
-    <span class="company-name"> {{ user.company }} </span>
+    <span class="company-name"> Offbeat UI </span>
   </div>
   <div class="header-right">
     <el-dropdown>

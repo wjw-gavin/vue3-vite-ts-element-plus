@@ -2,8 +2,8 @@ import { post } from '@/http'
 import type { ILogin } from './types'
 
 enum URL {
-  login = '/login',
-  logout = '/logout'
+  login = '/auth/login',
+  logout = '/auth/logout'
 }
 
 export function login(params: ILogin) {

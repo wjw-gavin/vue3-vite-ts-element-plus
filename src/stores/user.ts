@@ -6,8 +6,8 @@ import type { IUser } from '@/api/user/model/userModel'
 export const useUserStore = defineStore('user', () => {
   const user = ref<IUser>({
     name: '',
-    phone: '',
-    company: ''
+    sex: '',
+    mobile: ''
   })
 
   const getUser = async () => {

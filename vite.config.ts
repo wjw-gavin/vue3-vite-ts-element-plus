@@ -13,8 +13,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig({
   server: {
     proxy: {
-      '/mock': {
-        target: 'http://yapi.smart-xwork.cn',
+      '/api': {
+        target: 'http://localhost:3000',
         changeOrigin: true
       }
     }

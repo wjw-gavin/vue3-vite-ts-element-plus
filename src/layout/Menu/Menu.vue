@@ -7,9 +7,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLayoutStore } from '@/stores/layout'
+import { getMenus } from '../../api/common'
 import OMenuItem from './MenuItem.vue'
 import type { IMenuItem } from '../types'
 
@@ -20,34 +21,24 @@ defineOptions({
 const route = useRoute()
 const activeMenu = ref('')
 const store = useLayoutStore()
-const menuList = ref<IMenuItem[]>([
-  {
-    id: 'home',
-    name: '首页',
-    icon: 'HomeFilled',
-    url: '/home'
-  },
-  {
-    id: 'system',
-    name: '系统管理',
-    icon: 'Management',
-    children: [
-      {
-        id: 'role',
-        name: '角色管理',
-        url: '/system/role'
-      }
-    ]
-  }
-])
+const menuList = ref<IMenuItem[]>([])
 
 const isCollapse = computed(() => store.isCollapse)
+
+const getMenu = async () => {
+  const data = await getMenus()
+  menuList.value = data || []
+}
+
+onBeforeMount(() => {
+  getMenu()
+})
 
 watch(
   () => route,
   (val) => {
     const { meta } = val
-    activeMenu.value = meta.activePath!
+    activeMenu.value = meta.activePath as string
   },
   { immediate: true, deep: true }
 )
