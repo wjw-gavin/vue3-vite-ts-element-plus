@@ -2,7 +2,7 @@
   <template v-for="item in menuList" :key="item.id">
     <el-menu-item
       v-if="!item.children || item.children.length === 0"
-      :index="item.url"
+      :index="item.path"
       @click="handleSelect(item)"
     >
       <el-icon v-if="item.icon">
@@ -43,7 +43,7 @@ const route = useRoute()
 const router = useRouter()
 
 const handleSelect = (item: IMenuItem) => {
-  if (item.url === route.path) return
-  router.push(item.url!)
+  if (item.path === route.path) return
+  router.push(item.path!)
 }
 </script>
