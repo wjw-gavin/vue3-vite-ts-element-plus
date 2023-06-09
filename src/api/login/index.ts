@@ -1,5 +1,10 @@
 import { post } from '@/http'
-import type { ILogin } from './types'
+
+export interface ILogin {
+  mobile: number | string
+  password: string
+  code?: string | number
+}
 
 enum URL {
   login = '/auth/login',

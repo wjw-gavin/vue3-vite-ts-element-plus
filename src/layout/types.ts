@@ -1,7 +1,7 @@
 export interface IMenuItem {
   id: string
-  url?: string
-  name?: string
+  name: string
+  path?: string
   icon?: string
   children?: IMenuItem[]
 }
