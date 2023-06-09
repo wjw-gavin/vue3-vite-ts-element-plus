@@ -17,8 +17,9 @@
 - lodash-es
 - native-lodash
 - nprogress
-- git hook
+- git hooks
 - commitlint
 - typescript
 - eslint
 - prettier
+- [文档](https://wjw-gavin.github.io/vue3-element-plus-docs) // 文档是旧的，抽时间会更新
