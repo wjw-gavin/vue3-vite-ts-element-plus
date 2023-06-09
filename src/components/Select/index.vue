@@ -10,7 +10,7 @@
     :loading="loading"
   >
     <el-option
-      v-for="option in options"
+      v-for="option in _options"
       :key="option[prop.value]"
       :label="option[prop.label]"
       :value="valueKey ? option : option[prop.value] || ''"
@@ -72,7 +72,7 @@ const props = defineProps({
 })
 
 const loading = ref(false)
-const options = ref<any[]>([])
+const _options = ref<any[]>([])
 
 const value = computed({
   get() {
@@ -84,6 +84,6 @@ const value = computed({
 })
 
 watchEffect(() => {
-  options.value = props.options
+  _options.value = props.options
 })
 </script>
