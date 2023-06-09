@@ -159,7 +159,7 @@ export default defineComponent({
       let result = cloneDeep(myForm)
       Object.keys(result).forEach((key) => {
         const val = result[key]
-        if (!val) {
+        if (!val && val !== 0) {
           result = omit(result, key)
         }
       })

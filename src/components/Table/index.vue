@@ -45,7 +45,7 @@
           <!-- 常规渲染 -->
           <template v-else>
             <!-- 空数据 -->
-            <span v-if="!scope.row[item.prop]"> - </span>
+            <span v-if="scope.row[item.prop] === ''"> - </span>
             <!-- 普通数据 -->
             <span v-else> {{ scope.row[item.prop] }} </span>
           </template>
@@ -95,7 +95,7 @@
     <!-- 分页 -->
     <el-pagination
       v-model:current-page="pagination.page"
-      v-model:page-size="pagination.pageSize"
+      v-model:page-size="pagination.page_size"
       class="mt-5"
       :page-sizes="pagination.sizes"
       :layout="pagination.layout"
@@ -133,7 +133,7 @@ const query = route.query
 let searchData: TObject = Object.assign(
   {
     page: Number(query.page) || pager.page,
-    pageSize: Number(query.pageSize) || pager.pageSize
+    page_size: Number(query.page_size) || pager.page_size
   },
   props.tableConfig.params
 )
@@ -153,7 +153,7 @@ const {
 const submitSearch = (search: TObject) => {
   searchData = {
     page: 1,
-    pageSize: pagination.pageSize,
+    page_size: pagination.page_size,
     ...props.tableConfig.params,
     ...search
   }
@@ -161,12 +161,18 @@ const submitSearch = (search: TObject) => {
   loadData(searchData)
 }
 
-watch([() => pagination.page, () => pagination.pageSize], () =>
+const dispatchLoad = () => {
   loadData(
     Object.assign(searchData, {
       page: pagination.page,
-      pageSize: pagination.pageSize
+      page_size: pagination.page_size
     })
   )
-)
+}
+
+watch([() => pagination.page, () => pagination.page_size], dispatchLoad)
+
+defineExpose({
+  dispatchLoad
+})
 </script>

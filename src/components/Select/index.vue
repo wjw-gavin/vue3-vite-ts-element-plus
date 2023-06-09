@@ -13,7 +13,7 @@
       v-for="option in _options"
       :key="option[prop.value]"
       :label="option[prop.label]"
-      :value="valueKey ? option : option[prop.value] || ''"
+      :value="valueKey ? option : option[prop.value]"
     />
   </el-select>
 </template>
