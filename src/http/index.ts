@@ -79,10 +79,10 @@ export function post<T = any>(url: string, data?: any): Promise<T> {
   })
 }
 
-export function put<T = any>(url: string, data?: any): Promise<T> {
+export function patch<T = any>(url: string, data?: any): Promise<T> {
   return request(url, {
     data,
-    method: 'PUT'
+    method: 'patch'
   })
 }
 

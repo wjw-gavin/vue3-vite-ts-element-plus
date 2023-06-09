@@ -1,5 +1,5 @@
 <template>
-  <o-table :table-config="tableConfig">
+  <o-table ref="tableRef" :table-config="tableConfig">
     <template #table-top>
       <el-button type="primary" @click="handleAdd">添加</el-button>
     </template>
@@ -7,22 +7,23 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import router from '@/router'
-import { ETable } from '@/api/common/enum'
+import { Api } from '@/api/common/enum'
 import { confirmBox } from '@/utils'
-import type { ITableConfig } from '@/types'
+import { deleteRole } from '@/api/system/role'
+import type { ITableConfig, TableInstance } from '@/types'
 
-const tableConfig = reactive<ITableConfig>({
-  api: ETable.getRoleList,
+const tableConfig: ITableConfig = {
+  api: Api.role,
   headers: [
     {
       prop: 'name',
       label: '角色名称'
     },
     {
-      prop: 'description',
+      prop: 'desc',
       label: '描述'
     },
     {
@@ -30,7 +31,11 @@ const tableConfig = reactive<ITableConfig>({
       label: '数量'
     },
     {
-      prop: 'create_time',
+      prop: 'status_display',
+      label: '状态'
+    },
+    {
+      prop: 'create_time_display',
       label: '创建时间'
     }
   ],
@@ -38,7 +43,16 @@ const tableConfig = reactive<ITableConfig>({
     {
       type: 'text',
       label: '名称',
-      prop: 'role_name'
+      prop: 'name'
+    },
+    {
+      type: 'select',
+      label: '状态',
+      prop: 'status',
+      options: [
+        { id: 1, name: '启用' },
+        { id: 0, name: '禁用' }
+      ]
     }
   ],
   operations: {
@@ -57,23 +71,28 @@ const tableConfig = reactive<ITableConfig>({
         return {
           text: '删除',
           type: 'danger',
-          show: row.acl.can_edit,
-          click: ({ row }) => {
+          // show: row.acl.can_edit,
+          show: true,
+          click: () => {
             handleDelete(row.id)
           }
         }
       }
     ]
   }
-})
+}
+
+const tableRef = ref<TableInstance>()
 
 const handleAdd = () => {
-  router.push('/system/role/add/')
+  router.push('/system/role/add')
 }
 
 const handleDelete = (id: number) => {
-  confirmBox(`请确认是否要删除该条数据：${id}？`).then(() => {
+  confirmBox(`请确认是否要删除该条数据？`).then(async () => {
+    await deleteRole(id)
     ElMessage.success('删除成功')
+    tableRef.value?.dispatchLoad()
   })
 }
 </script>

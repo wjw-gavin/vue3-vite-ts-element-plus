@@ -6,12 +6,12 @@ interface IPaginationData {
   layout: string
   sizes: number[]
   page: number
-  pageSize: number
+  page_size: number
 }
 
 const defaultPaginationData: IPaginationData = {
   total: 0,
-  pageSize: 20,
+  page_size: 20,
   page: 1,
   sizes: [20, 30, 50, 100, 200],
   layout: 'total, sizes, prev, pager, next, jumper'
@@ -26,15 +26,15 @@ export function usePagination(_paginationData: Partial<IPaginationData> = {}) {
     pagination.page = page
     setUrlParams({
       page,
-      pageSize: pagination.pageSize
+      page_size: pagination.page_size
     })
   }
 
-  const handleSizeChange = (pageSize: number) => {
-    pagination.pageSize = pageSize
+  const handleSizeChange = (page_size: number) => {
+    pagination.page_size = page_size
     setUrlParams({
       page: pagination.page,
-      pageSize
+      page_size
     })
   }
 

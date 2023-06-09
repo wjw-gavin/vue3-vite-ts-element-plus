@@ -29,7 +29,7 @@ export function useTable<
   const loadData = async (_params?: any) => {
     // 更新分页组件
     pagination.page = _params.page
-    pagination.pageSize = _params.pageSize
+    pagination.page_size = _params.page_size
 
     if (process.env.NODE_ENV !== 'production' && !api) {
       console.error('请求 url 为空')

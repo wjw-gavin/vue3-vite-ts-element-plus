@@ -1,6 +1,7 @@
 import type { TObject } from '.'
 import type { IOptionProp } from '@/components/Select/types'
 import type { DatePickType, LinkProps, RenderRowData } from 'element-plus'
+import type { ComponentPublicInstance } from 'vue'
 
 export type ISearchItemType =
   | 'text'
@@ -113,3 +114,9 @@ export interface ITableConfig {
   /** 列表操作栏按钮 */
   operations?: ITableOperation
 }
+
+export type TableExpose = {
+  dispatchLoad: () => void
+}
+
+export type TableInstance = ComponentPublicInstance<TableExpose>
