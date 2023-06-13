@@ -50,7 +50,7 @@ watch(
   left: 0;
   top: 60px;
   bottom: 0;
-  z-index: 2100;
+  z-index: 2000;
   height: calc(100% - 60px);
   overflow-y: auto;
   box-sizing: border-box;
