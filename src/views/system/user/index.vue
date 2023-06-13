@@ -8,10 +8,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Api } from '@/api/common/enum'
-import { deleteUser } from '@/api/system/user'
 import router from '@/router'
 import { useDelete } from '@/hooks'
+import { Api } from '@/api/common/enum'
+import { deleteUser } from '@/api/system/user'
 import type { ITableConfig, TableInstance } from '@/types'
 
 const tableConfig: ITableConfig = {

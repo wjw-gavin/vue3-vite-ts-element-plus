@@ -16,9 +16,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import router from '@/router'
+import { useDelete } from '@/hooks'
 import { Api } from '@/api/common/enum'
 import { deleteArticle } from '@/api/base/article'
-import { useDelete } from '@/hooks'
 import type { ITableConfig, TableInstance } from '@/types'
 
 const tableConfig: ITableConfig = {
