@@ -1,5 +1,12 @@
 <template>
   <o-table ref="tableRef" :table-config="tableConfig">
+    <template
+      v-for="(item, index) in slotColumns"
+      :key="index"
+      #[item.slot!]="{ row }"
+    >
+      <span>{{ row[item.prop] ? row[item.prop].name : '-' }}</span>
+    </template>
     <template #table-top>
       <el-button type="primary" @click="handleAdd">添加</el-button>
     </template>
@@ -8,30 +15,36 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Api } from '@/api/common/enum'
-import { deleteUser } from '@/api/system/user'
 import router from '@/router'
+import { Api } from '@/api/common/enum'
+import { deleteArticle } from '@/api/base/article'
 import { useDelete } from '@/hooks'
 import type { ITableConfig, TableInstance } from '@/types'
 
 const tableConfig: ITableConfig = {
-  api: Api.user,
+  api: Api.article,
   headers: [
     {
-      prop: 'name',
-      label: '用户名'
+      prop: 'title',
+      label: '文章名称'
     },
     {
-      prop: 'mobile',
-      label: '手机号'
+      prop: 'content',
+      width: 200,
+      label: '内容'
     },
     {
-      prop: 'sex',
-      label: '性别'
+      prop: 'read_count',
+      label: '阅读量'
     },
     {
-      prop: 'roles',
-      label: '所属角色'
+      prop: 'collect_count',
+      label: '收藏数'
+    },
+    {
+      prop: 'author',
+      slot: 'author',
+      label: '作者'
     },
     {
       prop: 'create_time_display',
@@ -41,13 +54,13 @@ const tableConfig: ITableConfig = {
   searchItems: [
     {
       type: 'text',
-      label: '用户名',
-      prop: 'name'
+      prop: 'title',
+      label: '文章名称'
     },
     {
       type: 'text',
-      label: '手机号',
-      prop: 'mobile'
+      prop: 'author_id',
+      label: '作者'
     }
   ],
   operations: {
@@ -57,15 +70,15 @@ const tableConfig: ITableConfig = {
         text: '编辑',
         show: true,
         click: ({ row }) => {
-          router.push(`/system/role/edit/${row.id}`)
+          router.push(`/base/article/edit/${row.id}`)
         }
       },
-      ({ row }) => {
+      () => {
         return {
           text: '删除',
           type: 'danger',
           show: true,
-          click: () => {
+          click: ({ row }) => {
             handleDelete(row.id)
           }
         }
@@ -73,6 +86,7 @@ const tableConfig: ITableConfig = {
     ]
   }
 }
+const slotColumns = tableConfig.headers.filter((header) => header.slot)
 
 const tableRef = ref<TableInstance>()
 
@@ -82,6 +96,6 @@ const handleAdd = () => {
 
 const handleDelete = (id: number) => {
   const { onDelete } = useDelete()
-  onDelete(deleteUser, id, tableRef)
+  onDelete(deleteArticle, id, tableRef)
 }
 </script>

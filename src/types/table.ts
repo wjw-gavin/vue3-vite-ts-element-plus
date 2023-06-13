@@ -24,8 +24,8 @@ export interface ITableHead {
   /** 是否排序 */
   sortable?: boolean
 
-  /** 是否使用插槽 */
-  slot?: boolean
+  /** 插槽 name */
+  slot?: string
 }
 
 export interface ISearchItem {

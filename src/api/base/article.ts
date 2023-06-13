@@ -6,6 +6,6 @@ export function updateUser(params: IArticle) {
   return patch(`${Api.article}/${params.id}`, params)
 }
 
-export function deleteUser(id: number) {
+export function deleteArticle(id: number) {
   return $delete(`${Api.article}/${id}`)
 }
