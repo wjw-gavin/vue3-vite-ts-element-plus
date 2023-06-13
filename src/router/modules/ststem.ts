@@ -12,7 +12,7 @@ export default [
       },
       {
         path: 'add',
-        component: () => import('@/views/system/user/index.vue'),
+        component: () => import('@/views/system/user/add.vue'),
         meta: {
           title: '用户管理-添加',
           activePath: '/system/user'
@@ -41,7 +41,7 @@ export default [
       },
       {
         path: 'add',
-        component: () => import('@/views/system/role/index.vue'),
+        component: () => import('@/views/system/role/add.vue'),
         meta: {
           title: '角色管理-添加',
           activePath: '/system/role'
