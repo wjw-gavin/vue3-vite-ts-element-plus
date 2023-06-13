@@ -7,7 +7,7 @@ export function getUserInfo() {
 }
 
 export function updateUser(params: IUser) {
-  return patch(`${Api.user}/${params.id}`)
+  return patch(`${Api.user}/${params.id}`, params)
 }
 
 export function deleteUser(id: number) {
