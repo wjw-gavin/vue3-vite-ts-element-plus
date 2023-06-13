@@ -1,5 +1,11 @@
 <template>
   <o-table ref="tableRef" :table-config="tableConfig">
+    <template #status_display="{ row }">
+      <el-tag :type="row['status'] ? 'success' : 'danger'">
+        {{ row.status_display }}
+      </el-tag>
+    </template>
+
     <template #table-top>
       <el-button type="primary" @click="handleAdd">添加</el-button>
     </template>
@@ -31,6 +37,7 @@ const tableConfig: ITableConfig = {
     },
     {
       prop: 'status_display',
+      slot: 'status_display',
       label: '状态'
     },
     {
