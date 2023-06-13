@@ -27,7 +27,7 @@ export function useTable<
   const { pagination, handleCurrentChange, handleSizeChange } = usePagination()
 
   const loadData = async (_params?: any) => {
-    // 更新分页组件
+    // 更新分页数据
     pagination.page = _params.page
     pagination.page_size = _params.page_size
 
