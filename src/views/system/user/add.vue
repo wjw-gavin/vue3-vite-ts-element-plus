@@ -49,8 +49,6 @@ const formRules = reactive<FormRules>({
   phone: [{ required: true, validator: elv.isMobile(), trigger: 'blur' }]
 })
 
-// onConfirm 组件默认自带防连点 间隔为 1s，
-// 也可以通过 loading 方法设置 button 的 loading 实现防连点
 const onConfirm = (loading: ILoading) => {
   ruleForm.value?.validate((valid) => {
     if (valid) {
