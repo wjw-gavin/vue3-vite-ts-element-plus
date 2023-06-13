@@ -8,11 +8,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
 import { Api } from '@/api/common/enum'
-import { confirmBox } from '@/utils'
 import { deleteUser } from '@/api/system/user'
 import router from '@/router'
+import { useDelete } from '@/hooks'
 import type { ITableConfig, TableInstance } from '@/types'
 
 const tableConfig: ITableConfig = {
@@ -77,10 +76,7 @@ const handleAdd = () => {
 }
 
 const handleDelete = (id: number) => {
-  confirmBox(`请确认是否要删除该条数据？`).then(async () => {
-    await deleteUser(id)
-    ElMessage.success('删除成功')
-    tableRef.value?.dispatchLoad()
-  })
+  const { onDelete } = useDelete()
+  onDelete(deleteUser, id, tableRef)
 }
 </script>
