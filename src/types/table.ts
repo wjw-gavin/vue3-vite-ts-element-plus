@@ -44,8 +44,8 @@ export interface ISearchItem {
   /** 是否多选 */
   multiple?: boolean
 
-  /** 远程搜索地址 */
-  api?: string
+  /** 远程搜索 key */
+  searchKey?: string
 
   /** 远程搜索类型 key */
   key?: string

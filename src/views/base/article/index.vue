@@ -58,8 +58,9 @@ const tableConfig: ITableConfig = {
       label: '文章名称'
     },
     {
-      type: 'text',
+      type: 'autocomplete',
       prop: 'author_id',
+      searchKey: 'users',
       label: '作者'
     }
   ],
