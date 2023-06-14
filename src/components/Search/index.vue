@@ -72,122 +72,105 @@
     </div>
   </el-form>
 </template>
-<script lang="ts">
-import { type PropType, defineComponent, reactive, ref } from 'vue'
+<script lang="ts" setup>
+import { type PropType, reactive, ref } from 'vue'
 import { cloneDeep, isArray, isEmpty, omit } from 'lodash-es'
 import type { FormInstance } from 'element-plus'
 import type { ISearchItem, TObject } from '@/types'
 
-export default defineComponent({
-  name: 'OSearch',
-  props: {
-    searchItems: {
-      type: Array as PropType<ISearchItem[]>,
-      default: () => []
-    }
-  },
-  emits: ['submitSearch'],
-  setup(props, { emit }) {
-    const loading = ref(false)
-    const myForm = reactive<TObject>({})
-    const myFormRef = ref<FormInstance>()
+defineOptions({ name: 'OSearch' })
 
-    const getPlaceHolder = (
-      placeholder?: string | string[],
-      index?: number
-    ) => {
-      if (isEmpty(placeholder)) return '请选择'
-      if (isArray(placeholder)) {
-        return placeholder[index!]
-      } else {
-        return placeholder
-      }
-    }
-
-    const initFormFelid = () => {
-      props.searchItems.forEach((item: ISearchItem) => {
-        if (!item.prop) {
-          return
-        }
-        if (item.type === 'dateRange') {
-          let val0 = ''
-          if (item.defaultValue && item.defaultValue[0]) {
-            //设置开始日期默认值
-            val0 = item.defaultValue[0]
-          }
-          let val1: Date | string = ''
-          if (item.defaultValue && item.defaultValue[1]) {
-            //设置结束日期默认值
-            val1 = item.defaultValue[1]
-          }
-          myForm[item.prop[0]] = val0
-          myForm[item.prop[1]] = val1
-        } else {
-          let val = ''
-          if (item.defaultValue) {
-            val = item.defaultValue as string
-          }
-          myForm[item.prop as string] = val
-        }
-      })
-    }
-    initFormFelid()
-
-    const submitForm = () => {
-      let result = cloneDeep(myForm)
-      Object.keys(result).forEach((key) => {
-        const val = result[key]
-        if (!val && val !== 0) {
-          result = omit(result, key)
-        }
-      })
-      emit('submitSearch', result)
-    }
-
-    const resetForm = (formEl: FormInstance | undefined) => {
-      formEl?.resetFields()
-      submitForm()
-    }
-
-    /*********** 时间区间 控制开始与结束日期 begin *************/
-    const disabledStart = (time: Date) => {
-      let key = ''
-      props.searchItems.forEach((item: ISearchItem) => {
-        if (item.type === 'dateRange' && Array.isArray(item.prop)) {
-          key = item.prop[1] as string
-        }
-      })
-      const eDate = myForm[key]
-      if (eDate) {
-        return time.getTime() > new Date(eDate).getTime()
-      }
-    }
-    const disabledEnd = (time: Date) => {
-      let key = ''
-      props.searchItems.forEach((item: ISearchItem) => {
-        if (item.type === 'dateRange' && Array.isArray(item.prop)) {
-          key = item.prop[0] as string
-        }
-      })
-      const sDate = myForm[key]
-      if (sDate) {
-        return time.getTime() < new Date(sDate).getTime()
-      }
-    }
-    /*********** 时间区间 控制开始与结束日期 end *************/
-
-    return {
-      loading,
-      disabledStart,
-      disabledEnd,
-      myForm,
-      myFormRef,
-      submitForm,
-      resetForm,
-      getPlaceHolder
-    }
+const emit = defineEmits(['submitSearch'])
+const props = defineProps({
+  searchItems: {
+    type: Array as PropType<ISearchItem[]>,
+    default: () => []
   }
 })
+
+const myForm = reactive<TObject>({})
+const myFormRef = ref<FormInstance>()
+
+const getPlaceHolder = (placeholder?: string | string[], index?: number) => {
+  if (isEmpty(placeholder)) return '请选择'
+  if (isArray(placeholder)) {
+    return placeholder[index!]
+  } else {
+    return placeholder
+  }
+}
+
+const initFormFelid = () => {
+  props.searchItems.forEach((item: ISearchItem) => {
+    if (!item.prop) {
+      return
+    }
+    if (item.type === 'dateRange') {
+      let val0 = ''
+      if (item.defaultValue && item.defaultValue[0]) {
+        //设置开始日期默认值
+        val0 = item.defaultValue[0]
+      }
+      let val1: Date | string = ''
+      if (item.defaultValue && item.defaultValue[1]) {
+        //设置结束日期默认值
+        val1 = item.defaultValue[1]
+      }
+      myForm[item.prop[0]] = val0
+      myForm[item.prop[1]] = val1
+    } else {
+      let val = ''
+      if (item.defaultValue) {
+        val = item.defaultValue as string
+      }
+      myForm[item.prop as string] = val
+    }
+  })
+}
+initFormFelid()
+
+const submitForm = () => {
+  let result = cloneDeep(myForm)
+  Object.keys(result).forEach((key) => {
+    const val = result[key]
+    if (!val && val !== 0) {
+      result = omit(result, key)
+    }
+  })
+  emit('submitSearch', result)
+}
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  formEl?.resetFields()
+  submitForm()
+}
+
+/*********** 时间区间 控制开始与结束日期 begin *************/
+const disabledStart = (time: Date) => {
+  let key = ''
+  props.searchItems.forEach((item: ISearchItem) => {
+    if (item.type === 'dateRange' && Array.isArray(item.prop)) {
+      key = item.prop[1] as string
+    }
+  })
+  const eDate = myForm[key]
+  if (eDate) {
+    return time.getTime() > new Date(eDate).getTime()
+  }
+}
+const disabledEnd = (time: Date) => {
+  let key = ''
+  props.searchItems.forEach((item: ISearchItem) => {
+    if (item.type === 'dateRange' && Array.isArray(item.prop)) {
+      key = item.prop[0] as string
+    }
+  })
+  const sDate = myForm[key]
+  if (sDate) {
+    return time.getTime() < new Date(sDate).getTime()
+  }
+}
+/*********** 时间区间 控制开始与结束日期 end *************/
 </script>
 <style lang="scss">
 .el-form.el-form--label-top {
