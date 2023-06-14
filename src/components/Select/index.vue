@@ -8,6 +8,8 @@
     collapse-tags
     reserve-keyword
     :loading="loading"
+    :remote-method="remoteMethod"
+    @clear="onClear"
   >
     <el-option
       v-for="option in _options"
@@ -20,6 +22,7 @@
 
 <script lang="ts" setup>
 import { type PropType, computed, ref, watchEffect } from 'vue'
+import { getAutocompleteOptions } from '@/api/common'
 import type { IOptionProp } from './types'
 
 defineOptions({
@@ -35,7 +38,7 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  // 搜索内容的key，如果设置了该属性，会启用远程搜索
+  // 搜索 key，相当于后端 controller，如果设置了该属性，会启用远程搜索
   searchKey: {
     type: String,
     default: ''
@@ -82,6 +85,24 @@ const value = computed({
     emit('update:modelValue', value)
   }
 })
+
+const remoteMethod = (query: string) => {
+  if (query.trim() !== '') {
+    loading.value = true
+    getAutocompleteOptions(props.searchKey, query).then((res) => {
+      loading.value = false
+      _options.value = res
+    })
+  } else {
+    _options.value = []
+  }
+}
+
+const onClear = () => {
+  if (props.searchKey) {
+    _options.value = []
+  }
+}
 
 watchEffect(() => {
   _options.value = props.options

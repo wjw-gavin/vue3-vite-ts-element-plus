@@ -48,11 +48,11 @@
         <o-select
           v-else-if="item.type === 'autocomplete'"
           v-model="myForm[item.prop as string]"
-          remote
           :multiple="item.multiple"
-          :placeholder="getPlaceHolder(item.placeholder)"
-          :remote-method="((query: string) => { remoteMethod(query, item) })"
+          :search-key="item.searchKey"
           :options="item.options"
+          remote-show-suffix
+          :placeholder="item.placeholder as string || '请输入' + item.label"
         />
 
         <!-- 单独日期 -->
@@ -103,24 +103,6 @@ export default defineComponent({
         return placeholder
       }
     }
-    //下拉 接口数据
-    const getDropList = (item: ISearchItem) => {
-      const data = [
-        {
-          id: 1,
-          name: 'eeeee'
-        },
-        {
-          id: 2,
-          name: 'fffff'
-        },
-        {
-          id: 3,
-          name: 'ggggg'
-        }
-      ]
-      item.options = data
-    }
 
     const initFormFelid = () => {
       props.searchItems.forEach((item: ISearchItem) => {
@@ -147,10 +129,6 @@ export default defineComponent({
           }
           myForm[item.prop as string] = val
         }
-        //下拉框数据初始化
-        if (item.api) {
-          getDropList(item)
-        }
       })
     }
     initFormFelid()
@@ -169,33 +147,6 @@ export default defineComponent({
     const resetForm = (formEl: FormInstance | undefined) => {
       formEl?.resetFields()
       submitForm()
-    }
-
-    const remoteMethod = (query: string, item: ISearchItem) => {
-      if (query) {
-        loading.value = true
-        setTimeout(() => {
-          loading.value = false
-          //请求接口数据
-          const data = [
-            {
-              id: 1,
-              name: 'aaa'
-            },
-            {
-              id: 2,
-              name: 'bbb'
-            },
-            {
-              id: 3,
-              name: 'ccc'
-            }
-          ]
-          item.options = data
-        }, 200)
-      } else {
-        item.options = []
-      }
     }
 
     /*********** 时间区间 控制开始与结束日期 begin *************/
@@ -227,7 +178,6 @@ export default defineComponent({
 
     return {
       loading,
-      remoteMethod,
       disabledStart,
       disabledEnd,
       myForm,
