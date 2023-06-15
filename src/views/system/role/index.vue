@@ -55,10 +55,7 @@ const tableConfig: ITableConfig = {
       type: 'select',
       label: '状态',
       prop: 'status',
-      options: [
-        { id: 1, name: '启用' },
-        { id: 0, name: '禁用' }
-      ]
+      optionsKey: 'role'
     }
   ],
   operations: {

@@ -47,6 +47,9 @@ export interface ISearchItem {
   /** 远程搜索 key */
   searchKey?: string
 
+  /** 获取默认下拉 key */
+  optionsKey?: string
+
   /** 远程搜索类型 key */
   key?: string
 

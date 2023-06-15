@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts" setup>
-import { type PropType, computed, ref, watchEffect } from 'vue'
-import { getAutocompleteOptions } from '@/api/common'
+import { type PropType, computed, onBeforeMount, ref, watchEffect } from 'vue'
+import { getAutocompleteOptions, getOptions } from '@/api/common'
 import type { IOptionProp } from './types'
 
 defineOptions({
@@ -40,6 +40,12 @@ const props = defineProps({
   },
   // 搜索 key，相当于后端 controller，如果设置了该属性，会启用远程搜索
   searchKey: {
+    type: String,
+    default: ''
+  },
+  // 获取指定 key 的下拉数据，如果设置了该属性，会自定请求 options
+  // 注意：optionKey, searchKey 只能同时传一个
+  optionKey: {
     type: String,
     default: ''
   },
@@ -77,6 +83,10 @@ const props = defineProps({
 const loading = ref(false)
 const _options = ref<any[]>([])
 
+if (props.optionKey && props.searchKey) {
+  console.error('optionKey 和 searchKey 只能同时传一个')
+}
+
 const value = computed({
   get() {
     return props.modelValue
@@ -86,13 +96,17 @@ const value = computed({
   }
 })
 
-const remoteMethod = (query: string) => {
+const getDefaultOptions = async () => {
+  const result = await getOptions(props.optionKey)
+  _options.value = result
+}
+
+const remoteMethod = async (query: string) => {
   if (query.trim() !== '') {
     loading.value = true
-    getAutocompleteOptions(props.searchKey, query).then((res) => {
-      loading.value = false
-      _options.value = res
-    })
+    const result = await getAutocompleteOptions(props.searchKey, query)
+    loading.value = false
+    _options.value = result
   } else {
     _options.value = []
   }
@@ -103,6 +117,10 @@ const onClear = () => {
     _options.value = []
   }
 }
+
+onBeforeMount(() => {
+  if (props.optionKey) getDefaultOptions()
+})
 
 watchEffect(() => {
   _options.value = props.options

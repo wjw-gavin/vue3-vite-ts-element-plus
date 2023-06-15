@@ -39,6 +39,7 @@
           v-else-if="item.type === 'select'"
           v-model="myForm[item.prop as string]"
           :multiple="item.multiple"
+          :option-key="item.optionsKey"
           :placeholder="getPlaceHolder(item.placeholder)"
           :prop="item.optionProp"
           :options="item.options"
