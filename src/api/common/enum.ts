@@ -1,10 +1,10 @@
 export enum Api {
   /** 用户列表 */
-  user = '/users',
+  user = '/user',
 
   /** 角色列表 */
   role = '/role',
 
   /** 文章列表 */
-  article = '/articles'
+  article = '/article'
 }

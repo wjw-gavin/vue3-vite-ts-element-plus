@@ -60,7 +60,7 @@ const tableConfig: ITableConfig = {
     {
       type: 'autocomplete',
       prop: 'author_id',
-      searchKey: 'users',
+      searchKey: 'user',
       label: '作者'
     }
   ],
