@@ -25,7 +25,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (res) => {
     const { data } = res
-    const { code, msg } = data.status
+    const { code, message } = data.status
     switch (code) {
       case 0:
         return data
@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
         window.location.href = '/login'
         break
       default:
-        showMessage(msg)
+        showMessage(message)
         return Promise.reject(data)
     }
   },
