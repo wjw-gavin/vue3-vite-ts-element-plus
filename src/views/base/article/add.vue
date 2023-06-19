@@ -31,8 +31,9 @@ import {
   getArticleInfo,
   updateArticle
 } from '@/api/base/article'
-import type { FormInstance, FormRules } from 'element-plus'
 import type { ILoading } from '@/types'
+import type { FormInstance, FormRules } from 'element-plus'
+import type { IArticle } from '@/api/base/modal/article.modal'
 
 const route = useRoute()
 const router = useRouter()
@@ -43,10 +44,7 @@ const id = route.params.id
 isEditing.value = id ? true : false
 
 const ruleForm = ref<FormInstance>()
-const formData = reactive<{
-  title: string
-  content: string
-}>({
+const formData = reactive<IArticle>({
   title: '',
   content: ''
 })
