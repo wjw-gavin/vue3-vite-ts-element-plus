@@ -55,8 +55,7 @@ const formRules = reactive<FormRules>({
 
 const articleInfo = async () => {
   const info = await getArticleInfo(+id)
-  formData.title = info.title
-  formData.content = info.content
+  Object.assign(formData, info)
 }
 
 const onConfirm = (loading: ILoading) => {
@@ -64,7 +63,7 @@ const onConfirm = (loading: ILoading) => {
     if (valid) {
       loading(true)
       if (isEditing.value) {
-        await updateArticle({ id: +id, ...formData })
+        await updateArticle(formData)
         ElMessage.success('编辑成功')
       } else {
         await createArticle(formData)
@@ -80,8 +79,6 @@ const onConfirm = (loading: ILoading) => {
 }
 
 onBeforeMount(() => {
-  if (isEditing.value) {
-    articleInfo()
-  }
+  if (isEditing.value) articleInfo()
 })
 </script>
