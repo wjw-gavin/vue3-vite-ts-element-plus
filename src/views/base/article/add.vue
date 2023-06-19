@@ -33,7 +33,7 @@ import {
 } from '@/api/base/article'
 import type { ILoading } from '@/types'
 import type { FormInstance, FormRules } from 'element-plus'
-import type { IArticle } from '@/api/base/modal/articleModal'
+import type { IArticle } from '@/api/base/modal/articleModel'
 
 const route = useRoute()
 const router = useRouter()
