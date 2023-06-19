@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
       case 0:
         return data
       case 401:
-        // 授权过期，重新登录
+        // 授权过期
         clearLocal()
         window.location.href = '/login'
         break
