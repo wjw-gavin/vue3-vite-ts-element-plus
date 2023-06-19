@@ -1,6 +1,6 @@
 import { $delete, get, patch, post } from '@/http'
 import { Api } from '../common/enum'
-import type { IArticle } from './modal/article.modal'
+import type { IArticle } from './modal/articleModal'
 
 export function createArticle(params: IArticle) {
   return post(`${Api.article}`, params)
