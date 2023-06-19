@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { getUserInfo } from '@/api/system/user'
+import { getUserInfo } from '@/api/common/index'
 import type { IUser } from '@/api/system/modal/userModel'
 
 export const useUserStore = defineStore('user', () => {

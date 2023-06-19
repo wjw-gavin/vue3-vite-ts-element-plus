@@ -1,9 +1,15 @@
 import { get } from '@/http'
 import type { IMenuItem } from '@/layout/types'
+import type { IUser } from '../system/modal/userModel'
 
 // 菜单
 export function getMenus() {
   return get<IMenuItem[]>('/menu')
+}
+
+// 获取当前用户信息
+export function getUserInfo() {
+  return get<IUser>('/auth/profile')
 }
 
 export function getTableData(api: string, params: any) {
