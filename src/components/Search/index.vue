@@ -173,7 +173,7 @@ const disabledEnd = (time: Date) => {
 }
 /*********** 时间区间 控制开始与结束日期 end *************/
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .el-form.el-form--label-top {
   .el-form-item {
     margin-bottom: 8px;
