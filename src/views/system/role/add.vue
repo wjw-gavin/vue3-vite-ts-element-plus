@@ -51,7 +51,7 @@ const formRules = reactive<FormRules>({
   desc: [{ required: true, message: '请输入角色描述', trigger: 'blur' }]
 })
 
-const articleInfo = async () => {
+const roleInfo = async () => {
   const info = await getRoleInfo(+id)
   Object.assign(formData, info)
 }
@@ -79,6 +79,6 @@ const onConfirm = (loading: ILoading) => {
 }
 
 onBeforeMount(() => {
-  if (isEditing.value) articleInfo()
+  if (isEditing.value) roleInfo()
 })
 </script>
