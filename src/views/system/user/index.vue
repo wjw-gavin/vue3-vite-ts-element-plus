@@ -57,7 +57,7 @@ const tableConfig: ITableConfig = {
         text: '编辑',
         show: true,
         click: ({ row }) => {
-          router.push(`/system/role/edit/${row.id}`)
+          router.push(`/system/user/edit/${row.id}`)
         }
       },
       ({ row }) => {
@@ -77,7 +77,7 @@ const tableConfig: ITableConfig = {
 const tableRef = ref<TableInstance>()
 
 const handleAdd = () => {
-  router.push('/system/role/add')
+  router.push('/system/user/add')
 }
 
 const handleDelete = (id: number) => {

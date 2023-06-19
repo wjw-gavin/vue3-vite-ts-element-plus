@@ -1,6 +1,8 @@
 export interface IUser {
   id?: number
-  name: string
-  sex: string
-  mobile: string
+  sex?: string
+  name?: string
+  mobile?: string
+  password?: string
+  role_ids?: number[]
 }
