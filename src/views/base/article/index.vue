@@ -49,6 +49,10 @@ const tableConfig: ITableConfig = {
     {
       prop: 'create_time_display',
       label: '创建时间'
+    },
+    {
+      prop: 'update_time_display',
+      label: '更新时间'
     }
   ],
   searchItems: [
@@ -92,7 +96,7 @@ const slotColumns = tableConfig.headers.filter((header) => header.slot)
 const tableRef = ref<TableInstance>()
 
 const handleAdd = () => {
-  router.push('/system/role/add')
+  router.push('/base/article/add')
 }
 
 const handleDelete = (id: number) => {

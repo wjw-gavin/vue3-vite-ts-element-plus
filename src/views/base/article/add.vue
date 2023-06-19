@@ -1,20 +1,21 @@
 <template>
-  <o-form-wrap title="角色管理" @confirm="onConfirm">
+  <o-form-wrap title="文章管理" @confirm="onConfirm">
     <el-form
       ref="ruleForm"
+      class="w-100"
       :model="formData"
       :rules="formRules"
       label-position="top"
-      inline
     >
-      <el-form-item label="角色名称：" prop="name">
-        <el-input v-model="formData.name" placeholder="请输入名称" />
+      <el-form-item label="文章标题：" prop="title">
+        <el-input v-model="formData.title" placeholder="请输入文章标题" />
       </el-form-item>
-      <el-form-item label="联系方式：" prop="phone">
+      <el-form-item label="文章内容：" prop="content">
         <el-input
-          v-model="formData.phone"
-          type="number"
-          placeholder="请输入手机号"
+          v-model="formData.content"
+          type="textarea"
+          rows="10"
+          placeholder="请输入文章内容"
         />
       </el-form-item>
     </el-form>
@@ -22,10 +23,14 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { onBeforeMount, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
-import { elv } from '@/utils'
+import {
+  createArticle,
+  getArticleInfo,
+  updateArticle
+} from '@/api/base/article'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { ILoading } from '@/types'
 
@@ -34,37 +39,51 @@ const router = useRouter()
 
 const isEditing = ref(false)
 const id = route.params.id
+
 isEditing.value = id ? true : false
 
 const ruleForm = ref<FormInstance>()
 const formData = reactive<{
-  name: string
-  phone: string | number
+  title: string
+  content: string
 }>({
-  name: '',
-  phone: ''
+  title: '',
+  content: ''
 })
 const formRules = reactive<FormRules>({
-  name: [{ required: true, message: '请输入正确的姓名', trigger: 'blur' }],
-  phone: [{ required: true, validator: elv.isMobile(), trigger: 'blur' }]
+  title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }],
+  content: [{ required: true, message: '请输入文章内容', trigger: 'blur' }]
 })
 
+const articleInfo = async () => {
+  const info = await getArticleInfo(+id)
+  formData.title = info.title
+  formData.content = info.content
+}
+
 const onConfirm = (loading: ILoading) => {
-  ruleForm.value?.validate((valid) => {
+  ruleForm.value?.validate(async (valid) => {
     if (valid) {
       loading(true)
-      setTimeout(() => {
-        if (isEditing.value) {
-          ElMessage.success('编辑成功')
-        } else {
-          ElMessage.success('添加成功')
-        }
-        loading(false)
-        router.back()
-      }, 1000)
+      if (isEditing.value) {
+        await updateArticle({ id: +id, ...formData })
+        ElMessage.success('编辑成功')
+      } else {
+        await createArticle(formData)
+        ElMessage.success('添加成功')
+      }
+
+      loading(false)
+      router.back()
     } else {
       return false
     }
   })
 }
+
+onBeforeMount(() => {
+  if (isEditing.value) {
+    articleInfo()
+  }
+})
 </script>
