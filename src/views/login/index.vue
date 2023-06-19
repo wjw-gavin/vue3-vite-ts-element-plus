@@ -274,7 +274,7 @@ onMounted(() => {
   background-image: url(@/assets/svg/login_bg.svg);
   background-size: 100% 100%;
   .main-left_img {
-    float: left;
+    flex: 1;
     margin-top: -60px;
     padding-left: 40px;
     img {
