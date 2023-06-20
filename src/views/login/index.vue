@@ -264,6 +264,7 @@ onMounted(() => {
   background: #f5f6fa;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .login {
@@ -275,6 +276,7 @@ onMounted(() => {
   background-size: 100% 100%;
   .main-left_img {
     flex: 1;
+    min-width: 500px;
     margin-top: -60px;
     padding-left: 40px;
     img {
@@ -282,7 +284,7 @@ onMounted(() => {
     }
   }
   .login-model {
-    width: 700px;
+    width: 600px;
     margin-top: -40px;
   }
   .content {
