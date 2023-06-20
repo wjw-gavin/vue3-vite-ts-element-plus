@@ -13,7 +13,7 @@
       <el-form-item label="手机号" prop="mobile">
         <el-input v-model="formData.mobile" placeholder="请输入手机号" />
       </el-form-item>
-      <el-form-item label="默认密码" prop="password">
+      <el-form-item v-if="!isEditing" label="默认密码" prop="password">
         <el-input
           v-model="formData.password"
           type="password"
