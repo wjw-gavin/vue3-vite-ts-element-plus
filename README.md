@@ -1,4 +1,4 @@
-# vue3 + ts + element-plus
+# vue3 + vite + typescript + element-plus
 
 ## 最新版请看 `vue_nest` 分支，该分支正在结合 [Nest](https://nestjs.com) 进行开发，其中优化并修复了一些已知 `bug`。等后端开发完成后会合并到 `main` 分支并提供在线预览。后端代码请移步[这里](https://github.com/wjw-gavin/nest-study)
 
