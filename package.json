@@ -12,7 +12,8 @@
     "postinstall": "npx husky install",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "docs:deploy": "sh deploy.sh"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'vue3-element-plus',
+  base: '/vue3-vite-ts-element-plus/',
   description: '精简的后台管理系统模板',
   lastUpdated: true,
   themeConfig: {
