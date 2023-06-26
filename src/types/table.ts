@@ -91,7 +91,6 @@ export interface ITableOperation {
   fixed?: string
 
   /** 操作栏按钮 */
-  // Array<IButtons | ((params: any) => IButtons)>
   buttons?: Array<IButtons | ((scope: RenderRowData<any>) => IButtons)>
 }
 
