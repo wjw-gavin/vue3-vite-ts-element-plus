@@ -10,9 +10,9 @@ hero:
     - theme: brand
       text: 快速上手 →
       link: /pages/guide/directory-structure
-    - theme: alt
-      text: 在线预览
-      link: /pages/guide/directory-structure
+    # - theme: alt
+    #   text: 在线预览
+    #   link: /pages/guide/directory-structure
     - theme: alt
       text: 获取源码
       link: https://github.com/wjw-gavin/vue3-vite-ts-element-plus

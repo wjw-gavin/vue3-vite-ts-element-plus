@@ -13,3 +13,19 @@
 - 可扩展，传入的数据格式默认为 `[{id: '111', name: '王二小'}]`，如果想要修改，比如是 id 和 text，传入`props="{value: 'id', label: 'text'}"`；
 - `search-key`，传入该属性，会启用远程搜索，**为什么是 `search-key`？**，因为我这里所有搜索接口都规范成 `/api/${search-key}/autocomplete/options`，所以哪种数据的下拉数据，传入该数据的搜索类型即可；
 - `value-key`，传入该属性，绑定数据为对象类型；
+
+## 使用示例
+
+```js
+<o-select
+  v-model="status"
+  :options="options"
+  placeholder="请选择状态"
+/>
+
+const status = ref(1)
+const options = [
+  { id: 1, name: '启用' },
+  { id: 0, name: '禁用' }
+]
+```

@@ -1,10 +1,9 @@
----
-title: 项目介绍
-author: Gavin
-date: '2022-02-28'
----
-
 ```bash
+# 下载
+git clone git@github.com:wjw-gavin/vue3-vite-ts-element-plus.git
+
+cd vue3-vite-ts-element-plus
+
 # 安装依赖
 pnpm install
 

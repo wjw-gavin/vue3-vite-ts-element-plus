@@ -87,6 +87,6 @@ export type TableInstance = ComponentPublicInstance<TableExpose>
 
 ## 部分功能效果图
 
-<!-- ![list1.png](../../images/list_1.png) -->
+![table.png](../../images/table.png)
 
-![list2.png](../../images/list_2.png)
+![table2.png](../../images/table2.png)
