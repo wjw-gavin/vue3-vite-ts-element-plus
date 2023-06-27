@@ -60,14 +60,12 @@ const tableConfig: ITableConfig = {
           router.push(`/system/user/edit/${row.id}`)
         }
       },
-      ({ row }) => {
-        return {
-          text: '删除',
-          type: 'danger',
-          show: true,
-          click: () => {
-            handleDelete(row.id)
-          }
+      {
+        text: '删除',
+        type: 'danger',
+        show: true,
+        click: ({ row }) => {
+          handleDelete(row.id)
         }
       }
     ]

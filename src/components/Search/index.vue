@@ -40,7 +40,7 @@
           v-model="myForm[item.prop as string]"
           :multiple="item.multiple"
           :option-key="item.optionsKey"
-          :placeholder="getPlaceHolder(item.placeholder)"
+          :placeholder="'请选择' + item.label"
           :prop="item.optionProp"
           :options="item.options"
         />
