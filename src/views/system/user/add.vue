@@ -64,6 +64,7 @@ const formData = reactive<IUser>({
   role_ids: []
 })
 const formRules = reactive<FormRules>({
+  name: [{ required: true, message: '请输入用户姓名', trigger: 'blur' }],
   mobile: [{ required: true, validator: elv.isMobile(), trigger: 'blur' }],
   password: [{ required: true, message: '请输入默认密码', trigger: 'blur' }],
   role_ids: [{ required: true, message: '请选择用户角色', trigger: 'change' }]
