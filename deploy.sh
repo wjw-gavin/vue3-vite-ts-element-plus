@@ -10,8 +10,11 @@ pnpm run docs:build
 cd docs/.vitepress/dist
 
 git init 
-git branch -m master main
-git symbolic-ref HEAD refs/heads/main
+
+# 如果提交失败，可能因为 git init 默认分支是 master，而远程默认是 main，所以提交会报错。可以打开一下两行命令再次尝试
+# git branch -m master main
+# git symbolic-ref HEAD refs/heads/main
+
 git add -A
 git commit -m 'docs: update docs'
 
