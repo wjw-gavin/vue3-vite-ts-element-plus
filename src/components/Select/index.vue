@@ -5,10 +5,9 @@
     :filterable="!!searchKey || filterable"
     :remote="!!searchKey"
     :clearable="clearable"
-    collapse-tags
     reserve-keyword
     :loading="loading"
-    :remote-method="remoteMethod"
+    :remote-method="searchKey ? remoteMethod : undefined"
     @clear="onClear"
   >
     <el-option
@@ -21,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type PropType, computed, onBeforeMount, ref, watchEffect } from 'vue'
+import { type PropType, computed, onBeforeMount, ref } from 'vue'
 import { getAutocompleteOptions, getOptions } from '@/api/common'
 import type { IOptionProp } from './types'
 
@@ -119,10 +118,10 @@ const onClear = () => {
 }
 
 onBeforeMount(() => {
-  if (props.optionKey) getDefaultOptions()
-})
-
-watchEffect(() => {
+  if (props.optionKey) {
+    getDefaultOptions()
+    return
+  }
   _options.value = props.options
 })
 </script>
