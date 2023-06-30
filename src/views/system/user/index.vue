@@ -63,7 +63,7 @@ const tableConfig: ITableConfig = {
       {
         text: '删除',
         type: 'danger',
-        show: true,
+        show: false,
         click: ({ row }) => {
           handleDelete(row.id)
         }
