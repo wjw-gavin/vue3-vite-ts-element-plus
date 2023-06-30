@@ -130,9 +130,9 @@ const codeText = ref('获取验证码')
 const formRef = ref<FormInstance>()
 const form = reactive({
   loginForm: {
-    mobile: '',
+    mobile: '18688880001',
     code: '',
-    password: ''
+    password: 'g123456'
   }
 })
 const { loginForm } = toRefs(form)
