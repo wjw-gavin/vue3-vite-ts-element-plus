@@ -170,7 +170,7 @@ const getcode = () => {
   codeLoading.value = true
 
   setTimeout(() => {
-    ElMessage.success('获取成功')
+    ElMessage.success('暂不可用！')
     codeLoading.value = false
   }, 1000)
 }
