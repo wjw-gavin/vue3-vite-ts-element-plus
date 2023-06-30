@@ -95,8 +95,12 @@
           <footer>
             <p>
               offbeat-ui 备案号：
-              <a class="c-primary decoration-none" href="#" target="_blank">
-                京ICP备xxx号-x
+              <a
+                class="c-primary decoration-none"
+                href="https://beian.miit.gov.cn"
+                target="_blank"
+              >
+                京ICP备2023016556号-1
               </a>
             </p>
           </footer>
@@ -108,7 +112,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Iphone, Lock } from '@element-plus/icons-vue'
 import { onMounted, reactive, ref, toRefs } from 'vue'
 import { onKeyStroke } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
@@ -127,9 +130,9 @@ const codeText = ref('获取验证码')
 const formRef = ref<FormInstance>()
 const form = reactive({
   loginForm: {
-    mobile: '18688880001',
+    mobile: '',
     code: '',
-    password: 'g123456'
+    password: ''
   }
 })
 const { loginForm } = toRefs(form)
