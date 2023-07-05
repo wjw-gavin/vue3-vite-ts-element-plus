@@ -109,6 +109,7 @@
 import { type PropType, watch } from 'vue'
 import { isFunction } from 'native-lodash'
 import { useRoute } from 'vue-router'
+import { makeRequiredProp } from '@/utils'
 import { usePagination, useTable } from '@/hooks'
 import { getTableData } from '@/api/common'
 import type { ITableConfig, TObject } from '@/types'
@@ -119,11 +120,7 @@ defineOptions({
 })
 
 const props = defineProps({
-  tableConfig: {
-    type: Object as PropType<ITableConfig>,
-    required: true,
-    default: () => ({})
-  }
+  tableConfig: makeRequiredProp<PropType<ITableConfig>>(Object)
 })
 
 const { pagination: pager } = usePagination()

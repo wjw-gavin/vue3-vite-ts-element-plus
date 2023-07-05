@@ -35,6 +35,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { throttle } from 'lodash-es'
+import { makeNumberProp, makeStringProp, truthProp } from '@/utils'
 import { useLayoutStore } from '@/stores/layout'
 
 defineOptions({
@@ -42,47 +43,16 @@ defineOptions({
 })
 
 const emit = defineEmits(['confirm'])
+
 const props = defineProps({
-  // 标题文字
-  title: {
-    type: String,
-    default: ''
-  },
-  // 是否显示标题右侧按钮
-  showRightBtn: {
-    type: Boolean,
-    default: true
-  },
-  // 是否显示返回按钮
-  showCancel: {
-    type: Boolean,
-    default: true
-  },
-  // 取消按钮文字
-  cancelText: {
-    type: String,
-    default: '取 消'
-  },
-  // 是否显示确认按钮
-  showConfirm: {
-    type: Boolean,
-    default: true
-  },
-  // 确认按钮文字
-  confirmText: {
-    type: String,
-    default: '提 交'
-  },
-  // 是否显示按钮组
-  showFooter: {
-    type: Boolean,
-    default: true
-  },
-  // 节流时间
-  throttleTime: {
-    type: Number,
-    default: 1000
-  }
+  title: makeStringProp(''),
+  showFooter: truthProp,
+  showCancel: truthProp,
+  cancelText: makeStringProp('取消'),
+  showConfirm: truthProp,
+  confirmText: makeStringProp('确认'),
+  showRightBtn: truthProp,
+  throttleTime: makeNumberProp(1000)
 })
 
 const store = useLayoutStore()

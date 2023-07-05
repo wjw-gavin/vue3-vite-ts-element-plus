@@ -21,6 +21,7 @@
 
 <script lang="ts" setup>
 import { type PropType, computed, onBeforeMount, ref } from 'vue'
+import { makeArrayProp, makeStringProp, truthProp } from '@/utils'
 import { getAutocompleteOptions, getOptions } from '@/api/common'
 import type { IOptionProp } from './types'
 
@@ -32,50 +33,26 @@ defineOptions({
 const emit = defineEmits(['update:modelValue'])
 
 const props = defineProps({
+  options: makeArrayProp<any>(),
   // 如果设置了该属性，绑定值为对象
-  valueKey: {
-    type: String,
-    default: ''
-  },
+  valueKey: makeStringProp(''),
   // 搜索 key，相当于后端 controller，如果设置了该属性，会启用远程搜索
-  searchKey: {
-    type: String,
-    default: ''
-  },
+  searchKey: makeStringProp(''),
   // 获取指定 key 的下拉数据，如果设置了该属性，会自定请求 options
   // 注意：optionKey, searchKey 只能同时传一个
-  optionKey: {
-    type: String,
-    default: ''
-  },
-  // 是否可搜索
-  filterable: {
-    type: Boolean,
-    default: true
-  },
-  // 是否可清除
-  clearable: {
-    type: Boolean,
-    default: true
-  },
-  // 下拉数据
-  options: {
-    type: Array,
-    default: () => []
-  },
-  // 绑定值
+  optionKey: makeStringProp(''),
+  clearable: truthProp,
+  filterable: truthProp,
   modelValue: {
-    type: [String, Number, Object],
+    type: [String, Number, Array] as PropType<string | number | object>,
     default: ''
   },
   prop: {
     type: Object as PropType<IOptionProp>,
-    default: () => {
-      return {
-        label: 'name',
-        value: 'id'
-      }
-    }
+    default: () => ({
+      label: 'name',
+      value: 'id'
+    })
   }
 })
 

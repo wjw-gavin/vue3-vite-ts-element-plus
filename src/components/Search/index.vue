@@ -74,19 +74,18 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import { type PropType, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { cloneDeep, isArray, isEmpty, omit } from 'lodash-es'
+import { makeArrayProp } from '@/utils'
 import type { FormInstance } from 'element-plus'
 import type { ISearchItem, TObject } from '@/types'
 
 defineOptions({ name: 'OSearch' })
 
 const emit = defineEmits(['submitSearch'])
+
 const props = defineProps({
-  searchItems: {
-    type: Array as PropType<ISearchItem[]>,
-    default: () => []
-  }
+  searchItems: makeArrayProp<ISearchItem>()
 })
 
 const myForm = reactive<TObject>({})

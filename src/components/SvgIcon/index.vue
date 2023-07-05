@@ -6,24 +6,16 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { makeStringProp, truthProp } from '@/utils'
 
 defineOptions({
   name: 'SvgIcon'
 })
 
 const props = defineProps({
-  prefix: {
-    type: String,
-    default: 'icon'
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  color: {
-    type: String,
-    default: '#303133'
-  }
+  name: truthProp,
+  color: makeStringProp('#303133'),
+  prefix: makeStringProp('icon')
 })
 
 const symbolId = computed(() => `#${props.prefix}-${props.name}`)

@@ -28,62 +28,27 @@
 </template>
 
 <script lang="ts" setup>
-import { throttle } from 'lodash-es'
 import { computed, ref } from 'vue'
+import { throttle } from 'lodash-es'
+import { makeNumberProp, makeStringProp, truthProp } from '@/utils'
 
 defineOptions({
   name: 'ODialog'
 })
 
-const props = defineProps({
-  // 是否显示弹框
-  modelValue: {
-    type: Boolean,
-    default: false
-  },
-  // 点击遮罩隐藏
-  closeOnClickModal: {
-    type: Boolean,
-    default: false
-  },
-  // 自定义底部按钮
-  customFooter: {
-    type: Boolean,
-    default: false
-  },
-  // 不可点击
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  // 节流时间
-  throttleTime: {
-    type: Number,
-    default: 1000
-  },
-  // 是否显示取消按钮
-  showCancel: {
-    type: Boolean,
-    default: true
-  },
-  // 取消按钮文字
-  cancelText: {
-    type: String,
-    default: '取 消'
-  },
-  // 是否显示确认按钮
-  showConfirm: {
-    type: Boolean,
-    default: true
-  },
-  // 确认按钮文字
-  confirmText: {
-    type: String,
-    default: '确 认'
-  }
-})
-
 const emit = defineEmits(['update:modelValue', 'confirm', 'cancel'])
+
+const props = defineProps({
+  disabled: Boolean,
+  modelValue: Boolean,
+  showCancel: truthProp,
+  cancelText: makeStringProp('取消'),
+  showConfirm: truthProp,
+  confirmText: makeStringProp('确认'),
+  customFooter: Boolean,
+  closeOnClickModal: Boolean,
+  throttleTime: makeNumberProp(1000)
+})
 
 const loading = ref(false)
 
@@ -107,7 +72,7 @@ const onConfirm = throttle(() => {
 }, props.throttleTime)
 
 const onCancel = () => {
+  dialogVisible.value = false
   emit('cancel')
-  emit('update:modelValue', false)
 }
 </script>
