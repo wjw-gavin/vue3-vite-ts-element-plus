@@ -36,7 +36,7 @@ defineOptions({
   name: 'ODialog'
 })
 
-const emit = defineEmits(['update:modelValue', 'confirm', 'cancel'])
+const emit = defineEmits(['cancel', 'confirm', 'update:modelValue'])
 
 const props = defineProps({
   disabled: Boolean,
@@ -53,10 +53,8 @@ const props = defineProps({
 const loading = ref(false)
 
 const dialogVisible = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value) {
+  get: () => props.modelValue,
+  set: (value) => {
     emit('update:modelValue', value)
   }
 })

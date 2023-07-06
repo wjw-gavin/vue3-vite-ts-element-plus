@@ -64,10 +64,8 @@ if (props.optionKey && props.searchKey) {
 }
 
 const value = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value) {
+  get: () => props.modelValue,
+  set: (value) => {
     emit('update:modelValue', value)
   }
 })
