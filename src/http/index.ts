@@ -29,11 +29,6 @@ axiosInstance.interceptors.response.use(
     switch (code) {
       case 0:
         return data
-      case 401:
-        // 授权过期
-        clearLocal()
-        window.location.href = '/login'
-        break
       default:
         showMessage(message)
         return Promise.reject(data)
@@ -43,7 +38,13 @@ axiosInstance.interceptors.response.use(
     const { response } = error
     if (response) {
       const status = response.status
-      showMessage(status)
+      if (status === 401) {
+        clearLocal()
+        window.location.href = '/login'
+      } else {
+        showMessage(status)
+      }
+
       return Promise.reject(response.data)
     }
   }
