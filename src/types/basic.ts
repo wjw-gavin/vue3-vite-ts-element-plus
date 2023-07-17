@@ -1,5 +1,5 @@
 export type Numeric = number | string
 
-export type TObject = Record<string, any>
+export type TObject = Record<PropertyKey, any>
 
 export type ILoading = (arg: boolean) => void
