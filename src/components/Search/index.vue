@@ -74,7 +74,7 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { cloneDeep, isArray, isEmpty, omit } from 'lodash-es'
 import { makeArrayProp } from '@/utils'
 import type { FormInstance } from 'element-plus'
@@ -127,7 +127,6 @@ const initFormFelid = () => {
     }
   })
 }
-initFormFelid()
 
 const submitForm = () => {
   let result = cloneDeep(myForm)
@@ -150,7 +149,7 @@ const disabledStart = (time: Date) => {
   let key = ''
   props.searchItems.forEach((item: ISearchItem) => {
     if (item.type === 'dateRange' && Array.isArray(item.prop)) {
-      key = item.prop[1] as string
+      key = item.prop[1]
     }
   })
   const eDate = myForm[key]
@@ -158,11 +157,12 @@ const disabledStart = (time: Date) => {
     return time.getTime() > new Date(eDate).getTime()
   }
 }
+
 const disabledEnd = (time: Date) => {
   let key = ''
   props.searchItems.forEach((item: ISearchItem) => {
     if (item.type === 'dateRange' && Array.isArray(item.prop)) {
-      key = item.prop[0] as string
+      key = item.prop[0]
     }
   })
   const sDate = myForm[key]
@@ -171,6 +171,8 @@ const disabledEnd = (time: Date) => {
   }
 }
 /*********** 时间区间 控制开始与结束日期 end *************/
+
+onMounted(initFormFelid)
 </script>
 <style lang="scss" scoped>
 .el-form.el-form--label-top {
