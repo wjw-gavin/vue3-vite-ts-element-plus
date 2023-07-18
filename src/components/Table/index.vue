@@ -5,6 +5,7 @@
   >
     <o-search
       :search-items="tableConfig.searchItems"
+      :loading="loading"
       @submit-search="submitSearch"
     />
   </el-card>

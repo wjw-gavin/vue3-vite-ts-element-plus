@@ -7,6 +7,7 @@ export type ISearchItemType =
   | 'text'
   | 'date'
   | 'select'
+  | 'complex'
   | 'datetime'
   | 'dateRange'
   | 'autocomplete'
@@ -55,6 +56,9 @@ export interface ISearchItem {
 
   /** 下拉选项 */
   options?: any[]
+
+  /** 级联 */
+  children?: any[]
 
   /** 下拉选项 label 和 value */
   optionProp?: IOptionProp
