@@ -1,7 +1,7 @@
 <template>
   <o-table ref="tableRef" :table-config="tableConfig">
     <template #status_display="{ row }">
-      <el-tag :type="row['status'] ? 'success' : 'danger'">
+      <el-tag :type="row['status'] === 'enable' ? 'success' : 'danger'">
         {{ row.status_display }}
       </el-tag>
     </template>
@@ -43,22 +43,6 @@ const tableConfig: ITableConfig = {
     {
       prop: 'create_time_display',
       label: '创建时间'
-    }
-  ],
-  searchItems: [
-    {
-      type: 'text',
-      label: '名称',
-      prop: 'name'
-    },
-    {
-      type: 'select',
-      label: '状态',
-      prop: 'status',
-      options: [
-        { id: 1, name: '启用' },
-        { id: 0, name: '禁用' }
-      ]
     }
   ],
   operations: {

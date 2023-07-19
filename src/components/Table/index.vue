@@ -6,7 +6,7 @@
     <o-search
       :search-items="tableConfig.searchItems"
       :loading="loading"
-      @submit-search="submitSearch"
+      @search="submitSearch"
     />
   </el-card>
   <el-card v-loading="loading" element-loading-text="玩命加载中...">

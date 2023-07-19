@@ -1,6 +1,7 @@
 import { get } from '@/http'
 import type { IMenuItem } from '@/layout/types'
 import type { IUser } from '../system/modal/userModel'
+import type { IOptionProp, ISearchItem } from '@/types'
 
 // 菜单
 export function getMenus() {
@@ -16,12 +17,17 @@ export function getTableData(api: string, params: any) {
   return get(api, params)
 }
 
+// 获取指定页面的搜索项
+export function getSearchConfig(key: string) {
+  return get<ISearchItem[]>(`/search/config/${key}`)
+}
+
 // 获取指定类型 key 的下拉选项
 export function getOptions(key: string) {
-  return get(`${key}/default/options`)
+  return get<IOptionProp[]>(`/search/options/${key}`)
 }
 
 // 获取数据 autocomplete 下拉选项
-export function getAutocompleteOptions(key: string, keyword: string) {
-  return get(`${key}/autocomplete/options`, { keyword })
+export function getAutoComplete(key: string, keyword: string) {
+  return get(`search/autocomplete/${key}`, { keyword })
 }

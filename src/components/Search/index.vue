@@ -1,82 +1,81 @@
 <template>
   <el-form ref="formRef" :model="form" label-position="top" :inline="true">
-    <template v-for="item in searchItems" :key="item.prop">
+    <template v-for="item in searchList" :key="item.id">
       <template v-if="item.type === 'complex'">
         <el-form-item
           v-for="(autocomplete, $index) in item.children"
           :key="autocomplete.id"
           class="complex"
-          :label="$index === 0 ? item.label + '' : ''"
+          :label="item.name"
         >
-          <el-select
-            v-model="form[autocomplete.paramName]"
-            :popper-append-to-body="false"
-            class="search-item"
-            value-key="key"
-            clearable
-            filterable
+          <o-select
+            v-model="form[autocomplete.id]"
             :loading="loading"
-            placeholder=""
+            :placeholder="item.hint"
+            :options="item.options"
             @change="
-              (value) => {
-                cascaderHandleChange(value, item.children, $index)
+              (value: string) => {
+                cascaderHandleChange(value, item.children!, $index)
               }
             "
-          >
-            <el-option
-              v-for="option in autocomplete.options"
-              :key="option.key"
-              :label="option.value"
-              :value="option.key"
-            />
-          </el-select>
+          />
         </el-form-item>
       </template>
 
-      <el-form-item v-else :prop="item.prop" :label="(item.label as string)">
+      <el-form-item v-else :label="item.name">
         <!-- 基础输入框 -->
         <el-input
           v-if="item.type === 'text'"
-          v-model="form[item.prop as string]"
+          v-model="form[item.id]"
           clearable
-          :placeholder="item.placeholder as string || '请输入' + item.label"
+          :placeholder="item.hint"
         />
 
         <!-- 下拉选择框 -->
         <o-select
-          v-else-if="item.type === 'select'"
-          v-model="form[item.prop as string]"
-          :multiple="item.multiple"
-          :option-key="item.optionsKey"
-          :placeholder="'请选择' + item.label"
-          :prop="item.optionProp"
+          v-else-if="item.type === 'select' || item.type === 'multi_select'"
+          v-model="form[item.id]"
+          :multiple="item.multi_select"
+          :placeholder="item.hint"
+          :collapse-tags="item.type === 'multi_select'"
           :options="item.options"
         />
 
         <!-- 远程搜索选择框 -->
         <o-select
-          v-else-if="item.type === 'autocomplete'"
-          v-model="form[item.prop as string]"
-          :multiple="item.multiple"
-          :search-key="item.searchKey"
+          v-else-if="item.type === 'auto_complete'"
+          v-model="form[item.id]"
+          :multiple="item.multi_select"
+          :search-key="item.id"
           :options="item.options"
           remote-show-suffix
-          :placeholder="item.placeholder as string || '请输入' + item.label"
+          :placeholder="item.hint"
         />
 
-        <!-- 单独日期 -->
+        <!-- 日期 -->
         <el-date-picker
-          v-if="item.type === 'date' || item.type === 'datetime'"
-          v-model="form[item.prop as string]"
-          :type="item.type"
-          :format="item.format ? item.format : 'yyyy-MM-dd HH:mm:ss'"
-          :value-format="item.format ? item.format : 'yyyy-MM-dd HH:mm:ss'"
-          :placeholder="getPlaceHolder(item.placeholder)"
+          v-if="item.type === 'date' || item.type === 'date_time'"
+          v-model="form[item.id]"
+          :type="item.type === 'date' ? 'date' : 'datetime'"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          :placeholder="item.hint"
+        />
+
+        <!-- 日期选择范围 -->
+        <el-date-picker
+          v-else-if="item.type === 'time_range' || item.type === 'date_range'"
+          v-model="form[item.id]"
+          :type="item.type === 'time_range' ? 'datetimerange' : 'daterange'"
+          :start-placeholder="item.hint"
+          :end-placeholder="item.hint"
+          format="YYYY-MM-DD HH:mm:ss"
+          value-format="x"
         />
       </el-form-item>
     </template>
     <div class="flex items-end mb-10px">
-      <el-button @click="resetForm(formRef)">重置</el-button>
+      <el-button @click="resetForm">重置</el-button>
       <el-button type="primary" :loading="loading" @click="submitForm">
         查询
       </el-button>
@@ -84,81 +83,50 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue'
-import { cloneDeep, isArray, isEmpty, omit } from 'lodash-es'
+import { computed, reactive, ref } from 'vue'
+import { cloneDeep, omit } from 'lodash-es'
+import { useSearchStore } from '@/stores/search'
 import { makeArrayProp } from '@/utils'
+import { getOptions } from '@/api/common'
 import type { FormInstance } from 'element-plus'
-import type { ISearchItem, TObject } from '@/types'
+import type { ISearchItem, ISearchItemConfig, TObject } from '@/types'
 
 defineOptions({ name: 'OSearch' })
 
-const emit = defineEmits(['submitSearch'])
+const emit = defineEmits(['search'])
 
-const props = defineProps({
+defineProps({
   loading: Boolean,
-  searchItems: makeArrayProp<ISearchItem>()
+  searchItems: makeArrayProp<ISearchItemConfig>()
 })
+
+const searchStore = useSearchStore()
 
 const form = reactive<TObject>({})
 const formRef = ref<FormInstance>()
 
-const getPlaceHolder = (placeholder?: string | string[], index?: number) => {
-  if (isEmpty(placeholder)) return '请选择'
-  if (isArray(placeholder)) {
-    return placeholder[index!]
-  } else {
-    return placeholder
-  }
-}
+const searchList = computed(() => searchStore.searchList)
 
-const initFormFelid = () => {
-  props.searchItems.forEach((item: ISearchItem) => {
-    if (!item.prop) {
-      return
-    }
-    if (item.type === 'dateRange') {
-      let val0 = ''
-      if (item.defaultValue && item.defaultValue[0]) {
-        //设置开始日期默认值
-        val0 = item.defaultValue[0]
-      }
-      let val1: Date | string = ''
-      if (item.defaultValue && item.defaultValue[1]) {
-        //设置结束日期默认值
-        val1 = item.defaultValue[1]
-      }
-      form[item.prop[0]] = val0
-      form[item.prop[1]] = val1
-    } else {
-      let val = ''
-      if (item.defaultValue) {
-        val = item.defaultValue as string
-      }
-      form[item.prop as string] = val
-    }
-  })
-}
+// TODO: 级联复合搜索
+const cascaderHandleChange = async (
+  value: string,
+  children: ISearchItem[],
+  index: number
+) => {
+  if (index + 1 === children.length) return // 随后一项
 
-// 级联复合搜索
-const cascaderHandleChange = (value: any, children: any, index: number) => {
-  if (index + 1 === children.length) return // 排除随后一项
   // 如果清空前一项，后面选项置空
   if (!value) {
     for (let i = index + 1; i < children.length; i++) {
-      form[children[i].id] = null
+      form[children[i].id] = ''
       children[i].options = []
     }
     return
   }
-  const url = `/search/options/${children[index + 1].id}`
-  const key = children[index].id
-  const param: TObject = {}
-  param[key] = value
-  console.log(url)
 
-  // get(url, { condition: param }).then((res) => {
-  //   children[index + 1].options = res
-  // })
+  const key = children[index].id
+  const options = await getOptions(key)
+  children[index + 1].options = options
 }
 
 const submitForm = () => {
@@ -169,15 +137,13 @@ const submitForm = () => {
       result = omit(result, key)
     }
   })
-  emit('submitSearch', result)
+  emit('search', result)
 }
 
-const resetForm = (formEl: FormInstance | undefined) => {
-  formEl?.resetFields()
+const resetForm = () => {
+  formRef.value?.resetFields()
   submitForm()
 }
-
-onMounted(initFormFelid)
 </script>
 <style lang="scss" scoped>
 .el-form.el-form--label-top {

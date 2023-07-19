@@ -1,16 +1,6 @@
 import type { TObject } from '.'
-import type { IOptionProp } from '@/components/Select/types'
-import type { DatePickType, LinkProps, RenderRowData } from 'element-plus'
+import type { LinkProps, RenderRowData } from 'element-plus'
 import type { ComponentPublicInstance } from 'vue'
-
-export type ISearchItemType =
-  | 'text'
-  | 'date'
-  | 'select'
-  | 'complex'
-  | 'datetime'
-  | 'dateRange'
-  | 'autocomplete'
 
 export interface ITableHead {
   /** 表头名称 */
@@ -27,50 +17,6 @@ export interface ITableHead {
 
   /** 插槽 name */
   slot?: string
-}
-
-export interface ISearchItem {
-  /** 搜索项名称 */
-  label: string[] | string
-
-  /** 表单类型 */
-  type: ISearchItemType
-
-  /** 表单项参数 */
-  prop: string[] | string
-
-  /** 表单占位提示 */
-  placeholder?: string[] | string
-
-  /** 是否多选 */
-  multiple?: boolean
-
-  /** 远程搜索 key */
-  searchKey?: string
-
-  /** 获取默认下拉 key */
-  optionsKey?: string
-
-  /** 远程搜索类型 key */
-  key?: string
-
-  /** 下拉选项 */
-  options?: any[]
-
-  /** 级联 */
-  children?: any[]
-
-  /** 下拉选项 label 和 value */
-  optionProp?: IOptionProp
-
-  /** 时间选择类型 */
-  subType?: DatePickType
-
-  /** 时间格式，默认 yyyy-MM-dd HH:mm:ss */
-  format?: string
-
-  /** 默认值 */
-  defaultValue?: any
 }
 
 export interface IButtons {
@@ -113,9 +59,6 @@ export interface ITableConfig {
 
   /** 是否显示复选框 */
   selection?: boolean
-
-  /** 列表搜索项 */
-  searchItems?: ISearchItem[]
 
   /** 列表操作栏按钮 */
   operations?: ITableOperation

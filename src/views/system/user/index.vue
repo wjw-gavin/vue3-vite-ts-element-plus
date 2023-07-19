@@ -38,18 +38,6 @@ const tableConfig: ITableConfig = {
       label: '创建时间'
     }
   ],
-  searchItems: [
-    {
-      type: 'text',
-      label: '用户名',
-      prop: 'name'
-    },
-    {
-      type: 'text',
-      label: '手机号',
-      prop: 'mobile'
-    }
-  ],
   operations: {
     width: 115,
     buttons: [

@@ -12,9 +12,9 @@
   >
     <el-option
       v-for="option in _options"
-      :key="option[prop.value]"
-      :label="option[prop.label]"
-      :value="valueKey ? option : option[prop.value]"
+      :key="option.key"
+      :label="option[prop.value as 'value']"
+      :value="valueKey ? option : option[prop.key as 'key']"
     />
   </el-select>
 </template>
@@ -22,8 +22,8 @@
 <script lang="ts" setup>
 import { type PropType, computed, onBeforeMount, ref } from 'vue'
 import { makeArrayProp, makeStringProp, truthProp } from '@/utils'
-import { getAutocompleteOptions, getOptions } from '@/api/common'
-import type { IOptionProp } from './types'
+import { getAutoComplete, getOptions } from '@/api/common'
+import type { IOptionProp } from '@/types'
 
 defineOptions({
   name: 'OSelect',
@@ -50,14 +50,14 @@ const props = defineProps({
   prop: {
     type: Object as PropType<IOptionProp>,
     default: () => ({
-      label: 'name',
-      value: 'id'
+      key: 'key',
+      value: 'value'
     })
   }
 })
 
 const loading = ref(false)
-const _options = ref<any[]>([])
+const _options = ref<IOptionProp[]>([])
 
 if (props.optionKey && props.searchKey) {
   console.error('optionKey 和 searchKey 只能同时传一个')
@@ -78,7 +78,7 @@ const getDefaultOptions = async () => {
 const remoteMethod = async (query: string) => {
   if (query.trim() !== '') {
     loading.value = true
-    const result = await getAutocompleteOptions(props.searchKey, query)
+    const result = await getAutoComplete(props.searchKey, query)
     loading.value = false
     _options.value = result
   } else {

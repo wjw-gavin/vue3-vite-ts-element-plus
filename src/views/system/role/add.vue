@@ -12,8 +12,8 @@
       </el-form-item>
       <el-form-item label="角色状态" prop="name">
         <el-radio-group v-model="formData.status">
-          <el-radio :label="1" size="large">启用</el-radio>
-          <el-radio :label="0" size="large">禁用</el-radio>
+          <el-radio label="enable" size="large">启用</el-radio>
+          <el-radio label="disabled" size="large">禁用</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="角色描述：" prop="desc">
@@ -44,7 +44,7 @@ const ruleForm = ref<FormInstance>()
 const formData = reactive<IRole>({
   name: '',
   desc: '',
-  status: 1
+  status: 'enable'
 })
 const formRules = reactive<FormRules>({
   name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],

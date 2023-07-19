@@ -55,19 +55,6 @@ const tableConfig: ITableConfig = {
       label: '更新时间'
     }
   ],
-  searchItems: [
-    {
-      type: 'text',
-      prop: 'title',
-      label: '文章名称'
-    },
-    {
-      type: 'autocomplete',
-      prop: 'author_id',
-      searchKey: 'user',
-      label: '作者'
-    }
-  ],
   operations: {
     width: 115,
     buttons: [
