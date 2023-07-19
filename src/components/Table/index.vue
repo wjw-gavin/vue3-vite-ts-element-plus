@@ -1,14 +1,6 @@
 <template>
-  <el-card
-    v-if="tableConfig.searchItems && tableConfig.searchItems.length > 0"
-    class="mb-3"
-  >
-    <o-search
-      :search-items="tableConfig.searchItems"
-      :loading="loading"
-      @search="submitSearch"
-    />
-  </el-card>
+  <o-search :loading="loading" @search="submitSearch" />
+
   <el-card v-loading="loading" element-loading-text="玩命加载中...">
     <div class="flex justify-between mb-4">
       <slot name="table-top" />
