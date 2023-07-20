@@ -99,12 +99,13 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import { type PropType, watch } from 'vue'
+import { type PropType, computed, onMounted, watch } from 'vue'
 import { isFunction } from 'native-lodash'
 import { useRoute } from 'vue-router'
 import { makeRequiredProp } from '@/utils'
 import { usePagination, useTable } from '@/hooks'
 import { getTableData } from '@/api/common'
+import { useSearchStore } from '@/stores/search'
 import type { ITableConfig, TObject } from '@/types'
 
 defineOptions({
@@ -116,11 +117,14 @@ const props = defineProps({
   tableConfig: makeRequiredProp<PropType<ITableConfig>>(Object)
 })
 
+const searchStore = useSearchStore()
 const { pagination: pager } = usePagination()
+
+const searchReady = computed(() => searchStore.searchReady)
 
 const route = useRoute()
 const query = route.query
-let searchData: TObject = Object.assign(
+let searchData = Object.assign(
   {
     page: Number(query.page) || pager.page,
     page_size: Number(query.page_size) || pager.page_size
@@ -137,7 +141,8 @@ const {
   handleCurrentChange
 } = useTable(getTableData, {
   api: props.tableConfig.api,
-  params: searchData
+  params: searchData,
+  immediate: false
 })
 
 const submitSearch = (search: TObject) => {
@@ -160,7 +165,19 @@ const dispatchLoad = () => {
   )
 }
 
+onMounted(() => {
+  searchStore.getSearchList()
+})
+
 watch([() => pagination.page, () => pagination.page_size], dispatchLoad)
+watch(
+  () => searchReady.value,
+  (val) => {
+    if (val) {
+      dispatchLoad()
+    }
+  }
+)
 
 defineExpose({
   dispatchLoad
