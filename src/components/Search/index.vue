@@ -1,5 +1,5 @@
 <template>
-  <el-card class="mb-2.5">
+  <el-card v-if="searchList.length > 0" class="mb-2.5">
     <el-form ref="formRef" :model="form" label-position="top" :inline="true">
       <template v-for="item in searchList" :key="item.id">
         <template v-if="item.type === 'complex'">
@@ -8,6 +8,7 @@
             :key="autocomplete.id"
             class="complex"
             :label="item.name"
+            :prop="item.id"
           >
             <o-select
               v-model="form[autocomplete.id]"
@@ -23,7 +24,7 @@
           </el-form-item>
         </template>
 
-        <el-form-item v-else :label="item.name">
+        <el-form-item v-else :label="item.name" :prop="item.id">
           <!-- 基础输入框 -->
           <el-input
             v-if="item.type === 'text'"
