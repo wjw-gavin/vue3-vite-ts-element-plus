@@ -31,7 +31,7 @@ import {
   getArticleInfo,
   updateArticle
 } from '@/api/base/article'
-import type { ILoading } from '@/types'
+import type { TLoading } from '@/types'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { IArticle } from '@/api/base/modal/articleModel'
 
@@ -58,7 +58,7 @@ const articleInfo = async () => {
   Object.assign(formData, info)
 }
 
-const onConfirm = (loading: ILoading) => {
+const onConfirm = (loading: TLoading) => {
   ruleForm.value?.validate(async (valid) => {
     if (valid) {
       loading(true)

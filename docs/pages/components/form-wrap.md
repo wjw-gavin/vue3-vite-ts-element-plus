@@ -5,7 +5,7 @@
 并在底部悬浮操作按钮“取消”和“提交”，与侧边栏折叠动画同步，同时“提交”按钮支持**防连点** `prop` 或通过回调 `loading` 方法处理。示例如下：
 
 ```ts{[4,9]}
-const onConfirm = (loading: ILoading) => {
+const onConfirm = (loading: TLoading) => {
   ruleForm.value?.validate(async (valid) => {
     if (valid) {
       loading(true) // 提交按钮会显示 loading 状态

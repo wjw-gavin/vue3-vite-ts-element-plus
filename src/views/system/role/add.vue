@@ -28,7 +28,7 @@ import { onBeforeMount, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 import { createRole, getRoleInfo, updateRole } from '@/api/system/role'
-import type { ILoading } from '@/types'
+import type { TLoading } from '@/types'
 import type { IRole } from '@/api/system/modal/roleModel'
 import type { FormInstance, FormRules } from 'element-plus'
 
@@ -58,7 +58,7 @@ const roleInfo = async () => {
 
 // onConfirm 组件默认自带防连点 间隔为 1s，
 // 也可以通过 loading 方法设置 button 的 loading 实现防连点
-const onConfirm = (loading: ILoading) => {
+const onConfirm = (loading: TLoading) => {
   ruleForm.value?.validate(async (valid) => {
     if (valid) {
       loading(true)
