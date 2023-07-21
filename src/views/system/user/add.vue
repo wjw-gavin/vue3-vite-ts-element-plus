@@ -30,7 +30,7 @@
         <o-select
           v-model="formData.role_ids"
           multiple
-          option-key="role"
+          option-key="role_option"
           placeholder="请选择所属角色"
         />
       </el-form-item>

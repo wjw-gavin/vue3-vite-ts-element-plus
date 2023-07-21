@@ -24,7 +24,7 @@ export function getSearchConfig(key: string) {
 
 // 获取指定类型 key 的下拉选项
 export function getOptions(key: string) {
-  return get<IOptionProp[]>(`/search/options/${key}`)
+  return get<IOptionProp[]>(`/search/option/${key}`)
 }
 
 // 获取数据 autocomplete 下拉选项
