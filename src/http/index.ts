@@ -36,13 +36,13 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     const { response } = error
-    if (response) {
-      const status = response.status
-      if (status === 401) {
+    if (response.data) {
+      const { code, message } = response.data.status
+      if (code === 401) {
         clearLocal()
         window.location.href = '/login'
-      } else {
-        showMessage(status)
+      } else if (message) {
+        showMessage(message || code)
       }
 
       return Promise.reject(response.data)
