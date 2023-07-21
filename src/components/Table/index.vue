@@ -70,16 +70,17 @@
                 </el-link>
               </div>
             </template>
-            <div v-else class="px-2 inline-block">
+            <template v-else>
               <el-link
                 v-if="btn.show"
+                class="px-2 inline-block"
                 :underline="false"
                 :type="btn.type ? btn.type : 'primary'"
                 @click.stop="btn.click!(scope)"
               >
                 {{ btn.text }}
               </el-link>
-            </div>
+            </template>
           </template>
         </template>
       </el-table-column>

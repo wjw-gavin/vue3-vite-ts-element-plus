@@ -39,7 +39,7 @@ const tableConfig: ITableConfig = {
     }
   ],
   operations: {
-    width: 115,
+    width: 70,
     buttons: [
       {
         text: '编辑',
