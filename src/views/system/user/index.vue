@@ -39,7 +39,7 @@ const tableConfig: ITableConfig = {
     }
   ],
   operations: {
-    width: 70,
+    width: 115,
     buttons: [
       {
         text: '编辑',
@@ -51,7 +51,7 @@ const tableConfig: ITableConfig = {
       {
         text: '删除',
         type: 'danger',
-        show: false,
+        show: true,
         click: ({ row }) => {
           handleDelete(row.id)
         }
