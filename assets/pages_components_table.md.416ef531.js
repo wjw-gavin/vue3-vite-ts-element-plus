@@ -63,9 +63,6 @@ import{_ as s,o as n,c as a,O as l}from"./chunks/framework.6664f35c.js";const p=
 <span class="line"><span style="color:#A6ACCD;">  </span><span style="color:#676E95;font-style:italic;">/** 是否显示复选框 */</span></span>
 <span class="line"><span style="color:#A6ACCD;">  </span><span style="color:#F07178;">selection</span><span style="color:#89DDFF;">?:</span><span style="color:#A6ACCD;"> </span><span style="color:#FFCB6B;">boolean</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#A6ACCD;">  </span><span style="color:#676E95;font-style:italic;">/** 列表搜索项 */</span></span>
-<span class="line"><span style="color:#A6ACCD;">  </span><span style="color:#F07178;">searchItems</span><span style="color:#89DDFF;">?:</span><span style="color:#A6ACCD;"> </span><span style="color:#FFCB6B;">ISearchItem</span><span style="color:#A6ACCD;">[]</span></span>
-<span class="line"></span>
 <span class="line"><span style="color:#A6ACCD;">  </span><span style="color:#676E95;font-style:italic;">/** 列表操作栏按钮 */</span></span>
 <span class="line"><span style="color:#A6ACCD;">  </span><span style="color:#F07178;">operations</span><span style="color:#89DDFF;">?:</span><span style="color:#A6ACCD;"> </span><span style="color:#FFCB6B;">ITableOperation</span></span>
 <span class="line"><span style="color:#89DDFF;">}</span></span>
