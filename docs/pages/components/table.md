@@ -70,9 +70,6 @@ interface ITableConfig {
   /** 是否显示复选框 */
   selection?: boolean
 
-  /** 列表搜索项 */
-  searchItems?: ISearchItem[]
-
   /** 列表操作栏按钮 */
   operations?: ITableOperation
 }

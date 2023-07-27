@@ -1,4 +1,4 @@
-export type ISearchItemType =
+export type TSearchItemType =
   | 'text'
   | 'date'
   | 'select'
@@ -17,7 +17,7 @@ export interface IOptionProp {
 export interface ISearchItem {
   id: string
   name: string
-  type: ISearchItemType
+  type: TSearchItemType
   hint: string
   options?: IOptionProp[]
   children?: ISearchItem[]
