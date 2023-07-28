@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue'
 import { useDebounceFn, useEventListener } from '@vueuse/core'
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import { useLayoutStore } from '@/stores/layout'
 
 const store = useLayoutStore()
