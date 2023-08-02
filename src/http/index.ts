@@ -35,18 +35,19 @@ axiosInstance.interceptors.response.use(
     }
   },
   (error) => {
-    const { response } = error
-    if (response.data) {
-      const { code, message } = response.data.status
+    const { data } = error.response
+    if (data && data.status) {
+      const { code, message } = data.status
       if (code === 401) {
         clearLocal()
         window.location.href = '/login'
       } else if (message) {
         showMessage(message || code)
       }
-
-      return Promise.reject(response.data)
+    } else {
+      showMessage(data.statusCode)
     }
+    return Promise.reject(data)
   }
 )
 
