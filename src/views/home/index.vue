@@ -1,22 +1,18 @@
 <template>
-  <el-row>
-    <el-col :span="24">
-      <div class="grid-content">
-        <div class="userInfo">
-          <div class="userImg">
-            <img :src="avatar" alt="" />
-          </div>
-          <div class="userRight">
-            <h2 class="name">
-              你好，<span>{{ user.name }}</span>
-            </h2>
-            <p class="loginTime">登录日期：{{ currentTime }}</p>
-            <p class="userWord">{{ soulWord }}</p>
-          </div>
-        </div>
+  <div class="bg-white rd h-75">
+    <div class="flex items-center h-full">
+      <div class="w-28 h-28 ml-10 rd-99 overflow-hidden">
+        <img class="w-full" :src="avatar" alt="" />
       </div>
-    </el-col>
-  </el-row>
+      <div class="pr-5 pl-10">
+        <h2 class="text-5 font-bold m0">
+          你好，<span>{{ user.name }}</span>
+        </h2>
+        <p class="c-#787f95 pt-4 m0">登录日期：{{ currentTime }}</p>
+        <p class="c-#787f95 pt-4 m0">{{ soulWord }}</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -35,58 +31,3 @@ const currentTime = ref(dayjs().format('YYYY-MM-DD'))
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
 </script>
-
-<style scoped lang="scss">
-.grid-content {
-  background-color: #fff;
-  border-radius: 4px;
-  height: 295px;
-
-  .loginTime {
-    color: #787f95;
-    padding-top: 12px;
-  }
-}
-
-.userInfo {
-  display: flex;
-  align-items: center;
-  height: 100%;
-
-  .userImg {
-    width: 110px;
-    min-width: 100px;
-    border-radius: 50%;
-    margin-left: 40px;
-    vertical-align: middle;
-
-    img {
-      width: 100%;
-    }
-  }
-}
-
-.userRight {
-  padding: 0 20px 0 40px;
-
-  .name {
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  h2 {
-    font-size: 22px;
-    color: #121c40;
-    margin: 0;
-    border: 0;
-    font-weight: 400;
-  }
-
-  .userWord {
-    font-size: 14px;
-    color: #787f95;
-    margin-top: 15px;
-    line-height: 1.4;
-  }
-}
-</style>
