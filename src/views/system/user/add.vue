@@ -42,6 +42,7 @@
 import { onBeforeMount, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 import { createUser, getUserInfo, updateUser } from '@/api/system/user'
 import { elv } from '@/utils'
 import type { IUser } from '@/api/system/modal/userModel'
@@ -49,6 +50,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 const route = useRoute()
 const router = useRouter()
+const usestore = useUserStore()
 
 const isEditing = ref(false)
 const id = route.params.id
@@ -81,6 +83,9 @@ const onConfirm = () => {
       if (isEditing.value) {
         await updateUser(formData)
         ElMessage.success('编辑成功')
+        if (usestore.user.id === formData.id) {
+          usestore.getUser()
+        }
       } else {
         await createUser(formData)
         ElMessage.success('添加成功')
