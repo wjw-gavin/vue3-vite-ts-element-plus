@@ -2,7 +2,7 @@
   <div class="bg-white rd h-75">
     <div class="flex items-center h-full">
       <div class="w-28 h-28 ml-10 rd-99 overflow-hidden">
-        <img class="w-full" :src="avatar" alt="" />
+        <img class="w-full" :src="user.avatar || avatar" alt="" />
       </div>
       <div class="pr-5 pl-10">
         <h2 class="text-5 font-bold m0">

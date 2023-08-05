@@ -1,5 +1,9 @@
 <template>
   <o-table ref="tableRef" :table-config="tableConfig">
+    <template #avatar="{ row }">
+      <img v-if="row.avatar" :src="row.avatar" width="60" alt="" />
+      <span v-else>-</span>
+    </template>
     <template #table-top>
       <el-button type="primary" @click="handleAdd">添加</el-button>
     </template>
@@ -28,6 +32,11 @@ const tableConfig: ITableConfig = {
     {
       prop: 'sex',
       label: '性别'
+    },
+    {
+      prop: 'avatar',
+      slot: 'avatar',
+      label: '头像'
     },
     {
       prop: 'roles',

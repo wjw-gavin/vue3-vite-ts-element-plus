@@ -2,8 +2,9 @@ import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios'
 import { TOOKENkEY, clearLocal, getToken } from '@/utils'
 import { showMessage } from './status'
 
+export const baseURL = import.meta.env.VITE_APP_API_BASEURL
 export const axiosInstance: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_BASEURL,
+  baseURL,
   timeout: 10000
 })
 

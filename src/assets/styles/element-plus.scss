@@ -84,3 +84,10 @@
 .el-dropdown-link:focus-visible {
   outline: unset;
 }
+
+.el-upload {
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
