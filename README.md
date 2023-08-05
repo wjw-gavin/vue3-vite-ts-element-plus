@@ -6,10 +6,6 @@
 
 ## 该项目后端使用[Nest](https://nestjs.com) 开发，后端代码请移步[这里](https://github.com/wjw-gavin/nest-study)
 
-## TODO
-
-- [ ] 重构 search 组件，搜索配置放到后端
-- [ ] 增加级联搜索，类似省市区
 
 管理后台项目模板，相关技术：
 
