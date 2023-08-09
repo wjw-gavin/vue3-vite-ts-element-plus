@@ -36,6 +36,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { logout } from '@/api/login'
 import { useLayoutStore } from '@/stores/layout'
 import { useUserStore } from '@/stores/user'
 import { clearLocal, confirmBox } from '@/utils'
@@ -60,8 +61,8 @@ const handleLogout = () => {
   confirmBox('确认退出当前账户吗？', '提示', {
     autofocus: false,
     type: 'warning'
-  }).then(() => {
-    // await logout()
+  }).then(async () => {
+    await logout()
     clearLocal()
     router.push('/login')
   })
