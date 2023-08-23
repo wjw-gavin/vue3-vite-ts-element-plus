@@ -59,8 +59,7 @@
             v-if="item.type === 'date' || item.type === 'date_time'"
             v-model="form[item.id]"
             :type="item.type === 'date' ? 'date' : 'datetime'"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
+            value-format="YYYY-MM-DD"
             :placeholder="item.hint"
           />
 
@@ -71,8 +70,7 @@
             :type="item.type === 'time_range' ? 'datetimerange' : 'daterange'"
             :start-placeholder="item.hint"
             :end-placeholder="item.hint"
-            format="YYYY-MM-DD HH:mm:ss"
-            value-format="x"
+            value-format="YYYY-MM-DD"
           />
         </el-form-item>
       </template>
@@ -155,7 +153,7 @@ const resetForm = () => {
 
   .el-form-item,
   .el-date-editor .el-input__wrapper {
-    width: 250px !important;
+    width: 255px !important;
   }
 }
 </style>
