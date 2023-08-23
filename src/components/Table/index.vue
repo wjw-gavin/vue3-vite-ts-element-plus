@@ -118,20 +118,11 @@ const props = defineProps({
   tableConfig: makeRequiredProp<PropType<ITableConfig>>(Object)
 })
 
+const route = useRoute()
 const searchStore = useSearchStore()
 const { pagination: pager } = usePagination()
 
-const searchReady = computed(() => searchStore.searchReady)
-
-const route = useRoute()
-const query = route.query
-let searchData = Object.assign(
-  {
-    page: Number(query.page) || pager.page,
-    page_size: Number(query.page_size) || pager.page_size
-  },
-  props.tableConfig.params
-)
+let searchData: TObject = { ...props.tableConfig.params }
 
 const {
   loading,
@@ -146,11 +137,12 @@ const {
   immediate: false
 })
 
+const searchReady = computed(() => searchStore.searchReady)
+
 const submitSearch = (search: TObject) => {
   searchData = {
     page: 1,
     page_size: pagination.page_size,
-    ...props.tableConfig.params,
     ...search
   }
 
@@ -167,6 +159,14 @@ const dispatchLoad = () => {
 }
 
 onMounted(() => {
+  const query = route.query
+  pagination.page = Number(query.page) || pager.page
+  pagination.page_size = Number(query.page_size) || pager.page_size
+
+  Object.assign(searchData, {
+    page: pagination.page,
+    page_size: pagination.page_size
+  })
   searchStore.getSearchList()
 })
 
