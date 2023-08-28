@@ -23,6 +23,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
+      { text: '预览', link: 'http://vue-study.wangjunwei.vip/' },
       {
         text: '了解更多',
         items: [
