@@ -6,6 +6,19 @@ export default defineConfig({
   base: '/vue3-vite-ts-element-plus/',
   description: '精简的后台管理系统模板',
   lastUpdated: true,
+  head: [
+    [
+      'script',
+      {},
+      `var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?2ac7b1e1b02aafa78481e6956e3dd54e";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();`
+    ]
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
