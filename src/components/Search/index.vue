@@ -86,7 +86,7 @@
 <script lang="ts" setup>
 import { computed, reactive, ref } from 'vue'
 import { cloneDeep, omit } from 'lodash-es'
-import { useSearchStore } from '@/stores/search'
+import { useSearchStore } from '@/stores'
 import { getOptions } from '@/api/common'
 import type { FormInstance } from 'element-plus'
 import type { ISearchItem, TObject } from '@/types'
@@ -157,3 +157,4 @@ const resetForm = () => {
   }
 }
 </style>
+@/stores/modules/search

@@ -106,7 +106,7 @@ import { useRoute } from 'vue-router'
 import { makeRequiredProp } from '@/utils'
 import { usePagination, useTable } from '@/hooks'
 import { getTableData } from '@/api/common'
-import { useSearchStore } from '@/stores/search'
+import { useSearchStore } from '@/stores'
 import type { ITableConfig, TObject } from '@/types'
 
 defineOptions({
@@ -184,3 +184,4 @@ defineExpose({
   dispatchLoad
 })
 </script>
+@/stores/modules/search

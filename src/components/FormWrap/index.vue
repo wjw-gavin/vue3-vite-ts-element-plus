@@ -14,7 +14,7 @@
     <footer
       v-if="showFooter"
       class="form-btn-warp"
-      :class="[isCollapse ? 'left-74px' : 'left-230px']"
+      :class="[layoutStore.isCollapse ? 'left-74px' : 'left-230px']"
     >
       <el-button v-if="showCancel" class="w-25" @click="$router.back()">
         返 回
@@ -33,10 +33,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { throttle } from 'lodash-es'
 import { makeNumberProp, makeStringProp, truthProp } from '@/utils'
-import { useLayoutStore } from '@/stores/layout'
+import { useLayoutStore } from '@/stores'
 
 defineOptions({
   name: 'OFormWrap'
@@ -55,10 +55,9 @@ const props = defineProps({
   throttleTime: makeNumberProp(1000)
 })
 
-const store = useLayoutStore()
-const loading = ref(false)
+const layoutStore = useLayoutStore()
 
-const isCollapse = computed(() => store.isCollapse)
+const loading = ref(false)
 
 // 默认支持防连点间隔1s
 // 也可以修改时间间隔或通过loading方式实现防连点
@@ -96,3 +95,4 @@ const onConfirm = throttle(() => {
   box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.05);
 }
 </style>
+@/stores/modules/layout

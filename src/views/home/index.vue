@@ -19,7 +19,7 @@
 import { computed, ref } from 'vue'
 import { random } from 'lodash-es'
 import dayjs from 'dayjs'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores'
 import soulSoother from '@/assets/typings/home'
 import avatar from '@/icons/avatar.svg'
 
@@ -31,3 +31,4 @@ const currentTime = ref(dayjs().format('YYYY-MM-DD'))
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
 </script>
+@/stores/modules/user

@@ -9,7 +9,7 @@
     <o-menu />
 
     <!-- 主体内容 -->
-    <el-main :class="[isCollapse ? 'isCollapse' : '']">
+    <el-main :class="[layoutStore.isCollapse ? 'isCollapse' : '']">
       <el-scrollbar class="main-scrollbar">
         <!-- 主体部分 -->
         <router-view />
@@ -19,18 +19,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { useLayoutStore } from '@/stores/layout'
-import { useUserStore } from '@/stores/user'
+import { useLayoutStore, useUserStore } from '@/stores'
 import OHeader from './Header.vue'
 import OMenu from './Menu/Menu.vue'
 
-const layoutstore = useLayoutStore()
+const layoutStore = useLayoutStore()
 const usestore = useUserStore()
 
 usestore.getUser()
-
-const isCollapse = computed(() => layoutstore.isCollapse)
 </script>
 
 <style scoped lang="scss">
@@ -94,3 +90,4 @@ const isCollapse = computed(() => layoutstore.isCollapse)
   }
 }
 </style>
+@/stores/modules/layout@/stores/modules/user

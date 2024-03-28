@@ -35,10 +35,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import { logout } from '@/api/login'
-import { useLayoutStore } from '@/stores/layout'
-import { useUserStore } from '@/stores/user'
+import { useLayoutStore, useUserStore } from '@/stores'
 import { clearLocal, confirmBox } from '@/utils'
 import router from '@/router'
 import avatar from '@/icons/avatar.svg'
@@ -48,13 +47,13 @@ defineOptions({
 })
 
 const userStore = useUserStore()
-const layoutstore = useLayoutStore()
+const layoutStore = useLayoutStore()
 
-const user = computed(() => userStore.user)
-const isCollapse = computed(() => layoutstore.isCollapse)
+const { user } = storeToRefs(userStore)
+const { isCollapse } = storeToRefs(layoutStore)
 
 const handleCollapse = () => {
-  layoutstore.updateCollapse(!layoutstore.isCollapse)
+  layoutStore.updateCollapse(!layoutStore.isCollapse)
 }
 
 const handleLogout = () => {
@@ -79,3 +78,4 @@ const handleLogout = () => {
   }
 }
 </style>
+@/stores/modules/layout@/stores/modules/user

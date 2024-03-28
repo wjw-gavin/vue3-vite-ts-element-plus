@@ -63,7 +63,7 @@ import { onBeforeMount, reactive, ref } from 'vue'
 import { ElMessage, genFileId } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 import { baseURL } from '@/http'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores'
 import { createUser, getUserInfo, updateUser } from '@/api/system/user'
 import { elv, getToken } from '@/utils'
 import type { IUser } from '@/api/system/modal/userModel'
@@ -160,3 +160,4 @@ onBeforeMount(() => {
   height: 100%;
 }
 </style>
+@/stores/modules/user

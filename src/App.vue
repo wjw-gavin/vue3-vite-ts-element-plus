@@ -8,7 +8,7 @@
 import { onMounted } from 'vue'
 import { useDebounceFn, useEventListener } from '@vueuse/core'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import { useLayoutStore } from '@/stores/layout'
+import { useLayoutStore } from '@/stores'
 
 const store = useLayoutStore()
 const baseWidth = 992
@@ -30,3 +30,4 @@ onMounted(() => {
   height: 100%;
 }
 </style>
+@/stores/modules/layout

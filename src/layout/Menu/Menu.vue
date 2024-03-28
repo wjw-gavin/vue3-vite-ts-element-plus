@@ -1,15 +1,19 @@
 <template>
   <el-scrollbar class="menu-container">
-    <el-menu :collapse="isCollapse" :default-active="activeMenu" unique-opened>
+    <el-menu
+      :collapse="layoutStore.isCollapse"
+      :default-active="activeMenu"
+      unique-opened
+    >
       <o-menu-item :menu-list="menuList" />
     </el-menu>
   </el-scrollbar>
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeMount, ref, watch } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { useLayoutStore } from '@/stores/layout'
+import { useLayoutStore } from '@/stores'
 import { getMenus } from '../../api/common'
 import OMenuItem from './MenuItem.vue'
 import type { IMenuItem } from '../types'
@@ -19,11 +23,10 @@ defineOptions({
 })
 
 const route = useRoute()
-const activeMenu = ref('')
-const store = useLayoutStore()
-const menuList = ref<IMenuItem[]>([])
+const layoutStore = useLayoutStore()
 
-const isCollapse = computed(() => store.isCollapse)
+const activeMenu = ref('')
+const menuList = ref<IMenuItem[]>([])
 
 const getMenu = async () => {
   const data = await getMenus()
@@ -66,3 +69,4 @@ watch(
   }
 }
 </style>
+@/stores/modules/layout
