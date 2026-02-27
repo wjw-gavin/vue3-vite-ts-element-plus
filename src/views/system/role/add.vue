@@ -12,8 +12,8 @@
       </el-form-item>
       <el-form-item label="角色状态" prop="name">
         <el-radio-group v-model="formData.status">
-          <el-radio label="enable" size="large">启用</el-radio>
-          <el-radio label="disabled" size="large">禁用</el-radio>
+          <el-radio value="enable" size="large">启用</el-radio>
+          <el-radio value="disabled" size="large">禁用</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="角色描述：" prop="desc">
@@ -26,11 +26,11 @@
 <script lang="ts" setup>
 import { onBeforeMount, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
+import type { IRole } from '@/api/system/modal/roleModel'
 import { createRole, getRoleInfo, updateRole } from '@/api/system/role'
 import type { TLoading } from '@/types'
-import type { IRole } from '@/api/system/modal/roleModel'
-import type { FormInstance, FormRules } from 'element-plus'
 
 const route = useRoute()
 const router = useRouter()
@@ -38,7 +38,7 @@ const router = useRouter()
 const isEditing = ref(false)
 const id = route.params.id
 
-isEditing.value = id ? true : false
+isEditing.value = !!id
 
 const ruleForm = ref<FormInstance>()
 const formData = reactive<IRole>({
@@ -72,13 +72,12 @@ const onConfirm = (loading: TLoading) => {
 
       loading(false)
       router.back()
-    } else {
-      return false
     }
   })
 }
 
 onBeforeMount(() => {
-  if (isEditing.value) roleInfo()
+  if (isEditing.value)
+    roleInfo()
 })
 </script>

@@ -8,7 +8,7 @@ import {
   ref
 } from 'vue'
 
-export type CurrentTime = {
+export interface CurrentTime {
   days: number
   hours: number
   total: number
@@ -17,7 +17,7 @@ export type CurrentTime = {
   milliseconds: number
 }
 
-export type UseCountDownOptions = {
+export interface UseCountDownOptions {
   time: number
   millisecond?: boolean
   onChange?: (current: CurrentTime) => void
@@ -28,7 +28,6 @@ const SECOND = 1000
 const MINUTE = 60 * SECOND
 const HOUR = 60 * MINUTE
 const DAY = 24 * HOUR
-const currentInstance = getCurrentInstance()
 
 function parseTime(time: number): CurrentTime {
   const days = Math.floor(time / DAY)
@@ -126,8 +125,9 @@ export function useCountDown(options: UseCountDownOptions) {
     remain.value = totalTime
   }
 
-  // Call onFun() of vue if it's inside a component lifecycle, if not, do nothing
-  if (currentInstance) {
+  // 在组件生命周期中注册清理钩子
+  const instance = getCurrentInstance()
+  if (instance) {
     onBeforeUnmount(pause)
 
     onActivated(() => {

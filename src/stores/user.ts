@@ -10,13 +10,13 @@ export const useUserStore = defineStore('user', () => {
     mobile: ''
   })
 
+  const updateUser = (payload: IUser) => {
+    Object.assign(user.value, payload)
+  }
+
   const getUser = async () => {
     const data = await getUserInfo()
     updateUser(data)
-  }
-
-  const updateUser = (payload: IUser) => {
-    Object.assign(user.value, payload)
   }
 
   return {

@@ -30,4 +30,3 @@ onMounted(() => {
   height: 100%;
 }
 </style>
-@/stores/modules/layout

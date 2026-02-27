@@ -1,13 +1,9 @@
-import { type Component, createApp } from 'vue'
-import { createPinia } from 'pinia'
-
-// 注册 svg 图标
-import 'virtual:svg-icons-register'
+import { createApp } from 'vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
+import { createPinia } from 'pinia'
 import { directives } from '@/directives'
-import App from './App.vue'
 import router from './router'
+import App from './App.vue'
 
 import 'uno.css'
 import './assets/styles/index.scss'
@@ -17,18 +13,17 @@ import './plugins/element-plus'
 const app = createApp(App)
 
 // 注册自定义组件
-const components: Component = import.meta.glob('@/components/*/index.vue', {
+const components: Record<string, any> = import.meta.glob('@/components/*/index.vue', {
   eager: true
 })
 Object.keys(components).forEach((key: string) => {
   const component = components[key].default
-  // 如果组件内定义name 则需要全局引用的
   if (component.name) {
     app.component(component.name, component)
   }
 })
 
-// 注册图标
+// 注册 Element Plus 图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }

@@ -27,8 +27,8 @@
       </el-form-item>
       <el-form-item label="性别" prop="sex">
         <el-radio-group v-model="formData.sex">
-          <el-radio label="男">男</el-radio>
-          <el-radio label="女">女</el-radio>
+          <el-radio value="男">男</el-radio>
+          <el-radio value="女">女</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="所属角色：" prop="role_ids">
@@ -42,7 +42,7 @@
       <el-form-item label="用户头像：">
         <el-upload
           ref="upload"
-          class="w-35 h-35 flex-center rd-1.5 b-1 b-dashed border-base"
+          class="h-35 w-35 flex-center b-1 border-base rd-1.5 b-dashed"
           :action="`${baseURL}/file/upload`"
           :headers="headers"
           :limit="1"
@@ -50,7 +50,7 @@
           :on-success="onAvatarSuccess"
           :on-exceed="onExceed"
         >
-          <img v-if="formData.avatar" :src="formData.avatar" class="avatar" />
+          <img v-if="formData.avatar" :src="formData.avatar" class="avatar">
           <el-icon v-else><Plus /></el-icon>
         </el-upload>
       </el-form-item>
@@ -61,12 +61,6 @@
 <script lang="ts" setup>
 import { onBeforeMount, reactive, ref } from 'vue'
 import { ElMessage, genFileId } from 'element-plus'
-import { useRoute, useRouter } from 'vue-router'
-import { baseURL } from '@/http'
-import { useUserStore } from '@/stores'
-import { createUser, getUserInfo, updateUser } from '@/api/system/user'
-import { elv, getToken } from '@/utils'
-import type { IUser } from '@/api/system/modal/userModel'
 import type {
   FormInstance,
   FormRules,
@@ -74,10 +68,16 @@ import type {
   UploadProps,
   UploadRawFile
 } from 'element-plus'
+import { useRoute, useRouter } from 'vue-router'
+import type { IUser } from '@/api/system/modal/userModel'
+import { createUser, getUserInfo, updateUser } from '@/api/system/user'
+import { baseURL } from '@/http'
+import { useUserStore } from '@/stores'
+import { elv, getToken } from '@/utils'
 
 const route = useRoute()
 const router = useRouter()
-const usestore = useUserStore()
+const userStore = useUserStore()
 
 const avatar = ref('')
 const isEditing = ref(false)
@@ -87,7 +87,7 @@ const headers = {
   'X-TOKEN': getToken()
 }
 
-isEditing.value = id ? true : false
+isEditing.value = !!id
 
 const upload = ref<UploadInstance>()
 const ruleForm = ref<FormInstance>()
@@ -134,8 +134,8 @@ const onConfirm = () => {
       if (isEditing.value) {
         await updateUser(formData)
         ElMessage.success('编辑成功')
-        if (usestore.user.id === formData.id) {
-          usestore.getUser()
+        if (userStore.user.id === formData.id) {
+          userStore.getUser()
         }
       } else {
         await createUser(formData)
@@ -143,14 +143,13 @@ const onConfirm = () => {
       }
 
       router.back()
-    } else {
-      return false
     }
   })
 }
 
 onBeforeMount(() => {
-  if (isEditing.value) userInfo()
+  if (isEditing.value)
+    userInfo()
 })
 </script>
 
@@ -160,4 +159,3 @@ onBeforeMount(() => {
   height: 100%;
 }
 </style>
-@/stores/modules/user

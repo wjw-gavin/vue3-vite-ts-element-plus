@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { throttle } from 'lodash-es'
 import { makeNumberProp, makeStringProp, truthProp } from '@/utils'
 
@@ -36,11 +36,8 @@ defineOptions({
   name: 'ODialog'
 })
 
-const emit = defineEmits(['cancel', 'confirm', 'update:modelValue'])
-
 const props = defineProps({
   disabled: Boolean,
-  modelValue: Boolean,
   showCancel: truthProp,
   cancelText: makeStringProp('取消'),
   showConfirm: truthProp,
@@ -50,17 +47,17 @@ const props = defineProps({
   throttleTime: makeNumberProp(1000)
 })
 
+const emit = defineEmits<{
+  (e: 'cancel'): void
+  (e: 'confirm', loading: (value?: boolean) => void): void
+}>()
+
+// Vue 3.5+ defineModel 替代手动 computed + emit
+const dialogVisible = defineModel<boolean>({ default: false })
+
 const loading = ref(false)
 
-const dialogVisible = computed({
-  get: () => props.modelValue,
-  set: (value) => {
-    emit('update:modelValue', value)
-  }
-})
-
 // 默认支持防连点间隔1s
-// 也可以修改时间间隔或通过loading方式实现防连点
 const onConfirm = throttle(() => {
   if (!loading.value) {
     emit('confirm', (value = false) => {

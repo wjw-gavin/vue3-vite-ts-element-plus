@@ -1,4 +1,4 @@
-import { isIdCard, isMobile } from 'native-lodash'
+import { isIdCard, isMobile } from '@fekt/tskit'
 
 export const elv = {
   /**

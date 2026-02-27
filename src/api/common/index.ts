@@ -1,7 +1,7 @@
 import { get } from '@/http'
 import type { IMenuItem } from '@/layout/types'
-import type { IUser } from '../system/modal/userModel'
 import type { IOptionProp, ISearchItem } from '@/types'
+import type { IUser } from '../system/modal/userModel'
 
 // 菜单
 export function getMenus() {

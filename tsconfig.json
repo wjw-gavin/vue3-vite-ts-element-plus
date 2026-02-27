@@ -1,21 +1,16 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": [
-      "node",
-      "webpack-env",
-      "element-plus/global",
-      "unplugin-vue-define-options/macros-global"
-    ]
+    "types": ["element-plus/global"]
   },
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "references": [
     {
-      "path": "./tsconfig.config.json"
+      "path": "./tsconfig.node.json"
     }
   ]
 }

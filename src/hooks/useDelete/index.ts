@@ -1,8 +1,8 @@
+import type { Ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import type { TableInstance } from '@/types'
 import { confirmBox, setUrlParams } from '@/utils'
 import { usePagination } from '../usePagination'
-import type { Ref } from 'vue'
-import type { TableInstance } from '@/types'
 
 // 用于列表删除，解决删除最后一页数据最后一条数据问题
 export function useDelete() {

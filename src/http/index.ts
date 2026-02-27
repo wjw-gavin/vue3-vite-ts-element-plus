@@ -1,5 +1,6 @@
-import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios'
-import { TOOKENkEY, clearLocal, getToken } from '@/utils'
+import axios from 'axios'
+import type { AxiosInstance, AxiosRequestConfig } from 'axios'
+import { clearLocal, getToken, TOKEN_KEY } from '@/utils'
 import { showMessage } from './status'
 
 export const baseURL = import.meta.env.VITE_APP_API_BASEURL
@@ -13,7 +14,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token = getToken()
     if (token && config && config.headers) {
-      config.headers[TOOKENkEY] = token
+      config.headers[TOKEN_KEY] = token
     }
     return config
   },
@@ -36,17 +37,19 @@ axiosInstance.interceptors.response.use(
     }
   },
   (error) => {
-    const { data } = error.response
-    if (data && data.status) {
+    const data = error.response?.data
+    if (data?.status) {
       const { code, message } = data.status
       if (code === 401) {
         clearLocal()
         window.location.href = '/login'
       } else if (message) {
-        showMessage(message || code)
+        showMessage(message)
       }
-    } else {
+    } else if (data?.statusCode) {
       showMessage(data.statusCode)
+    } else {
+      showMessage(error.message || '网络异常')
     }
     return Promise.reject(data)
   }
@@ -64,7 +67,7 @@ export const request = <ResponseType = unknown>(
       .then((res) => {
         resolve(res.data)
       })
-      .catch((err) => reject(err))
+      .catch(err => reject(err))
   })
 }
 
@@ -85,7 +88,7 @@ export function post<T = any>(url: string, data?: any): Promise<T> {
 export function patch<T = any>(url: string, data?: any): Promise<T> {
   return request(url, {
     data,
-    method: 'patch'
+    method: 'PATCH'
   })
 }
 

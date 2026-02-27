@@ -13,7 +13,7 @@
   </div>
   <div class="flex justify-end">
     <el-link
-      class="c-white mr-5"
+      class="mr-5 c-white"
       href="https://github.com/wjw-gavin/vue3-vite-ts-element-plus"
       target="_blank"
       :underline="false"
@@ -37,9 +37,9 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { logout } from '@/api/login'
+import router from '@/router'
 import { useLayoutStore, useUserStore } from '@/stores'
 import { clearLocal, confirmBox } from '@/utils'
-import router from '@/router'
 import avatar from '@/icons/avatar.svg'
 
 defineOptions({
@@ -78,4 +78,3 @@ const handleLogout = () => {
   }
 }
 </style>
-@/stores/modules/layout@/stores/modules/user

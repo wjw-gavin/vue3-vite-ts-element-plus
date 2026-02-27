@@ -1,6 +1,11 @@
 <template>
   <el-card v-if="searchList.length > 0" class="mb-2.5">
-    <el-form ref="formRef" :model="form" label-position="top" :inline="true">
+    <el-form
+      ref="formRef"
+      :model="form"
+      label-position="top"
+      :inline="true"
+    >
       <template v-for="item in searchList" :key="item.id">
         <template v-if="item.type === 'complex'">
           <el-form-item
@@ -16,10 +21,10 @@
               :placeholder="item.hint"
               :options="item.options"
               @change="
-              (value: string) => {
-                cascaderHandleChange(value, item.children!, $index)
-              }
-            "
+                (value: string) => {
+                  cascaderHandleChange(value, item.children!, $index)
+                }
+              "
             />
           </el-form-item>
         </template>
@@ -74,7 +79,7 @@
           />
         </el-form-item>
       </template>
-      <div class="flex items-end mb-10px">
+      <div class="mb-10px flex items-end">
         <el-button @click="resetForm">重置</el-button>
         <el-button type="primary" :loading="loading" @click="submitForm">
           查询
@@ -83,21 +88,22 @@
     </el-form>
   </el-card>
 </template>
+
 <script lang="ts" setup>
 import { computed, reactive, ref } from 'vue'
-import { cloneDeep, omit } from 'lodash-es'
-import { useSearchStore } from '@/stores'
-import { getOptions } from '@/api/common'
 import type { FormInstance } from 'element-plus'
+import { cloneDeep, omit } from 'lodash-es'
+import { getOptions } from '@/api/common'
+import { useSearchStore } from '@/stores'
 import type { ISearchItem, TObject } from '@/types'
 
 defineOptions({ name: 'OSearch' })
 
-const emit = defineEmits(['search'])
-
 defineProps({
   loading: Boolean
 })
+
+const emit = defineEmits(['search'])
 
 const searchStore = useSearchStore()
 
@@ -112,7 +118,8 @@ const cascaderHandleChange = async (
   children: ISearchItem[],
   index: number
 ) => {
-  if (index + 1 === children.length) return // 随后一项
+  if (index + 1 === children.length)
+    return // 随后一项
 
   // 如果清空前一项，后面选项置空
   if (!value) {
@@ -144,6 +151,7 @@ const resetForm = () => {
   submitForm()
 }
 </script>
+
 <style lang="scss" scoped>
 .el-form.el-form--label-top {
   .el-form-item {
@@ -157,4 +165,3 @@ const resetForm = () => {
   }
 }
 </style>
-@/stores/modules/search

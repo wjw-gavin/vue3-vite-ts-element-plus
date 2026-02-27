@@ -1,0 +1,13 @@
+{
+  "eslint.useFlatConfig": true,
+
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "never",
+    "source.organizeImports": "never"
+  },
+
+  "prettier.enable": false,
+  "stylelint.enable": false
+}
