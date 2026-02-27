@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
 import NProgress from 'nprogress'
+import { createRouter, createWebHistory } from 'vue-router'
 import 'nprogress/nprogress.css'
 import { getToken } from '@/utils'
 import routes from './routes'

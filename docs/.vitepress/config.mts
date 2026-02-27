@@ -23,7 +23,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
-      { text: '预览', link: 'http://vue-study.wangjunwei.vip/' },
+      { text: '预览', link: 'https://vue-study.wangjunwei.vip/' },
       {
         text: '了解更多',
         items: [
@@ -48,7 +48,7 @@ export default defineConfig({
             { text: 'layout', link: '/pages/components/layout' },
             { text: 'select', link: '/pages/components/select' },
             { text: 'search', link: '/pages/components/search' },
-            { text: 'svg-icon', link: '/pages/components/svg-icon' },
+            { text: 'icons', link: '/pages/components/icons' },
             { text: 'form-wrap', link: '/pages/components/form-wrap' }
           ]
         },

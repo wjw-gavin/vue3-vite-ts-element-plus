@@ -1,17 +1,17 @@
 import Cookies from 'js-cookie'
 
-export const TOOKENkEY = 'X-TOKEN'
+export const TOKEN_KEY = 'X-TOKEN'
 
 export function getToken(): string {
-  return Cookies.get(TOOKENkEY) || ''
+  return Cookies.get(TOKEN_KEY) || ''
 }
 
 export function setToken(token: string): void {
-  Cookies.set(TOOKENkEY, token)
+  Cookies.set(TOKEN_KEY, token)
 }
 
 export function removeToken(): void {
-  Cookies.remove(TOOKENkEY)
+  Cookies.remove(TOKEN_KEY)
 }
 
 export function clearLocal() {

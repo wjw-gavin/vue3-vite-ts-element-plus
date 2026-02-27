@@ -14,7 +14,7 @@
         <el-input
           v-model="formData.content"
           type="textarea"
-          rows="10"
+          :rows="10"
           placeholder="请输入文章内容"
         />
       </el-form-item>
@@ -25,15 +25,15 @@
 <script lang="ts" setup>
 import { onBeforeMount, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 import {
   createArticle,
   getArticleInfo,
   updateArticle
 } from '@/api/base/article'
-import type { TLoading } from '@/types'
-import type { FormInstance, FormRules } from 'element-plus'
 import type { IArticle } from '@/api/base/modal/articleModel'
+import type { TLoading } from '@/types'
 
 const route = useRoute()
 const router = useRouter()
@@ -41,7 +41,7 @@ const router = useRouter()
 const isEditing = ref(false)
 const id = route.params.id
 
-isEditing.value = id ? true : false
+isEditing.value = !!id
 
 const ruleForm = ref<FormInstance>()
 const formData = reactive<IArticle>({
@@ -72,13 +72,12 @@ const onConfirm = (loading: TLoading) => {
 
       loading(false)
       router.back()
-    } else {
-      return false
     }
   })
 }
 
 onBeforeMount(() => {
-  if (isEditing.value) articleInfo()
+  if (isEditing.value)
+    articleInfo()
 })
 </script>

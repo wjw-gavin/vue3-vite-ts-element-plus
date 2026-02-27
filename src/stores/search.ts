@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import searchConfig from '@/assets/enum/search'
 import { getSearchConfig } from '@/api/common'
+import searchConfig from '@/assets/enum/search'
 import type { ISearchItem } from '@/types'
 
 export const useSearchStore = defineStore('search', () => {

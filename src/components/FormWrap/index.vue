@@ -21,7 +21,7 @@
       </el-button>
       <el-button
         v-if="showConfirm"
-        class="w-25 ml-4"
+        class="ml-4 w-25"
         type="primary"
         :loading="loading"
         @click="onConfirm"
@@ -32,17 +32,16 @@
     </footer>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { throttle } from 'lodash-es'
-import { makeNumberProp, makeStringProp, truthProp } from '@/utils'
 import { useLayoutStore } from '@/stores'
+import { makeNumberProp, makeStringProp, truthProp } from '@/utils'
 
 defineOptions({
   name: 'OFormWrap'
 })
-
-const emit = defineEmits(['confirm'])
 
 const props = defineProps({
   title: makeStringProp(''),
@@ -54,6 +53,8 @@ const props = defineProps({
   showRightBtn: truthProp,
   throttleTime: makeNumberProp(1000)
 })
+
+const emit = defineEmits(['confirm'])
 
 const layoutStore = useLayoutStore()
 
@@ -95,4 +96,3 @@ const onConfirm = throttle(() => {
   box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.05);
 }
 </style>
-@/stores/modules/layout

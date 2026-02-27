@@ -18,6 +18,7 @@
 │   │     │    └── element-theme.scss // 主题颜色
 │   │     │    └── index.scss         // 全局样式
 │   │     │── svg                     // svg 文件
+│   ├── icons                           // 自定义图标 SVG 文件 (unplugin-icons)
 │   ├── components                    // 全局的公共组件，main.ts 自动注入
 │   ├── directives                    // 指令
 │   ├── hooks                         // 封装的一些 hook

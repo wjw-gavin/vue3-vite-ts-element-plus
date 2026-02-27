@@ -15,11 +15,22 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import router from '@/router'
-import { useDelete } from '@/hooks'
-import { Api } from '@/api/common/enum'
 import { deleteArticle } from '@/api/base/article'
+import { Api } from '@/api/common/enum'
+import router from '@/router'
 import type { ITableConfig, TableInstance } from '@/types'
+import { useDelete } from '@/hooks'
+
+const tableRef = ref<TableInstance>()
+
+const handleAdd = () => {
+  router.push('/base/article/add')
+}
+
+const handleDelete = (id: number) => {
+  const { onDelete } = useDelete()
+  onDelete(deleteArticle, id, tableRef)
+}
 
 const tableConfig: ITableConfig = {
   api: Api.article,
@@ -76,16 +87,5 @@ const tableConfig: ITableConfig = {
     ]
   }
 }
-const slotColumns = tableConfig.headers.filter((header) => header.slot)
-
-const tableRef = ref<TableInstance>()
-
-const handleAdd = () => {
-  router.push('/base/article/add')
-}
-
-const handleDelete = (id: number) => {
-  const { onDelete } = useDelete()
-  onDelete(deleteArticle, id, tableRef)
-}
+const slotColumns = tableConfig.headers.filter(header => header.slot)
 </script>

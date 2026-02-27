@@ -2,7 +2,7 @@
   <o-search :loading="loading" @search="submitSearch" />
 
   <el-card v-loading="loading" element-loading-text="玩命加载中...">
-    <div class="flex justify-between mb-4">
+    <div class="mb-4 flex justify-between">
       <slot name="table-top" />
     </div>
     <el-table :data="tableData" border v-bind="$attrs">
@@ -56,11 +56,11 @@
         </template>
         <template #default="scope">
           <template
-            v-for="btn in tableConfig.operations.buttons"
-            :key="btn.text"
+            v-for="(btn, btnIndex) in tableConfig.operations.buttons"
+            :key="btnIndex"
           >
             <template v-if="isFunction(btn)">
-              <div v-if="btn(scope).show" class="px-2 inline-block">
+              <div v-if="btn(scope).show" class="inline-block px-2">
                 <el-link
                   :underline="false"
                   :type="btn(scope).type ? btn(scope).type : 'primary'"
@@ -73,7 +73,7 @@
             <template v-else>
               <el-link
                 v-if="btn.show"
-                class="px-2 inline-block"
+                class="inline-block px-2"
                 :underline="false"
                 :type="btn.type ? btn.type : 'primary'"
                 @click.stop="btn.click!(scope)"
@@ -94,20 +94,22 @@
       :page-sizes="pagination.sizes"
       :layout="pagination.layout"
       :total="pagination.total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+      @size-change="onSizeChange"
+      @current-change="onPageChange"
     />
   </el-card>
 </template>
+
 <script lang="ts" setup>
-import { type PropType, computed, onMounted, watch } from 'vue'
-import { isFunction } from 'native-lodash'
+import { computed, onMounted, watch } from 'vue'
+import type { PropType } from 'vue'
+import { isFunction } from '@fekt/tskit'
 import { useRoute } from 'vue-router'
-import { makeRequiredProp } from '@/utils'
-import { usePagination, useTable } from '@/hooks'
 import { getTableData } from '@/api/common'
 import { useSearchStore } from '@/stores'
 import type { ITableConfig, TObject } from '@/types'
+import { useTable } from '@/hooks'
+import { makeRequiredProp, setUrlParams } from '@/utils'
 
 defineOptions({
   name: 'OTable',
@@ -120,7 +122,6 @@ const props = defineProps({
 
 const route = useRoute()
 const searchStore = useSearchStore()
-const { pagination: pager } = usePagination()
 
 let searchData: TObject = { ...props.tableConfig.params }
 
@@ -128,9 +129,7 @@ const {
   loading,
   tableData,
   pagination,
-  loadData,
-  handleSizeChange,
-  handleCurrentChange
+  loadData
 } = useTable(getTableData, {
   api: props.tableConfig.api,
   params: searchData,
@@ -146,22 +145,35 @@ const submitSearch = (search: TObject) => {
     ...search
   }
 
+  setUrlParams({ page: 1, page_size: pagination.page_size })
   loadData(searchData)
 }
 
 const dispatchLoad = () => {
-  loadData(
-    Object.assign(searchData, {
-      page: pagination.page,
-      page_size: pagination.page_size
-    })
-  )
+  loadData({
+    ...searchData,
+    page: pagination.page,
+    page_size: pagination.page_size
+  })
+}
+
+// 分页事件：直接触发加载，不依赖 watcher
+const onPageChange = (page: number) => {
+  setUrlParams({ page, page_size: pagination.page_size })
+  dispatchLoad()
+}
+
+const onSizeChange = (pageSize: number) => {
+  setUrlParams({ page: pagination.page, page_size: pageSize })
+  dispatchLoad()
 }
 
 onMounted(() => {
   const query = route.query
-  pagination.page = Number(query.page) || pager.page
-  pagination.page_size = Number(query.page_size) || pager.page_size
+  if (query.page)
+    pagination.page = Number(query.page)
+  if (query.page_size)
+    pagination.page_size = Number(query.page_size)
 
   Object.assign(searchData, {
     page: pagination.page,
@@ -170,7 +182,7 @@ onMounted(() => {
   searchStore.getSearchList()
 })
 
-watch([() => pagination.page, () => pagination.page_size], dispatchLoad)
+// searchReady 作为唯一的初始化加载触发点
 watch(
   () => searchReady.value,
   (val) => {
@@ -184,4 +196,3 @@ defineExpose({
   dispatchLoad
 })
 </script>
-@/stores/modules/search

@@ -1,12 +1,12 @@
 <template>
   <div class="login-wrap">
     <div class="logo-box flex items-center">
-      <img class="w-60px" src="@/assets/svg/logo.svg" alt="" />
-      <div class="ml-5 font-bold text-5">offbeat-ui</div>
+      <img class="w-60px" src="@/assets/svg/logo.svg" alt="">
+      <div class="ml-5 text-5 font-bold">offbeat-ui</div>
     </div>
     <div class="login">
       <div class="main-left_img">
-        <img :src="loginLeft" alt="" />
+        <img :src="loginLeft" alt="">
       </div>
       <div class="login-model flex-center">
         <div class="content">
@@ -85,7 +85,7 @@
               <el-button
                 type="primary"
                 :loading="loginLoading"
-                class="w-50 m-2"
+                class="m-2 w-50"
                 @click="loginFun"
               >
                 登 录
@@ -113,15 +113,15 @@
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref, toRefs } from 'vue'
+import { isMobile } from '@fekt/tskit'
 import { onKeyStroke } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
-import { isMobile } from 'native-lodash'
-import { useCountDown } from '@/hooks'
-import { login } from '@/api/login'
-import { elv, setToken } from '@/utils'
-import router from '@/router'
-import loginLeft from '@/assets/svg/login_left.svg'
 import type { FormInstance, FormRules } from 'element-plus'
+import { login } from '@/api/login'
+import router from '@/router'
+import { useCountDown } from '@/hooks'
+import { elv, setToken } from '@/utils'
+import loginLeft from '@/assets/svg/login_left.svg'
 
 const codeLoading = ref(false)
 const loginLoading = ref(false)
@@ -141,6 +141,15 @@ const formRules = reactive<FormRules>({
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
 })
+
+const getcode = () => {
+  codeLoading.value = true
+
+  setTimeout(() => {
+    ElMessage.success('暂不可用！')
+    codeLoading.value = false
+  }, 1000)
+}
 
 // 获取验证码
 const handleCode = () => {
@@ -166,15 +175,6 @@ const handleCode = () => {
   countDown.start()
 }
 
-const getcode = () => {
-  codeLoading.value = true
-
-  setTimeout(() => {
-    ElMessage.success('暂不可用！')
-    codeLoading.value = false
-  }, 1000)
-}
-
 // 触发登录
 const loginFun = () => {
   // 表单校验
@@ -191,8 +191,6 @@ const loginFun = () => {
         .catch(() => {
           loginLoading.value = false
         })
-    } else {
-      return false
     }
   })
 }
@@ -200,11 +198,13 @@ const loginFun = () => {
 // 回车事件
 onMounted(() => {
   onKeyStroke('Enter', () => {
-    if (loginLoading.value) return
+    if (loginLoading.value)
+      return
     loginFun()
   })
 })
 </script>
+
 <style lang="scss" scoped>
 .logo-box {
   width: 100%;

@@ -1,15 +1,15 @@
 <template>
-  <div class="bg-white rd h-75">
-    <div class="flex items-center h-full">
-      <div class="w-28 h-28 ml-10 rd-99 overflow-hidden">
-        <img class="w-full" :src="user.avatar || avatar" alt="" />
+  <div class="h-75 rd bg-white">
+    <div class="h-full flex items-center">
+      <div class="ml-10 h-28 w-28 overflow-hidden rd-99">
+        <img class="w-full" :src="user.avatar || avatar" alt="">
       </div>
-      <div class="pr-5 pl-10">
-        <h2 class="text-5 font-bold m0">
+      <div class="pl-10 pr-5">
+        <h2 class="m0 text-5 font-bold">
           你好，<span>{{ user.name }}</span>
         </h2>
-        <p class="c-#787f95 pt-4 m0">登录日期：{{ currentTime }}</p>
-        <p class="c-#787f95 pt-4 m0">{{ soulWord }}</p>
+        <p class="m0 pt-4 c-#787f95">登录日期：{{ currentTime }}</p>
+        <p class="m0 pt-4 c-#787f95">{{ soulWord }}</p>
       </div>
     </div>
   </div>
@@ -17,10 +17,10 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { random } from 'lodash-es'
 import dayjs from 'dayjs'
-import { useUserStore } from '@/stores'
+import { random } from 'lodash-es'
 import soulSoother from '@/assets/typings/home'
+import { useUserStore } from '@/stores'
 import avatar from '@/icons/avatar.svg'
 
 // 首页心灵鸡汤
@@ -31,4 +31,3 @@ const currentTime = ref(dayjs().format('YYYY-MM-DD'))
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
 </script>
-@/stores/modules/user

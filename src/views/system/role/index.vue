@@ -1,7 +1,7 @@
 <template>
   <o-table ref="tableRef" :table-config="tableConfig">
     <template #status_display="{ row }">
-      <el-tag :type="row['status'] === 'enable' ? 'success' : 'danger'">
+      <el-tag :type="row.status === 'enable' ? 'success' : 'danger'">
         {{ row.status_display }}
       </el-tag>
     </template>
@@ -14,11 +14,22 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import router from '@/router'
-import { useDelete } from '@/hooks'
 import { Api } from '@/api/common/enum'
 import { deleteRole } from '@/api/system/role'
+import router from '@/router'
 import type { ITableConfig, TableInstance } from '@/types'
+import { useDelete } from '@/hooks'
+
+const tableRef = ref<TableInstance>()
+
+const handleAdd = () => {
+  router.push('/system/role/add')
+}
+
+const handleDelete = (id: number) => {
+  const { onDelete } = useDelete()
+  onDelete(deleteRole, id, tableRef)
+}
 
 const tableConfig: ITableConfig = {
   api: Api.role,
@@ -70,16 +81,5 @@ const tableConfig: ITableConfig = {
       }
     ]
   }
-}
-
-const tableRef = ref<TableInstance>()
-
-const handleAdd = () => {
-  router.push('/system/role/add')
-}
-
-const handleDelete = (id: number) => {
-  const { onDelete } = useDelete()
-  onDelete(deleteRole, id, tableRef)
 }
 </script>

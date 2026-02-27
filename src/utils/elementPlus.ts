@@ -1,8 +1,9 @@
-import { ElMessageBox, type ElMessageBoxOptions } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
+import type { ElMessageBoxOptions } from 'element-plus'
 
 /**
  * 消息提示
- **/
+ */
 export function alertBox(
   message: string,
   title = '提示',
@@ -17,7 +18,7 @@ export function alertBox(
 
 /**
  * 确认消息
- **/
+ */
 export function confirmBox(
   msg: string,
   title = '提示',

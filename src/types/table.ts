@@ -1,6 +1,6 @@
-import type { TObject } from '.'
-import type { LinkProps, RenderRowData } from 'element-plus'
 import type { ComponentPublicInstance } from 'vue'
+import type { LinkProps, RenderRowData } from 'element-plus'
+import type { TObject } from '.'
 
 export interface ITableHead {
   /** 表头名称 */
@@ -30,7 +30,7 @@ export interface IButtons {
   show: boolean
 
   /** 点击回调 */
-  click?(scope: RenderRowData<any>): void
+  click?: (scope: RenderRowData<any>) => void
 }
 
 export interface ITableOperation {
@@ -64,7 +64,7 @@ export interface ITableConfig {
   operations?: ITableOperation
 }
 
-export type TableExpose = {
+export interface TableExpose {
   dispatchLoad: () => void
 }
 

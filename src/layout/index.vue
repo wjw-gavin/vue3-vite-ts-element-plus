@@ -24,9 +24,9 @@ import OHeader from './Header.vue'
 import OMenu from './Menu/Menu.vue'
 
 const layoutStore = useLayoutStore()
-const usestore = useUserStore()
+const userStore = useUserStore()
 
-usestore.getUser()
+userStore.getUser()
 </script>
 
 <style scoped lang="scss">
@@ -90,4 +90,3 @@ usestore.getUser()
   }
 }
 </style>
-@/stores/modules/layout@/stores/modules/user

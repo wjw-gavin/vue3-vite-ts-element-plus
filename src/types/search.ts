@@ -1,13 +1,13 @@
-export type TSearchItemType =
-  | 'text'
-  | 'date'
-  | 'select'
-  | 'complex'
-  | 'date_time'
-  | 'date_range'
-  | 'time_range'
-  | 'multi_select'
-  | 'auto_complete'
+export type TSearchItemType
+  = | 'text'
+    | 'date'
+    | 'select'
+    | 'complex'
+    | 'date_time'
+    | 'date_range'
+    | 'time_range'
+    | 'multi_select'
+    | 'auto_complete'
 
 export interface IOptionProp {
   key: string

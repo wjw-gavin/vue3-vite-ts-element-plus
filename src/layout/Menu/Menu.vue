@@ -15,8 +15,8 @@ import { onBeforeMount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLayoutStore } from '@/stores'
 import { getMenus } from '../../api/common'
-import OMenuItem from './MenuItem.vue'
 import type { IMenuItem } from '../types'
+import OMenuItem from './MenuItem.vue'
 
 defineOptions({
   name: 'OMenu'
@@ -69,4 +69,3 @@ watch(
   }
 }
 </style>
-@/stores/modules/layout

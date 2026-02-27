@@ -24,9 +24,9 @@ export default defineConfig({
   },
   shortcuts: [
     {
-      ellipsis: 'truncate',
-      hover: 'cursor-pointer op100 hover:op70 transition-all',
-      divider: 'border-b border-base',
+      'ellipsis': 'truncate',
+      'hover': 'cursor-pointer op100 hover:op70 transition-all',
+      'divider': 'border-b border-base',
       'flex-col': 'flex flex-col',
       'border-base': 'border-gray-500:10',
       'flex-center': 'flex justify-center items-center'

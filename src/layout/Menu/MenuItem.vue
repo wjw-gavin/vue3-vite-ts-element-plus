@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useRoute, useRouter } from 'vue-router'
 import type { PropType } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import type { IMenuItem } from '../types'
 
 defineOptions({
@@ -43,7 +43,8 @@ const route = useRoute()
 const router = useRouter()
 
 const handleSelect = (item: IMenuItem) => {
-  if (item.path === route.path) return
+  if (item.path === route.path)
+    return
   router.push(item.path!)
 }
 </script>
