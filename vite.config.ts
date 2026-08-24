@@ -15,7 +15,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // target: 'http://localhost:3000',
-        target: 'http://vue-study.wangjunwei.vip',
+        target: 'your domain',
         changeOrigin: true
       }
     }
